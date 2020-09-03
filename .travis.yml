@@ -1,0 +1,12 @@
+language: node_js
+version: 1.0
+node_js:
+  - 12.18.3
+cache: yarn
+jobs:
+  include:
+    - stage: test
+      script: yarn test-single && codecov
+stages:
+  - name: test
+    if: tag IS NOT present
