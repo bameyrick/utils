@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from './isNullOrUndefined';
+import { isNullOrUndefined } from '.';
 
 /**
  * Checks if a given string value is empty

@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from './isNullOrUndefined';
+import { isNullOrUndefined } from '.';
 
 // tslint:disable-next-line: ban-types
 type IndividualTypes = null | undefined | boolean | number | string | Date | object | Function;
