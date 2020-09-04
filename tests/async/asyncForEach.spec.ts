@@ -1,4 +1,4 @@
-import { asyncForEach } from '../src';
+import { asyncForEach } from '../../src';
 
 describe('asyncForEach', () => {
   it('should wait for the loop to finish before resolving the promise', async () => {
