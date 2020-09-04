@@ -1,4 +1,4 @@
-import { setStartOfSecond } from '../../src';
+import { setStartOfSecond } from '../../../src';
 
 describe('setStartOfSecond', () => {
   it('milliseconds should be set to 0', () => {

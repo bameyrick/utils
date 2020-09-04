@@ -1,4 +1,4 @@
-import { setStartOfWeek } from '../../src';
+import { setStartOfWeek } from '../../../src';
 
 describe('setStartOfWeek', () => {
   it('milliseconds, seconds, minutes, and hour should be set to 0 and day to first day of week', () => {

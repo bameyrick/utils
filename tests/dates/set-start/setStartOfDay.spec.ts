@@ -1,4 +1,4 @@
-import { setStartOfDay } from '../../src';
+import { setStartOfDay } from '../../../src';
 
 describe('setStartOfDay', () => {
   it('milliseconds, seconds, minutes, and hour should be set to 0', () => {

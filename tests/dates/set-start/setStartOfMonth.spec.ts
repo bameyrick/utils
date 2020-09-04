@@ -1,4 +1,4 @@
-import { setStartOfMonth } from '../../src';
+import { setStartOfMonth } from '../../../src';
 
 describe('setStartOfMonth', () => {
   it('milliseconds, seconds, minutes, and hour should be set to 0 and day to 1', () => {

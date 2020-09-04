@@ -1,4 +1,4 @@
-import { setStartOfMinute } from '../../src';
+import { setStartOfMinute } from '../../../src';
 
 describe('setStartOfMinute', () => {
   it('milliseconds and seconds should be set to 0', () => {

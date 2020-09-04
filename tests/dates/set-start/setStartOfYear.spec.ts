@@ -1,4 +1,4 @@
-import { setStartOfYear } from '../../src';
+import { setStartOfYear } from '../../../src';
 
 describe('setStartOfYear', () => {
   it('milliseconds, seconds, minutes, and hour should be set to 0 and day to 1', () => {
