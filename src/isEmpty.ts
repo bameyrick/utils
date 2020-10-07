@@ -1,7 +1,7 @@
 import { isNullOrUndefined } from '.';
 
 /**
- * Checks if a given string value is empty
+ * Checks if a given string is empty
  */
 export function isEmpty(value: string): boolean {
   if (isNullOrUndefined(value)) {

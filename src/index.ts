@@ -1,5 +1,5 @@
 export { isEmpty } from './isEmpty';
-export { isEqual } from './isEqual';
+export { isEqual, EqualityType, IndividualEqualityType } from './isEqual';
 export { isNullOrUndefined } from './isNullOrUndefined';
 
 export * from './async';

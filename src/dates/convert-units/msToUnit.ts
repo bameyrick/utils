@@ -1,7 +1,7 @@
 import { TimeUnit } from '.';
 
 /**
- * Converts a milliseconds into a TimeUnit
+ * Converts milliseconds into a TimeUnit
  */
 export function msToUnit(value: number, unit: TimeUnit): number {
   switch (unit) {
