@@ -1,0 +1,1 @@
+export { getToday } from './getToday';

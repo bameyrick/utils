@@ -9,7 +9,7 @@ describe('setStartOfWeek', () => {
     expect(setStartOfWeek(value)).toEqual(expected);
   });
 
-  it('On a Sunday it should go back Monday of same weej', () => {
+  it('On a Sunday it should go back Monday of same week', () => {
     const value = new Date(2020, 7, 30, 15, 31, 22, 123);
 
     const expected = new Date(2020, 7, 24, 0, 0, 0, 0);

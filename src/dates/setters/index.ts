@@ -1,3 +1,10 @@
+export { setEndOfDay } from './setEndOfDay';
+export { setEndOfHour } from './setEndOfHour';
+export { setEndOfMinute } from './setEndOfMinute';
+export { setEndOfMonth } from './setEndOfMonth';
+export { setEndOfSecond } from './setEndOfSecond';
+export { setEndOfWeek } from './setEndOfWeek';
+export { setEndOfYear } from './setEndOfYear';
 export { setStartOfDay } from './setStartOfDay';
 export { setStartOfHour } from './setStartOfHour';
 export { setStartOfMinute } from './setStartOfMinute';
