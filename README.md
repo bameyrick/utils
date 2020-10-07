@@ -6,26 +6,6 @@ A collection of useful utility functions with associated TypeScript types.
 [![codecov](https://codecov.io/gh/bameyrick/utils/branch/master/graph/badge.svg)](https://codecov.io/gh/bameyrick/utils)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/2bbbe04a25494ebf900bb71f9d6af98f)](https://www.codacy.com/manual/bameyrick/utils)
 
-## Install
-
-You can install via npm or yarn.
-
-### npm
-
-```bash
-npm install --save @qntm-code/utils
-```
-
-### yarn
-
-```bash
-yarn add @qntm-code/utils
-```
-
-## Documentation
-
-This documentation is written in TypeScript, however this library works fine in vanilla JavaScript too.
-
 - [@qntm-code/utils](#qntm-codeutils)
   - [Install](#install)
     - [npm](#npm)
@@ -60,6 +40,26 @@ This documentation is written in TypeScript, however this library works fine in 
       - [setStartOfSecond](#setstartofsecond)
       - [setStartOfWeek](#setstartofweek)
       - [setStartOfYear](#setstartofyear)
+
+## Install
+
+You can install via npm or yarn.
+
+### npm
+
+```bash
+npm install --save @qntm-code/utils
+```
+
+### yarn
+
+```bash
+yarn add @qntm-code/utils
+```
+
+## Documentation
+
+This documentation is written in TypeScript, however this library works fine in vanilla JavaScript too.
 
 ### Generic Helpers
 
