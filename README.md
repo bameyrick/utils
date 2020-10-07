@@ -33,59 +33,33 @@ This documentation is written in TypeScript, however this library works fine in 
   - [Documentation](#documentation)
     - [Generic Helpers](#generic-helpers)
       - [isNullOrUndefined](#isnullorundefined)
-        - [Example](#example)
       - [isEmpty](#isempty)
-        - [Example](#example-1)
       - [isEqual](#isequal)
-        - [Example](#example-2)
-      - [EqualityType](#equalitytype)
-      - [IndividualEqualityType](#individualequalitytype)
+        - [EqualityType](#equalitytype)
+        - [IndividualEqualityType](#individualequalitytype)
     - [Async helpers](#async-helpers)
       - [asyncForEach](#asyncforeach)
-        - [Example](#example-3)
       - [delay](#delay)
-        - [Example](#example-4)
     - [Date helpers](#date-helpers)
       - [convertTimeUnit](#converttimeunit)
-        - [Example](#example-5)
-        - [Vanilla JS Example](#vanilla-js-example)
       - [msToUnit](#mstounit)
-        - [Example](#example-6)
-        - [Example](#example-7)
-    - [unitToMs](#unittoms)
-        - [Example](#example-8)
-        - [Example](#example-9)
-    - [TimeUnit](#timeunit)
-    - [getToday](#gettoday)
-        - [Example](#example-10)
-    - [setEndOfDay](#setendofday)
-        - [Example](#example-11)
-    - [setEndOfHour](#setendofhour)
-        - [Example](#example-12)
-    - [setEndOfMinute](#setendofminute)
-        - [Example](#example-13)
-    - [setEndOfMonth](#setendofmonth)
-        - [Example](#example-14)
-    - [setEndOfSecond](#setendofsecond)
-        - [Example](#example-15)
-    - [setEndOfWeek](#setendofweek)
-        - [Example](#example-16)
-    - [setEndOfYear](#setendofyear)
-        - [Example](#example-17)
-    - [setStartOfDay](#setstartofday)
-        - [Example](#example-18)
-    - [setStartOfHour](#setstartofhour)
-        - [Example](#example-19)
-    - [setStartOfMinute](#setstartofminute)
-        - [Example](#example-20)
-    - [setStartOfMonth](#setstartofmonth)
-        - [Example](#example-21)
-    - [setStartOfSecond](#setstartofsecond)
-        - [Example](#example-22)
-    - [setStartOfWeek](#setstartofweek)
-        - [Example](#example-23)
-    - [setStartOfYear](#setstartofyear)
-        - [Example](#example-24)
+      - [unitToMs](#unittoms)
+      - [TimeUnit](#timeunit)
+      - [getToday](#gettoday)
+      - [setEndOfDay](#setendofday)
+      - [setEndOfHour](#setendofhour)
+      - [setEndOfMinute](#setendofminute)
+      - [setEndOfMonth](#setendofmonth)
+      - [setEndOfSecond](#setendofsecond)
+      - [setEndOfWeek](#setendofweek)
+      - [setEndOfYear](#setendofyear)
+      - [setStartOfDay](#setstartofday)
+      - [setStartOfHour](#setstartofhour)
+      - [setStartOfMinute](#setstartofminute)
+      - [setStartOfMonth](#setstartofmonth)
+      - [setStartOfSecond](#setstartofsecond)
+      - [setStartOfWeek](#setstartofweek)
+      - [setStartOfYear](#setstartofyear)
 
 ### Generic Helpers
 
@@ -103,7 +77,7 @@ Method arguments:
 
 Return type: `boolean`
 
-##### Example
+**Example**
 
 ```typescript
 import { isNullOrUndefined } from '@qntm-code/utils';
@@ -129,7 +103,7 @@ Method arguments:
 
 Return type: `boolean`
 
-##### Example
+**Example**
 
 ```typescript
 import { isEmpty } from '@qntm-code/utils';
@@ -164,7 +138,7 @@ Method arguments:
 
 Return type: `boolean`
 
-##### Example
+**Example**
 
 ```typescript
 import { isEqual } from '@qntm-code/utils';
@@ -177,11 +151,11 @@ if (isEqual(a, b)) {
 }
 ```
 
-#### EqualityType
+##### EqualityType
 
 An EqualityType can be an [IndividualEqualityType](#individualequalitytype) or an array of mixed[IndividualEqualityType](#individualequalitytype)s
 
-#### IndividualEqualityType
+##### IndividualEqualityType
 
 The equality types allowed are:
 
@@ -225,7 +199,7 @@ Return type:
 Promise<void>
 ```
 
-##### Example
+**Example**
 
 ```typescript
 import { asyncForEach } from '@qntm-code/utils';
@@ -260,7 +234,7 @@ Return type:
 Promise<void>
 ```
 
-##### Example
+**Example**
 
 ```typescript
 import { delay } from '@qntm-code/utils';
@@ -292,7 +266,7 @@ Method arguments:
 
 Return type: `number`
 
-##### Example
+**Example**
 
 ```typescript
 import { convertTimeUnit, TimeUnit } from '@qntm-code/utils';
@@ -301,7 +275,7 @@ const weeks: number = 24;
 const minutes: number = convertTimeUnit(weeks, TimeUnit.Weeks, TimeUnit.Minutes);
 ```
 
-##### Vanilla JS Example
+**Vanilla JS Example**
 
 ```javascript
 import { convertTimeUnit } from '@qntm-code/utils';
@@ -325,7 +299,7 @@ Method arguments:
 
 Return type: `number`
 
-##### Example
+**Example**
 
 ```typescript
 import { msToUnit, TimeUnit } from '@qntm-code/utils';
@@ -334,7 +308,7 @@ const milliseconds: number = 4567876;
 const hours: number = msToUnit(milliseconds, TimeUnit.Hours);
 ```
 
-##### Example
+**Example**
 
 ```javascript
 import { msToUnit } from '@qntm-code/utils';
@@ -345,7 +319,7 @@ const hours = msToUnit(milliseconds, 'hours');
 
 ---
 
-### unitToMs
+#### unitToMs
 
 Converts a [TimeUnit](#timeunit) into milliseconds.
 
@@ -358,7 +332,7 @@ Method arguments:
 
 Return type: `number`
 
-##### Example
+**Example**
 
 ```typescript
 import { unitToMs, TimeUnit } from '@qntm-code/utils';
@@ -367,7 +341,7 @@ const days: number = 10;
 const milliseconds: number = unitToMs(days, TimeUnit.Days);
 ```
 
-##### Example
+**Example**
 
 ```javascript
 import { unitToMs } from '@qntm-code/utils';
@@ -378,7 +352,7 @@ const milliseconds = unitToMs(days, 'days');
 
 ---
 
-### TimeUnit
+#### TimeUnit
 
 A TypeScript enum of available options to provide to time unit conversion functions. For vanilla JS just use the string values from the value column.
 
@@ -393,13 +367,13 @@ A TypeScript enum of available options to provide to time unit conversion functi
 
 ---
 
-### getToday
+#### getToday
 
 Gets a Date for the start of the current day.
 
 Return type: `Date`
 
-##### Example
+**Example**
 
 ```typescript
 import { getToday } from '@qntm-code/utils';
@@ -409,7 +383,7 @@ const today: Date = getToday();
 
 ---
 
-### setEndOfDay
+#### setEndOfDay
 
 Takes a given date and changes it to the end of the current day.
 
@@ -419,7 +393,7 @@ Takes a given date and changes it to the end of the current day.
 
 Return type: `Date`
 
-##### Example
+**Example**
 
 ```typescript
 import { setEndOfDay } from '@qntm-code/utils';
@@ -430,7 +404,7 @@ const endOfCurrentDay: Date = setEndOfDay(now);
 
 ---
 
-### setEndOfHour
+#### setEndOfHour
 
 Takes a given date and changes it to the end of the current hour.
 
@@ -440,7 +414,7 @@ Takes a given date and changes it to the end of the current hour.
 
 Return type: `Date`
 
-##### Example
+**Example**
 
 ```typescript
 import { setEndOfHour } from '@qntm-code/utils';
@@ -451,7 +425,7 @@ const endOfCurrentHour: Date = setEndOfHour(now);
 
 ---
 
-### setEndOfMinute
+#### setEndOfMinute
 
 Takes a given date and changes it to the end of the current minute.
 
@@ -461,7 +435,7 @@ Takes a given date and changes it to the end of the current minute.
 
 Return type: `Date`
 
-##### Example
+**Example**
 
 ```typescript
 import { setEndOfMinute } from '@qntm-code/utils';
@@ -472,7 +446,7 @@ const endOfCurrentMinute: Date = setEndOfMinute(now);
 
 ---
 
-### setEndOfMonth
+#### setEndOfMonth
 
 Takes a given date and changes it to the end of the current month.
 
@@ -482,7 +456,7 @@ Takes a given date and changes it to the end of the current month.
 
 Return type: `Date`
 
-##### Example
+**Example**
 
 ```typescript
 import { setEndOfMonth } from '@qntm-code/utils';
@@ -493,7 +467,7 @@ const endOfCurrentMonth: Date = setEndOfMonth(now);
 
 ---
 
-### setEndOfSecond
+#### setEndOfSecond
 
 Takes a given date and changes it to the end of the current second.
 
@@ -503,7 +477,7 @@ Takes a given date and changes it to the end of the current second.
 
 Return type: `Date`
 
-##### Example
+**Example**
 
 ```typescript
 import { setEndOfSecond } from '@qntm-code/utils';
@@ -514,7 +488,7 @@ const endOfCurrentSecond: Date = setEndOfSecond(now);
 
 ---
 
-### setEndOfWeek
+#### setEndOfWeek
 
 Takes a given date and changes it to the end of the current week.
 
@@ -524,7 +498,7 @@ Takes a given date and changes it to the end of the current week.
 
 Return type: `Date`
 
-##### Example
+**Example**
 
 ```typescript
 import { setEndOfWeek } from '@qntm-code/utils';
@@ -535,7 +509,7 @@ const endOfCurrentWeek: Date = setEndOfWeek(now);
 
 ---
 
-### setEndOfYear
+#### setEndOfYear
 
 Takes a given date and changes it to the end of the current Year.
 
@@ -545,7 +519,7 @@ Takes a given date and changes it to the end of the current Year.
 
 Return type: `Date`
 
-##### Example
+**Example**
 
 ```typescript
 import { setEndOfYear } from '@qntm-code/utils';
@@ -556,7 +530,7 @@ const endOfCurrentYear: Date = setEndOfYear(now);
 
 ---
 
-### setStartOfDay
+#### setStartOfDay
 
 Takes a given date and changes it to the start of the current day.
 
@@ -566,7 +540,7 @@ Takes a given date and changes it to the start of the current day.
 
 Return type: `Date`
 
-##### Example
+**Example**
 
 ```typescript
 import { setStartOfDay } from '@qntm-code/utils';
@@ -577,7 +551,7 @@ const startOfCurrentDay: Date = setStartOfDay(now);
 
 ---
 
-### setStartOfHour
+#### setStartOfHour
 
 Takes a given date and changes it to the start of the current hour.
 
@@ -587,7 +561,7 @@ Takes a given date and changes it to the start of the current hour.
 
 Return type: `Date`
 
-##### Example
+**Example**
 
 ```typescript
 import { setStartOfHour } from '@qntm-code/utils';
@@ -598,7 +572,7 @@ const startOfCurrentHour: Date = setStartOfHour(now);
 
 ---
 
-### setStartOfMinute
+#### setStartOfMinute
 
 Takes a given date and changes it to the start of the current minute.
 
@@ -608,7 +582,7 @@ Takes a given date and changes it to the start of the current minute.
 
 Return type: `Date`
 
-##### Example
+**Example**
 
 ```typescript
 import { setStartOfMinute } from '@qntm-code/utils';
@@ -619,7 +593,7 @@ const startOfCurrentMinute: Date = setStartOfMinute(now);
 
 ---
 
-### setStartOfMonth
+#### setStartOfMonth
 
 Takes a given date and changes it to the start of the current month.
 
@@ -629,7 +603,7 @@ Takes a given date and changes it to the start of the current month.
 
 Return type: `Date`
 
-##### Example
+**Example**
 
 ```typescript
 import { setStartOfMonth } from '@qntm-code/utils';
@@ -640,7 +614,7 @@ const startOfCurrentMonth: Date = setStartOfMonth(now);
 
 ---
 
-### setStartOfSecond
+#### setStartOfSecond
 
 Takes a given date and changes it to the start of the current second.
 
@@ -650,7 +624,7 @@ Takes a given date and changes it to the start of the current second.
 
 Return type: `Date`
 
-##### Example
+**Example**
 
 ```typescript
 import { setStartOfSecond } from '@qntm-code/utils';
@@ -661,7 +635,7 @@ const startOfCurrentSecond: Date = setStartOfSecond(now);
 
 ---
 
-### setStartOfWeek
+#### setStartOfWeek
 
 Takes a given date and changes it to the start of the current week.
 
@@ -671,7 +645,7 @@ Takes a given date and changes it to the start of the current week.
 
 Return type: `Date`
 
-##### Example
+**Example**
 
 ```typescript
 import { setStartOfWeek } from '@qntm-code/utils';
@@ -682,7 +656,7 @@ const startOfCurrentWeek: Date = setStartOfWeek(now);
 
 ---
 
-### setStartOfYear
+#### setStartOfYear
 
 Takes a given date and changes it to the start of the current Year.
 
@@ -692,7 +666,7 @@ Takes a given date and changes it to the start of the current Year.
 
 Return type: `Date`
 
-##### Example
+**Example**
 
 ```typescript
 import { setStartOfYear } from '@qntm-code/utils';
