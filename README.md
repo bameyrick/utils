@@ -3,7 +3,7 @@
 A collection of useful utility functions with associated TypeScript types.
 
 [![GitHub release](https://img.shields.io/github/release/bameyrick/utils.svg)](https://github.com/bameyrick/utils/releases)
-[![Travis tests](https://img.shields.io/travis/bameyrick/utils.svg)](https://travis-ci.org/bameyrick/utils)
+[![Build Status](https://travis-ci.com/bameyrick/utils.svg?branch=master)](https://travis-ci.com/bameyrick/utils)
 [![codecov](https://codecov.io/gh/bameyrick/utils/branch/master/graph/badge.svg)](https://codecov.io/gh/bameyrick/utils)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/2bbbe04a25494ebf900bb71f9d6af98f)](https://www.codacy.com/manual/bameyrick/utils)
 
