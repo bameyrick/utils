@@ -41,6 +41,8 @@ A collection of useful utility functions with associated TypeScript types.
       - [setStartOfSecond](#setstartofsecond)
       - [setStartOfWeek](#setstartofweek)
       - [setStartOfYear](#setstartofyear)
+    - [DOM helpers](#dom-helpers)
+      - [getScrollParent](#getscrollparent)
 
 ## Install
 
@@ -674,4 +676,26 @@ import { setStartOfYear } from '@qntm-code/utils';
 
 const now: Date = new Date();
 const startOfCurrentYear: Date = setStartOfYear(now);
+```
+
+### DOM helpers
+
+---
+
+#### getScrollParent
+
+Gets the scrollable parent element of a node.
+
+| Parameter | Type        | Optional | Default value | Description                                              |
+| --------- | ----------- | -------- | ------------- | -------------------------------------------------------- |
+| node      | HTMLElement | false    |               | The HTML element you want to find the scroll parent for  |
+| x         | boolean     | true     | true          | Whether to check if the element can scroll on the x axis |
+| y         | boolean     | true     | true          | Whether to check if the element can scroll on the y axis |
+
+**Example**
+
+```typescript
+import { getScrollParent } from '@qntm-code/utils';
+
+const scrollParent = getScrollParent(document.getElementById('my-element'));
 ```

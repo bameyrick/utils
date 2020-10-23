@@ -1,6 +1,6 @@
 {
   "name": "@qntm-code/utils",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Ben Meyrick<bameyrick@gmail.com>",
   "description": "A collection of useful utility functions with associated TypeScript types. All functions have been unit tested.",
   "keywords": [
@@ -54,7 +54,10 @@
     "get",
     "start",
     "end",
-    "today"
+    "today",
+    "getScrollParent",
+    "scroll",
+    "parent"
   ],
   "repository": {
     "type": "git",
