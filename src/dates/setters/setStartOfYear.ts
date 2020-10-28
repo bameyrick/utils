@@ -1,7 +1,7 @@
 import { setStartOfMonth } from '.';
 
 /**
- * Takes a given date and changes it to the start of the current Year
+ * Takes a given date and mutates it to the start of the given Year
  */
 export function setStartOfYear(date: Date): Date {
   setStartOfMonth(date);

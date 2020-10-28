@@ -1,7 +1,7 @@
 import { setStartOfDay } from '.';
 
 /**
- * Takes a given date and changes it to the start of the current week
+ * Takes a given date and mutates it to the start of the given week
  */
 export function setStartOfWeek(date: Date): Date {
   const day = date.getDay();

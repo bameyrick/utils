@@ -1,7 +1,7 @@
 import { setEndOfDay } from '.';
 
 /**
- * Takes a given date and changes it to the end of the current week
+ * Takes a given date and mutates it to the end of the given week
  */
 export function setEndOfWeek(date: Date): Date {
   setEndOfDay(date);

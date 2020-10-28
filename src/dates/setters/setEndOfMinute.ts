@@ -1,7 +1,7 @@
 import { setEndOfSecond } from '.';
 
 /**
- * Takes a given date and changes it to the end of the current minute
+ * Takes a given date and mutates it to the end of the given minute
  */
 export function setEndOfMinute(date: Date): Date {
   setEndOfSecond(date);

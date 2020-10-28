@@ -27,6 +27,22 @@ A collection of useful utility functions with associated TypeScript types.
       - [unitToMs](#unittoms)
       - [TimeUnit](#timeunit)
       - [getToday](#gettoday)
+      - [getEndOfDay](#getendofday)
+      - [getEndOfHour](#getendofhour)
+      - [getEndOfMinute](#getendofminute)
+      - [getEndOfMonth](#getendofmonth)
+      - [getEndOfSecond](#getendofsecond)
+      - [getEndOfWeek](#getendofweek)
+      - [getEndOfYear](#getendofyear)
+      - [getStartOfDay](#getstartofday)
+      - [getStartOfHour](#getstartofhour)
+      - [getStartOfMinute](#getstartofminute)
+      - [getStartOfMonth](#getstartofmonth)
+      - [getStartOfSecond](#getstartofsecond)
+      - [getStartOfWeek](#getstartofweek)
+      - [getStartOfYear](#getstartofyear)
+    - [DOM helpers](#dom-helpers)
+      - [getScrollParent](#getscrollparent)
       - [setEndOfDay](#setendofday)
       - [setEndOfHour](#setendofhour)
       - [setEndOfMinute](#setendofminute)
@@ -41,8 +57,8 @@ A collection of useful utility functions with associated TypeScript types.
       - [setStartOfSecond](#setstartofsecond)
       - [setStartOfWeek](#setstartofweek)
       - [setStartOfYear](#setstartofyear)
-    - [DOM helpers](#dom-helpers)
-      - [getScrollParent](#getscrollparent)
+    - [DOM helpers](#dom-helpers-1)
+      - [getScrollParent](#getscrollparent-1)
 
 ## Install
 
@@ -190,11 +206,11 @@ Method arguments:
 
 Callback arguments:
 
-| Parameter | Type     | Optional | Description                           |
-| --------- | -------- | -------- | ------------------------------------- |
-| item      | T        | true     | The current item from the loop        |
-| index     | number   | true     | The index of the current in the array |
-| array     | Array<T> | true     | The array provided                    |
+| Parameter | Type     | Optional | Description                         |
+| --------- | -------- | -------- | ----------------------------------- |
+| item      | T        | true     | The current item from the loop      |
+| index     | number   | true     | The index of the given in the array |
+| array     | Array<T> | true     | The array provided                  |
 
 Return type:
 
@@ -372,7 +388,7 @@ A TypeScript enum of available options to provide to time unit conversion functi
 
 #### getToday
 
-Gets a Date for the start of the current day.
+Gets a Date for the start of the given day.
 
 Return type: `Date`
 
@@ -386,9 +402,311 @@ const today: Date = getToday();
 
 ---
 
+#### getEndOfDay
+
+Takes an optional date and returns a new Date object set to the end of the given/current day.
+
+| Parameter | Type | Optional | Default value | Description        |
+| --------- | ---- | -------- | ------------- | ------------------ |
+| date      | Date | true     | new Date()    | The date to modify |
+
+Return type: `Date`
+
+**Example**
+
+```typescript
+import { getEndOfDay } from '@qntm-code/utils';
+
+const endOfCurrentDay: Date = getEndOfDay();
+```
+
+---
+
+#### getEndOfHour
+
+Takes an optional date and returns a new Date object set to the end of the given/current hour.
+
+| Parameter | Type | Optional | Default value | Description        |
+| --------- | ---- | -------- | ------------- | ------------------ |
+| date      | Date | true     | new Date()    | The date to modify |
+
+Return type: `Date`
+
+**Example**
+
+```typescript
+import { getEndOfHour } from '@qntm-code/utils';
+
+const endOfCurrentHour: Date = getEndOfHour();
+```
+
+---
+
+#### getEndOfMinute
+
+Takes an optional date and returns a new Date object set to the end of the given/current minute.
+
+| Parameter | Type | Optional | Default value | Description        |
+| --------- | ---- | -------- | ------------- | ------------------ |
+| date      | Date | true     | new Date()    | The date to modify |
+
+Return type: `Date`
+
+**Example**
+
+```typescript
+import { getEndOfMinute } from '@qntm-code/utils';
+
+const endOfCurrentMinute: Date = getEndOfMinute();
+```
+
+---
+
+#### getEndOfMonth
+
+Takes an optional date and returns a new Date object set to the end of the given/current month.
+
+| Parameter | Type | Optional | Default value | Description        |
+| --------- | ---- | -------- | ------------- | ------------------ |
+| date      | Date | true     | new Date()    | The date to modify |
+
+Return type: `Date`
+
+**Example**
+
+```typescript
+import { getEndOfMonth } from '@qntm-code/utils';
+
+const endOfCurrentMonth: Date = getEndOfMonth();
+```
+
+---
+
+#### getEndOfSecond
+
+Takes an optional date and returns a new Date object set to the end of the given/current second.
+
+| Parameter | Type | Optional | Default value | Description        |
+| --------- | ---- | -------- | ------------- | ------------------ |
+| date      | Date | true     | new Date()    | The date to modify |
+
+Return type: `Date`
+
+**Example**
+
+```typescript
+import { getEndOfSecond } from '@qntm-code/utils';
+
+const endOfCurrentSecond: Date = getEndOfSecond();
+```
+
+---
+
+#### getEndOfWeek
+
+Takes an optional date and returns a new Date object set to the end of the given/current week.
+
+| Parameter | Type | Optional | Default value | Description        |
+| --------- | ---- | -------- | ------------- | ------------------ |
+| date      | Date | true     | new Date()    | The date to modify |
+
+Return type: `Date`
+
+**Example**
+
+```typescript
+import { getEndOfWeek } from '@qntm-code/utils';
+
+const endOfCurrentWeek: Date = getEndOfWeek();
+```
+
+---
+
+#### getEndOfYear
+
+Takes an optional date and returns a new Date object set to the end of the given/current year.
+
+| Parameter | Type | Optional | Default value | Description        |
+| --------- | ---- | -------- | ------------- | ------------------ |
+| date      | Date | true     | new Date()    | The date to modify |
+
+Return type: `Date`
+
+**Example**
+
+```typescript
+import { getEndOfYear } from '@qntm-code/utils';
+
+const endOfCurrentYear: Date = getEndOfYear();
+```
+
+---
+
+#### getStartOfDay
+
+Takes an optional date and returns a new Date object set to the start of the given/current day.
+
+| Parameter | Type | Optional | Default value | Description        |
+| --------- | ---- | -------- | ------------- | ------------------ |
+| date      | Date | true     | new Date()    | The date to modify |
+
+Return type: `Date`
+
+**Example**
+
+```typescript
+import { getStartOfDay } from '@qntm-code/utils';
+
+const startOfCurrentDay: Date = getStartOfDay();
+```
+
+---
+
+#### getStartOfHour
+
+Takes an optional date and returns a new Date object set to the start of the given/current hour.
+
+| Parameter | Type | Optional | Default value | Description        |
+| --------- | ---- | -------- | ------------- | ------------------ |
+| date      | Date | true     | new Date()    | The date to modify |
+
+Return type: `Date`
+
+**Example**
+
+```typescript
+import { getStartOfHour } from '@qntm-code/utils';
+
+const startOfCurrentHour: Date = getStartOfHour();
+```
+
+---
+
+#### getStartOfMinute
+
+Takes an optional date and returns a new Date object set to the start of the given/current minute.
+
+| Parameter | Type | Optional | Default value | Description        |
+| --------- | ---- | -------- | ------------- | ------------------ |
+| date      | Date | true     | new Date()    | The date to modify |
+
+Return type: `Date`
+
+**Example**
+
+```typescript
+import { getStartOfMinute } from '@qntm-code/utils';
+
+const startOfCurrentMinute: Date = getStartOfMinute();
+```
+
+---
+
+#### getStartOfMonth
+
+Takes an optional date and returns a new Date object set to the start of the given/current month.
+
+| Parameter | Type | Optional | Default value | Description        |
+| --------- | ---- | -------- | ------------- | ------------------ |
+| date      | Date | true     | new Date()    | The date to modify |
+
+Return type: `Date`
+
+**Example**
+
+```typescript
+import { getStartOfMonth } from '@qntm-code/utils';
+
+const startOfCurrentMonth: Date = getStartOfMonth();
+```
+
+---
+
+#### getStartOfSecond
+
+Takes an optional date and returns a new Date object set to the start of the given/current second.
+
+| Parameter | Type | Optional | Default value | Description        |
+| --------- | ---- | -------- | ------------- | ------------------ |
+| date      | Date | true     | new Date()    | The date to modify |
+
+Return type: `Date`
+
+**Example**
+
+```typescript
+import { getStartOfSecond } from '@qntm-code/utils';
+
+const startOfCurrentSecond: Date = getStartOfSecond();
+```
+
+---
+
+#### getStartOfWeek
+
+Takes an optional date and returns a new Date object set to the start of the given/current week.
+
+| Parameter | Type | Optional | Default value | Description        |
+| --------- | ---- | -------- | ------------- | ------------------ |
+| date      | Date | true     | new Date()    | The date to modify |
+
+Return type: `Date`
+
+**Example**
+
+```typescript
+import { getStartOfWeek } from '@qntm-code/utils';
+
+const startOfCurrentWeek: Date = getStartOfWeek();
+```
+
+---
+
+#### getStartOfYear
+
+Takes an optional date and returns a new Date object set to the start of the given/current year.
+
+| Parameter | Type | Optional | Default value | Description        |
+| --------- | ---- | -------- | ------------- | ------------------ |
+| date      | Date | true     | new Date()    | The date to modify |
+
+Return type: `Date`
+
+**Example**
+
+```typescript
+import { getStartOfYear } from '@qntm-code/utils';
+
+const startOfCurrentYear: Date = getStartOfYear();
+```
+
+### DOM helpers
+
+---
+
+#### getScrollParent
+
+Gets the scrollable parent element of a node.
+
+| Parameter | Type        | Optional | Default value | Description                                              |
+| --------- | ----------- | -------- | ------------- | -------------------------------------------------------- |
+| node      | HTMLElement | false    |               | The HTML element you want to find the scroll parent for  |
+| x         | boolean     | true     | true          | Whether to check if the element can scroll on the x axis |
+| y         | boolean     | true     | true          | Whether to check if the element can scroll on the y axis |
+
+**Example**
+
+```typescript
+import { getScrollParent } from '@qntm-code/utils';
+
+const scrollParent = getScrollParent(document.getElementById('my-element'));
+```
+
+---
+
 #### setEndOfDay
 
-Takes a given date and changes it to the end of the current day.
+Takes a given date and mutates it to the end of the given day.
 
 | Parameter | Type | Optional | Description        |
 | --------- | ---- | -------- | ------------------ |
@@ -409,7 +727,7 @@ const endOfCurrentDay: Date = setEndOfDay(now);
 
 #### setEndOfHour
 
-Takes a given date and changes it to the end of the current hour.
+Takes a given date and mutates it to the end of the given hour.
 
 | Parameter | Type | Optional | Description        |
 | --------- | ---- | -------- | ------------------ |
@@ -430,7 +748,7 @@ const endOfCurrentHour: Date = setEndOfHour(now);
 
 #### setEndOfMinute
 
-Takes a given date and changes it to the end of the current minute.
+Takes a given date and mutates it to the end of the given minute.
 
 | Parameter | Type | Optional | Description        |
 | --------- | ---- | -------- | ------------------ |
@@ -451,7 +769,7 @@ const endOfCurrentMinute: Date = setEndOfMinute(now);
 
 #### setEndOfMonth
 
-Takes a given date and changes it to the end of the current month.
+Takes a given date and mutates it to the end of the given month.
 
 | Parameter | Type | Optional | Description        |
 | --------- | ---- | -------- | ------------------ |
@@ -472,7 +790,7 @@ const endOfCurrentMonth: Date = setEndOfMonth(now);
 
 #### setEndOfSecond
 
-Takes a given date and changes it to the end of the current second.
+Takes a given date and mutates it to the end of the given second.
 
 | Parameter | Type | Optional | Description        |
 | --------- | ---- | -------- | ------------------ |
@@ -493,7 +811,7 @@ const endOfCurrentSecond: Date = setEndOfSecond(now);
 
 #### setEndOfWeek
 
-Takes a given date and changes it to the end of the current week.
+Takes a given date and mutates it to the end of the given week.
 
 | Parameter | Type | Optional | Description        |
 | --------- | ---- | -------- | ------------------ |
@@ -514,7 +832,7 @@ const endOfCurrentWeek: Date = setEndOfWeek(now);
 
 #### setEndOfYear
 
-Takes a given date and changes it to the end of the current Year.
+Takes a given date and mutates it to the end of the given year.
 
 | Parameter | Type | Optional | Description        |
 | --------- | ---- | -------- | ------------------ |
@@ -535,7 +853,7 @@ const endOfCurrentYear: Date = setEndOfYear(now);
 
 #### setStartOfDay
 
-Takes a given date and changes it to the start of the current day.
+Takes a given date and mutates it to the start of the given day.
 
 | Parameter | Type | Optional | Description        |
 | --------- | ---- | -------- | ------------------ |
@@ -556,7 +874,7 @@ const startOfCurrentDay: Date = setStartOfDay(now);
 
 #### setStartOfHour
 
-Takes a given date and changes it to the start of the current hour.
+Takes a given date and mutates it to the start of the given hour.
 
 | Parameter | Type | Optional | Description        |
 | --------- | ---- | -------- | ------------------ |
@@ -577,7 +895,7 @@ const startOfCurrentHour: Date = setStartOfHour(now);
 
 #### setStartOfMinute
 
-Takes a given date and changes it to the start of the current minute.
+Takes a given date and mutates it to the start of the given minute.
 
 | Parameter | Type | Optional | Description        |
 | --------- | ---- | -------- | ------------------ |
@@ -598,7 +916,7 @@ const startOfCurrentMinute: Date = setStartOfMinute(now);
 
 #### setStartOfMonth
 
-Takes a given date and changes it to the start of the current month.
+Takes a given date and mutates it to the start of the given month.
 
 | Parameter | Type | Optional | Description        |
 | --------- | ---- | -------- | ------------------ |
@@ -619,7 +937,7 @@ const startOfCurrentMonth: Date = setStartOfMonth(now);
 
 #### setStartOfSecond
 
-Takes a given date and changes it to the start of the current second.
+Takes a given date and mutates it to the start of the given second.
 
 | Parameter | Type | Optional | Description        |
 | --------- | ---- | -------- | ------------------ |
@@ -640,7 +958,7 @@ const startOfCurrentSecond: Date = setStartOfSecond(now);
 
 #### setStartOfWeek
 
-Takes a given date and changes it to the start of the current week.
+Takes a given date and mutates it to the start of the given week.
 
 | Parameter | Type | Optional | Description        |
 | --------- | ---- | -------- | ------------------ |
@@ -661,7 +979,7 @@ const startOfCurrentWeek: Date = setStartOfWeek(now);
 
 #### setStartOfYear
 
-Takes a given date and changes it to the start of the current Year.
+Takes a given date and mutates it to the start of the given year.
 
 | Parameter | Type | Optional | Description        |
 | --------- | ---- | -------- | ------------------ |

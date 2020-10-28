@@ -1,7 +1,7 @@
 import { setEndOfDay } from '.';
 
 /**
- * Takes a given date and changes it to the end of the current month
+ * Takes a given date and mutates it to the end of the given month
  */
 export function setEndOfMonth(date: Date): Date {
   setEndOfDay(date);

@@ -1,5 +1,5 @@
 /**
- * Takes a given date and changes it to the end of the current second
+ * Takes a given date and mutates it to the end of the given second
  */
 export function setEndOfSecond(date: Date): Date {
   date.setMilliseconds(999);

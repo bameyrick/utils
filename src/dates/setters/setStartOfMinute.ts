@@ -1,7 +1,7 @@
 import { setStartOfSecond } from '.';
 
 /**
- * Takes a given date and changes it to the start of the current minute
+ * Takes a given date and mutates it to the start of the given minute
  */
 export function setStartOfMinute(date: Date): Date {
   setStartOfSecond(date);
