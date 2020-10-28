@@ -41,8 +41,6 @@ A collection of useful utility functions with associated TypeScript types.
       - [getStartOfSecond](#getstartofsecond)
       - [getStartOfWeek](#getstartofweek)
       - [getStartOfYear](#getstartofyear)
-    - [DOM helpers](#dom-helpers)
-      - [getScrollParent](#getscrollparent)
       - [setEndOfDay](#setendofday)
       - [setEndOfHour](#setendofhour)
       - [setEndOfMinute](#setendofminute)
@@ -57,8 +55,8 @@ A collection of useful utility functions with associated TypeScript types.
       - [setStartOfSecond](#setstartofsecond)
       - [setStartOfWeek](#setstartofweek)
       - [setStartOfYear](#setstartofyear)
-    - [DOM helpers](#dom-helpers-1)
-      - [getScrollParent](#getscrollparent-1)
+    - [DOM helpers](#dom-helpers)
+      - [getScrollParent](#getscrollparent)
 
 ## Install
 
@@ -678,28 +676,6 @@ Return type: `Date`
 import { getStartOfYear } from '@qntm-code/utils';
 
 const startOfCurrentYear: Date = getStartOfYear();
-```
-
-### DOM helpers
-
----
-
-#### getScrollParent
-
-Gets the scrollable parent element of a node.
-
-| Parameter | Type        | Optional | Default value | Description                                              |
-| --------- | ----------- | -------- | ------------- | -------------------------------------------------------- |
-| node      | HTMLElement | false    |               | The HTML element you want to find the scroll parent for  |
-| x         | boolean     | true     | true          | Whether to check if the element can scroll on the x axis |
-| y         | boolean     | true     | true          | Whether to check if the element can scroll on the y axis |
-
-**Example**
-
-```typescript
-import { getScrollParent } from '@qntm-code/utils';
-
-const scrollParent = getScrollParent(document.getElementById('my-element'));
 ```
 
 ---
