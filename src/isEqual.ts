@@ -25,13 +25,16 @@ export function isEqual(a: EqualityType, b: EqualityType): boolean {
     if (Array.isArray(a)) {
       return (
         a.length === (b as IndividualEqualityType[]).length &&
-        !a.find((value, index) => !isEqual(value, (b as IndividualEqualityType[])[index]))
+        isNullOrUndefined(a.find((value, index) => !isEqual(value, (b as IndividualEqualityType[])[index])))
       );
     } else if (typeof a === 'object') {
       const keysA = Object.keys(a as object).sort();
       const keysB = Object.keys(b as object).sort();
 
-      if (isEqual(keysA, keysB) && !Object.entries(a as object).find(([key, value]) => !isEqual((b as object)[key], value))) {
+      if (
+        isEqual(keysA, keysB) &&
+        isNullOrUndefined(Object.entries(a as object).find(([key, value]) => !isEqual((b as object)[key], value)))
+      ) {
         return true;
       }
     }
