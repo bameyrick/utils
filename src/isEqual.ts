@@ -23,7 +23,6 @@ export function isEqual(a: EqualityType, b: EqualityType): boolean {
 
   if (!isNullOrUndefined(a) && !isNullOrUndefined(b) && typeof a === typeof b) {
     if (Array.isArray(a)) {
-      console.log(a.some((value, index) => !isEqual(value, (b as IndividualEqualityType[])[index])));
       return (
         a.length === (b as IndividualEqualityType[]).length &&
         !a.some((value, index) => !isEqual(value, (b as IndividualEqualityType[])[index]))
