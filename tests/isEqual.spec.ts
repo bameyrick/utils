@@ -185,6 +185,13 @@ describe('isEqual', () => {
 
       expect(isEqual(a, b)).toBe(false);
     });
+
+    it('differing number arrays are not equal', () => {
+      const a = [null, null];
+      const b = [0, null];
+
+      expect(isEqual(a, b)).toBe(false);
+    });
   });
 
   describe('objects', () => {
