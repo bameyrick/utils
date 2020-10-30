@@ -27,10 +27,11 @@ export function isEqual(a: EqualityType, b: EqualityType): boolean {
         a.length === (b as IndividualEqualityType[]).length &&
         !a.some((value, index) => !isEqual(value, (b as IndividualEqualityType[])[index]))
       );
+    } else if (a instanceof Date) {
+      return a.getTime() === (b as Date).getTime();
     } else if (typeof a === 'object') {
       const keysA = Object.keys(a as object).sort();
       const keysB = Object.keys(b as object).sort();
-
       if (isEqual(keysA, keysB) && !Object.entries(a as object).some(([key, value]) => !isEqual((b as object)[key], value))) {
         return true;
       }

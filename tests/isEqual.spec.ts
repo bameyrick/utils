@@ -129,7 +129,7 @@ describe('isEqual', () => {
         const a = new Date(2020, 8, 3, 0, 0, 0, 0);
         const b = new Date(2020, 8, 21, 0, 0, 0, 0);
 
-        expect(isEqual(a, b)).toBe(true);
+        expect(isEqual(a, b)).toBe(false);
       });
     });
 
