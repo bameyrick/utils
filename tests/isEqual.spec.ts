@@ -215,4 +215,20 @@ describe('isEqual', () => {
       expect(isEqual(a, b)).toBe(false);
     });
   });
+
+  describe('dates', () => {
+    it('matching dates', () => {
+      const a = new Date(2020, 9, 30, 0, 0, 0, 0);
+      const b = new Date(2020, 9, 30, 0, 0, 0, 0);
+
+      expect(isEqual(a, b)).toBe(true);
+    });
+
+    it('non matching dates', () => {
+      const a = new Date(2020, 9, 30, 0, 0, 0, 0);
+      const b = new Date(2020, 9, 31, 0, 0, 0, 0);
+
+      expect(isEqual(a, b)).toBe(false);
+    });
+  });
 });
