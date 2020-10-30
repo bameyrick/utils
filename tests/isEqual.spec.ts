@@ -129,7 +129,7 @@ describe('isEqual', () => {
         const a = new Date(2020, 8, 3, 0, 0, 0, 0);
         const b = new Date(2020, 8, 21, 0, 0, 0, 0);
 
-        expect(isEqual(a, b)).toBe(true);
+        expect(isEqual(a, b)).toBe(false);
       });
     });
 
@@ -211,22 +211,6 @@ describe('isEqual', () => {
     it('non matching objects with properties in same order are not equal', () => {
       const a = { a: 'yes', b: 0, c: [1, 'a'] };
       const b = { a: 'no', b: 1 };
-
-      expect(isEqual(a, b)).toBe(false);
-    });
-  });
-
-  describe('dates', () => {
-    it('matching dates', () => {
-      const a = new Date(2020, 9, 30, 0, 0, 0, 0);
-      const b = new Date(2020, 9, 30, 0, 0, 0, 0);
-
-      expect(isEqual(a, b)).toBe(true);
-    });
-
-    it('non matching dates', () => {
-      const a = new Date(2020, 9, 30, 0, 0, 0, 0);
-      const b = new Date(2020, 9, 31, 0, 0, 0, 0);
 
       expect(isEqual(a, b)).toBe(false);
     });
