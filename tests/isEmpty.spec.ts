@@ -31,4 +31,16 @@ describe('isEmpty', () => {
 
     expect(isEmpty(value)).toBe(true);
   });
+
+  it('should return true if value is undefined', () => {
+    const value: undefined = undefined;
+
+    expect(isEmpty(value)).toBe(true);
+  });
+
+  it('should return true if value is null', () => {
+    const value: null = null;
+
+    expect(isEmpty(value)).toBe(true);
+  });
 });
