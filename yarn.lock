@@ -2856,6 +2856,11 @@ through@^2.3.8:
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
   integrity sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=
 
+tick-manager@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/tick-manager/-/tick-manager-1.0.3.tgz#843aee30f3ab53a42c67f4194faa21b03a5eb52a"
+  integrity sha1-hDruMPOrU6QsZ/QZT6ohsDpetSo=
+
 timers-browserify@^2.0.11:
   version "2.0.12"
   resolved "https://registry.yarnpkg.com/timers-browserify/-/timers-browserify-2.0.12.tgz#44a45c11fbf407f34f97bccd1577c652361b00ee"
@@ -3018,6 +3023,13 @@ uuid@^3.3.2:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+
+viewport-details@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/viewport-details/-/viewport-details-1.5.0.tgz#811d2fe60a075f5fde0ce093ab7a9d40f60eb89e"
+  integrity sha512-obRHP4IItemkyfBDYKzgP1E6UwZlKB+LVPfoDcvcZ2kaoRPZCvcO6m6kSDqVv0GpwFmKveniSYJ3LDbaoHi+3g==
+  dependencies:
+    tick-manager "^1.0.3"
 
 vm-browserify@^1.1.2:
   version "1.1.2"
