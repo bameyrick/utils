@@ -29,6 +29,9 @@ export function isVisible(element: HTMLElement): boolean {
   return true;
 }
 
+/**
+ * Generic internal function for common checks
+ */
 function elementVisible(rect: DOMRect, style: CSSStyleDeclaration, skipDimensionsCheck: boolean = false): boolean {
   if (!skipDimensionsCheck && (rect.width === 0 || rect.height === 0)) {
     return false;
