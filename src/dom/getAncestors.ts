@@ -1,5 +1,8 @@
 import { isNullOrUndefined } from '../isNullOrUndefined';
 
+/**
+ * Gets all the elements that a given element is nested within
+ */
 export function getAncestors(element: HTMLElement): HTMLElement[] {
   return _getAncestors(element);
 }
