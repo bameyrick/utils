@@ -29,6 +29,12 @@ module.exports = function (config) {
       dir: 'coverage',
     },
 
+    karmaTypescriptConfig: {
+      bundlerOptions: {
+        transforms: [require('karma-typescript-es6-transform')()],
+      },
+    },
+
     reporters: ['progress', 'coverage-istanbul'],
     port: 9876,
     colors: true,

@@ -1,4 +1,4 @@
-import { GetViewportDetails, IViewportDetails } from 'viewport-details';
+import { getViewportDetails, ViewportDetails } from 'viewport-details';
 import { getAncestors } from '.';
 
 /**
@@ -50,7 +50,7 @@ function elementVisible(rect: DOMRect, style: CSSStyleDeclaration, skipDimension
     return false;
   }
 
-  const viewportDetails: IViewportDetails = GetViewportDetails();
+  const viewportDetails: ViewportDetails = getViewportDetails();
 
   if (
     (rect.width === 0 ? rect.x > viewportDetails.width : rect.x >= viewportDetails.width) ||

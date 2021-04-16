@@ -1,10 +1,10 @@
-import { GetViewportDetails } from 'viewport-details';
+import { getViewportDetails } from 'viewport-details';
 import { isVisible } from '../../src';
 import { createElement } from '../test-helpers/createElement.spec';
 
 describe(`isVisible`, () => {
   beforeAll(() => {
-    const viewportDetails = GetViewportDetails();
+    const viewportDetails = getViewportDetails();
 
     document.body.style.width = `${viewportDetails.width + 100}px`;
     document.body.style.height = `${viewportDetails.height + 100}px`;
@@ -191,7 +191,7 @@ describe(`isVisible`, () => {
   });
 
   it(`should return false for an element that's scrolled off screen (y positive)`, () => {
-    const viewportDetails = GetViewportDetails();
+    const viewportDetails = getViewportDetails();
 
     const element = createElement('div', {
       position: 'absolute',
@@ -217,7 +217,7 @@ describe(`isVisible`, () => {
   });
 
   it(`should return false for an element that's scrolled off screen (x positive)`, () => {
-    const viewportDetails = GetViewportDetails();
+    const viewportDetails = getViewportDetails();
 
     const element = createElement('div', {
       position: 'absolute',
