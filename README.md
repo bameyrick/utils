@@ -60,6 +60,8 @@ A collection of useful utility functions with associated TypeScript types.
       - [getPositionedParent](#getpositionedparent)
       - [getScrollParent](#getscrollparent)
     - [isVisible](#isvisible)
+    - [Types](#types)
+    - [Dictionary](#dictionary)
 
 ## Install
 
@@ -1043,4 +1045,23 @@ Return whether an element is practically visible, considering things like dimens
 import { isVisible } from '@qntm-code/utils';
 
 const visible: boolean = isVisible(document.getElementById('my-element'));
+```
+
+### Types
+
+---
+
+### Dictionary
+
+Reusable dictionary type for typed maps
+
+**Example**
+
+```typescript
+import { Dictionary } from '@qntm-code/utils';
+
+const dictionary: Dictionary<string> = {
+  a: 'yes',
+  b: 'no',
+};
 ```
