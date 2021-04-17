@@ -82,16 +82,12 @@
       "tslint --project tsconfig.lint.json",
       "karma start ./karma.conf.js"
     ],
-    "*.js": [
-      "prettier --print-width 140 --single-quote --arrow-parens avoid --trailing-comma es5 --parser babel --write"
-    ],
-    "*.json": [
-      "prettier --print-width 140 --single-quote --trailing-comma es5 --parser json --write"
-    ]
+    "*.js": ["prettier --print-width 140 --single-quote --arrow-parens avoid --trailing-comma es5 --parser babel --write"],
+    "*.json": ["prettier --print-width 140 --single-quote --trailing-comma es5 --parser json --write"]
   },
   "husky": {
     "hooks": {
-      "precommit": "lint-staged"
+      "pre-commit": "lint-staged"
     }
   },
   "devDependencies": {

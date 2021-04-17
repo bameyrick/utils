@@ -74,7 +74,7 @@ describe('getScrollParent', () => {
   });
 
   it('should get the scroll parent for an element with scrolling on the x and y axis', () => {
-    const { parent, child } = createScrollElements(true, true, true);
+    const { child } = createScrollElements(true, true, true);
 
     expect(getScrollParent(child)).toEqual(document.body);
   });
