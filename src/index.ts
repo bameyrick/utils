@@ -5,3 +5,4 @@ export { isNullOrUndefined } from './isNullOrUndefined';
 export * from './async';
 export * from './dates';
 export * from './dom';
+export * from './types';

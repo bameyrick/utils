@@ -56,7 +56,10 @@ A collection of useful utility functions with associated TypeScript types.
       - [setStartOfWeek](#setstartofweek)
       - [setStartOfYear](#setstartofyear)
     - [DOM helpers](#dom-helpers)
+      - [getAncestors](#getancestors)
+      - [getPositionedParent](#getpositionedparent)
       - [getScrollParent](#getscrollparent)
+    - [isVisible](#isvisible)
 
 ## Install
 
@@ -976,13 +979,45 @@ const startOfCurrentYear: Date = setStartOfYear(now);
 
 ---
 
+#### getAncestors
+
+Gets all the elements that a given element is nested within
+
+| Parameter | Type        | Optional | Default value | Description                                         |
+| --------- | ----------- | -------- | ------------- | --------------------------------------------------- |
+| element   | HTMLElement | false    |               | The HTML element you want to find the ancestors for |
+
+**Example**
+
+```typescript
+import { getAncestors } from '@qntm-code/utils';
+
+const ancestors: HTMLElement[] = getAncestors(document.getElementById('my-element'));
+```
+
+#### getPositionedParent
+
+Gets the first parent element with a relative or absolute position
+
+| Parameter | Type        | Optional | Default value | Description                                         |
+| --------- | ----------- | -------- | ------------- | --------------------------------------------------- |
+| element   | HTMLElement | false    |               | The HTML element you want to find the ancestors for |
+
+**Example**
+
+```typescript
+import { getPositionedParent } from '@qntm-code/utils';
+
+const ancestors: HTMLElement = getPositionedParent(document.getElementById('my-element'));
+```
+
 #### getScrollParent
 
-Gets the scrollable parent element of a node.
+Gets the scrollable parent element of a given element
 
 | Parameter | Type        | Optional | Default value | Description                                              |
 | --------- | ----------- | -------- | ------------- | -------------------------------------------------------- |
-| node      | HTMLElement | false    |               | The HTML element you want to find the scroll parent for  |
+| element   | HTMLElement | false    |               | The HTML element you want to find the scroll parent for  |
 | x         | boolean     | true     | true          | Whether to check if the element can scroll on the x axis |
 | y         | boolean     | true     | true          | Whether to check if the element can scroll on the y axis |
 
@@ -991,5 +1026,21 @@ Gets the scrollable parent element of a node.
 ```typescript
 import { getScrollParent } from '@qntm-code/utils';
 
-const scrollParent = getScrollParent(document.getElementById('my-element'));
+const scrollParent: HTMLElement | null = getScrollParent(document.getElementById('my-element'));
+```
+
+### isVisible
+
+Return whether an element is practically visible, considering things like dimensions of 0, opacity, `visibility: hidden` and `overflow: hidden`, and whether the item is scrolled off screen
+
+| Parameter | Type        | Optional | Default value | Description                                       |
+| --------- | ----------- | -------- | ------------- | ------------------------------------------------- |
+| element   | HTMLElement | false    |               | The HTML element you want to check for visibility |
+
+**Example**
+
+```typescript
+import { isVisible } from '@qntm-code/utils';
+
+const visible: boolean = isVisible(document.getElementById('my-element'));
 ```
