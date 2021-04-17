@@ -1,7 +1,7 @@
 import { getPositionedParent } from '../../src';
 import { createElement } from '../test-helpers/createElement.spec';
 
-describe(`getPositionedParent`, () => {
+describe('getPositionedParent', () => {
   it('should return the first position relative parent (no nesting)', () => {
     const element = createElement('div', { position: 'absolute' });
     const parent = createElement('div', { position: 'relative' });
