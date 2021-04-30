@@ -1,6 +1,6 @@
 {
   "name": "@qntm-code/utils",
-  "version": "1.1.0",
+  "version": "2.1.0",
   "author": "Ben Meyrick<bameyrick@gmail.com>",
   "description": "A collection of useful utility functions with associated TypeScript types. All functions have been unit tested.",
   "keywords": [
