@@ -15,6 +15,7 @@ A collection of useful utility functions with associated TypeScript types.
     - [Generic Helpers](#generic-helpers)
       - [isNullOrUndefined](#isnullorundefined)
       - [isEmpty](#isempty)
+      - [isNumber](#isnumber)
       - [isEqual](#isequal)
         - [EqualityType](#equalitytype)
         - [IndividualEqualityType](#individualequalitytype)
@@ -133,6 +134,32 @@ import { isEmpty } from '@qntm-code/utils';
 const value: string = getName();
 
 if (isEmpty(value)) {
+  // Do something
+}
+```
+
+---
+
+#### isNumber
+
+Detects whether a given value is a number
+
+Method arguments:
+
+| Parameter | Type | Optional | Description        |
+| --------- | ---- | -------- | ------------------ |
+| value     | any  | false    | The value to check |
+
+Return type: `boolean`
+
+**Example**
+
+```typescript
+import { isNumber } from '@qntm-code/utils';
+
+const value = getTheValue();
+
+if (isNumber(value)) {
   // Do something
 }
 ```
