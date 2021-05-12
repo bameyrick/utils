@@ -19,6 +19,7 @@ A collection of useful utility functions with associated TypeScript types.
       - [isEqual](#isequal)
         - [EqualityType](#equalitytype)
         - [IndividualEqualityType](#individualequalitytype)
+      - [randomNumberBetweenRange](#randomnumberbetweenrange)
     - [Async helpers](#async-helpers)
       - [asyncForEach](#asyncforeach)
       - [delay](#delay)
@@ -216,6 +217,29 @@ The equality types allowed are:
 - `Date`
 - `object`
 - `Function`
+
+---
+
+#### randomNumberBetweenRange
+
+Returns a random whole number between a given range
+
+Method arguments:
+
+| Parameter | Type   | Optional | Description                                |
+| --------- | ------ | -------- | ------------------------------------------ |
+| min       | number | false    | The minimum number the function can return |
+| max       | number | false    | The maximum number the function can return |
+
+Return type: `number`
+
+**Example**
+
+```typescript
+import { randomNumberBetweenRange } from '@qntm-code/utils';
+
+const random = randomNumberBetweenRange(2, 10);
+```
 
 ---
 

@@ -8,6 +8,8 @@
     "isNullOrUndefined",
     "isEmpty",
     "isEqual",
+    "isNumber",
+    "randomNumberBetweenRange",
     "asyncForEach",
     "delay",
     "convertTimeUnits",
@@ -57,7 +59,11 @@
     "today",
     "getScrollParent",
     "scroll",
-    "parent"
+    "parent",
+    "random",
+    "number",
+    "between",
+    "range"
   ],
   "repository": {
     "type": "git",
@@ -103,6 +109,7 @@
     "karma-typescript": "^5.1.0",
     "karma-typescript-es6-transform": "^5.5.1",
     "lint-staged": "^10.3.0",
+    "number-array-from-range": "^1.0.1",
     "prettier": "^2.1.1",
     "puppeteer": "^5.2.1",
     "tslint": "^6.1.3",
