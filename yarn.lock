@@ -842,9 +842,9 @@
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
 "@types/jasmine@^3.5.14":
-  version "3.7.2"
-  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.7.2.tgz#f83ca1936f8cf5d3375506b481f52f8903c2df21"
-  integrity sha512-w5Zc9pSwxlr1ne+froeIceYbrh0a2Us+0kTaX6JA0N7nPh+yv1zN10LyDMKwnT0x2AbIDGlrD1cv6plVjfCcZw==
+  version "3.7.5"
+  resolved "https://registry.yarnpkg.com/@types/jasmine/-/jasmine-3.7.5.tgz#c0b2c3e4cf19f7f2db6ddf27d27552f6de1a264d"
+  integrity sha512-BVi20hbOxJvPGOgK7Hpsr4Hc9O4BUxq4liNl8i/8spbPsBJgRp6KhHDORFaMIdLVGdjiakrDQWRQEaQoUe3LIw==
 
 "@types/node@*":
   version "14.14.10"
@@ -3823,9 +3823,9 @@ type-is@~1.6.17:
     mime-types "~2.1.24"
 
 typescript@^4.0.2:
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.2.4.tgz#8610b59747de028fda898a8aef0e103f156d0961"
-  integrity sha512-V+evlYHZnQkaz8TRBuxTA92yZBPotr5H+WhQ7bD3hZUndx5tGOa1fuCgeSjxAzM1RiN5IzvadIXTVefuuwZCRg==
+  version "4.3.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.3.2.tgz#399ab18aac45802d6f2498de5054fcbbe716a805"
+  integrity sha512-zZ4hShnmnoVnAHpVHWpTcxdv7dWP60S2FsydQLV8V5PbS3FifjWFFRiHSWpDJahly88PRyV5teTSLoq4eG7mKw==
 
 ua-parser-js@0.7.22:
   version "0.7.22"

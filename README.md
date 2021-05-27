@@ -16,6 +16,7 @@ A collection of useful utility functions with associated TypeScript types.
       - [isNullOrUndefined](#isnullorundefined)
       - [isEmpty](#isempty)
       - [isNumber](#isnumber)
+      - [isString](#isstring)
       - [isEqual](#isequal)
         - [EqualityType](#equalitytype)
         - [IndividualEqualityType](#individualequalitytype)
@@ -161,6 +162,32 @@ import { isNumber } from '@qntm-code/utils';
 const value = getTheValue();
 
 if (isNumber(value)) {
+  // Do something
+}
+```
+
+---
+
+#### isString
+
+Detects whether a given value is a string
+
+Method arguments:
+
+| Parameter | Type | Optional | Description        |
+| --------- | ---- | -------- | ------------------ |
+| value     | any  | false    | The value to check |
+
+Return type: `boolean`
+
+**Example**
+
+```typescript
+import { isString } from '@qntm-code/utils';
+
+const value = getTheValue();
+
+if (isString(value)) {
   // Do something
 }
 ```
