@@ -69,4 +69,11 @@ describe('isEmpty', () => {
 
     expect(isEmpty(value)).toBe(false);
   });
+
+  it('should return false if value is a number', () => {
+    // tslint:disable-next-line: no-any
+    const value: any = 1;
+
+    expect(isEmpty(value)).toBe(false);
+  });
 });
