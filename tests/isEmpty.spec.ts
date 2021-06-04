@@ -44,10 +44,29 @@ describe('isEmpty', () => {
     expect(isEmpty(value)).toBe(true);
   });
 
-  it('should throw an error if the value passed to it is not a string', () => {
-    const value: string[] = [];
-
+  it('should return true if value is an empty array', () => {
     // tslint:disable-next-line: no-any
-    expect(() => isEmpty(value as any)).toThrowError();
+    const value: any[] = [];
+
+    expect(isEmpty(value)).toBe(true);
+  });
+
+  it('should return false if value is not an empty array', () => {
+    // tslint:disable-next-line: no-any
+    const value: any[] = ['a'];
+
+    expect(isEmpty(value)).toBe(false);
+  });
+
+  it('should return true if value is an empty object', () => {
+    const value: object = {};
+
+    expect(isEmpty(value)).toBe(true);
+  });
+
+  it('should return false if value is not an empty object', () => {
+    const value: object = { a: 'a' };
+
+    expect(isEmpty(value)).toBe(false);
   });
 });
