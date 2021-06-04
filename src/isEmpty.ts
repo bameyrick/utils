@@ -9,8 +9,18 @@ namespace Empty {
 
 type Empty = Empty.Array | Empty.Object | Empty.String;
 
-// tslint:disable-next-line: no-any
-type EmptyResult<T> = T extends string ? Empty.String : T extends any[] ? Empty.Array : T extends object ? Empty.Object : never;
+type EmptyResult<T> = T extends string
+  ? Empty.String
+  : // tslint:disable-next-line: no-any
+  T extends any[]
+  ? Empty.Array
+  : T extends object
+  ? Empty.Object
+  : T extends null
+  ? null
+  : T extends undefined
+  ? undefined
+  : never;
 
 /**
  * Checks if a given value is empty
