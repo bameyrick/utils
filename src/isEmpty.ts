@@ -8,5 +8,9 @@ export function isEmpty(value: string | null | undefined): boolean {
     return true;
   }
 
-  return !value.trim();
+  if (typeof value === 'string') {
+    return !value.trim();
+  } else {
+    throw new Error('The value passed to isEmpty is not a string');
+  }
 }

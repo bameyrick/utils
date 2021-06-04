@@ -43,4 +43,11 @@ describe('isEmpty', () => {
 
     expect(isEmpty(value)).toBe(true);
   });
+
+  it('should throw an error if the value passed to it is not a string', () => {
+    const value: string[] = [];
+
+    // tslint:disable-next-line: no-any
+    expect(() => isEmpty(value as any)).toThrowError();
+  });
 });
