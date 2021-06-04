@@ -16,7 +16,7 @@ type EmptyResult<T> = T extends string ? Empty.String : T extends any[] ? Empty.
  * Checks if a given value is empty
  */
 // tslint:disable-next-line: no-any
-export function isEmpty<T extends string | any[] | object>(value: T | Empty): value is EmptyResult<T> {
+export function isEmpty<T extends string | any[] | object>(value: T | Empty | null | undefined): value is EmptyResult<T> {
   if (isNullOrUndefined(value)) {
     return true;
   }
