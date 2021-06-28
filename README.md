@@ -60,11 +60,13 @@ A collection of useful utility functions with associated TypeScript types.
       - [setStartOfYear](#setstartofyear)
     - [DOM helpers](#dom-helpers)
       - [getAncestors](#getancestors)
+      - [getNonInlineParent](#getnoninlineparent)
       - [getPositionedParent](#getpositionedparent)
       - [getScrollParent](#getscrollparent)
-    - [isVisible](#isvisible)
+      - [isDisplayInline](#isdisplayinline)
+      - [isVisible](#isvisible)
     - [Types](#types)
-    - [Dictionary](#dictionary)
+      - [Dictionary](#dictionary)
 
 ## Install
 
@@ -1075,6 +1077,22 @@ import { getAncestors } from '@qntm-code/utils';
 const ancestors: HTMLElement[] = getAncestors(document.getElementById('my-element'));
 ```
 
+#### getNonInlineParent
+
+Gets the first parent of an element that isn't `display: inline`. Returns null if no matching element
+
+| Parameter | Type        | Optional | Default value | Description                                                   |
+| --------- | ----------- | -------- | ------------- | ------------------------------------------------------------- |
+| element   | HTMLElement | false    |               | The HTML element you want to non `display: inline` parent for |
+
+**Example**
+
+```typescript
+import { getNonInlineParent } from '@qntm-code/utils';
+
+const nonInlineParent: HTMLElement | null = getNonInlineParent(document.getElementById('my-element'));
+```
+
 #### getPositionedParent
 
 Gets the first parent element with a relative or absolute position
@@ -1109,7 +1127,23 @@ import { getScrollParent } from '@qntm-code/utils';
 const scrollParent: HTMLElement | null = getScrollParent(document.getElementById('my-element'));
 ```
 
-### isVisible
+#### isDisplayInline
+
+Return whether an element is `display: inline`
+
+| Parameter | Type        | Optional | Default value | Description                                              |
+| --------- | ----------- | -------- | ------------- | -------------------------------------------------------- |
+| element   | HTMLElement | false    |               | The HTML element you want to check for `display: inline` |
+
+**Example**
+
+```typescript
+import { isDisplayInline } from '@qntm-code/utils';
+
+const inline: boolean = isDisplayInline(document.getElementById('my-element'));
+```
+
+#### isVisible
 
 Return whether an element is practically visible, considering things like dimensions of 0, opacity, `visibility: hidden` and `overflow: hidden`, and whether the item is scrolled off screen
 
@@ -1129,7 +1163,7 @@ const visible: boolean = isVisible(document.getElementById('my-element'));
 
 ---
 
-### Dictionary
+#### Dictionary
 
 Reusable dictionary type for typed maps
 
