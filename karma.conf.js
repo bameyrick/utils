@@ -16,18 +16,13 @@ module.exports = function (config) {
     plugins: [
       require('karma-jasmine'),
       require('karma-chrome-launcher'),
-      require('karma-coverage-istanbul-reporter'),
+      require('karma-spec-reporter'),
+      require('karma-coverage'),
       require('karma-typescript'),
     ],
 
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
-    },
-
-    coverageIstanbulReporter: {
-      reports: ['text', 'lcovonly'],
-      fixWebpackSourcePaths: true,
-      dir: 'coverage',
     },
 
     karmaTypescriptConfig: {
@@ -36,7 +31,12 @@ module.exports = function (config) {
       },
     },
 
-    reporters: ['progress', 'coverage-istanbul'],
+    coverageReporter: {
+      dir: '../../coverage',
+      reporters: [{ type: 'lcovonly' }, { type: 'text' }],
+    },
+
+    reporters: ['spec', 'coverage'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,

@@ -22,17 +22,25 @@ export function isEqual(a: EqualityType, b: EqualityType): boolean {
   }
 
   if (!isNullOrUndefined(a) && !isNullOrUndefined(b) && typeof a === typeof b) {
-    if (Array.isArray(a)) {
-      return (
-        a.length === (b as IndividualEqualityType[]).length &&
-        !a.some((value, index) => !isEqual(value, (b as IndividualEqualityType[])[index]))
-      );
-    } else if (a instanceof Date) {
-      return a.getTime() === (b as Date).getTime();
-    } else if (typeof a === 'object') {
-      const keysA = Object.keys(a as object).sort();
-      const keysB = Object.keys(b as object).sort();
-      if (isEqual(keysA, keysB) && !Object.entries(a as object).some(([key, value]) => !isEqual((b as object)[key], value))) {
+    if (Array.isArray(a) && Array.isArray(b)) {
+      return a.length === b.length && !a.some((value, index) => !isEqual(value, b[index]));
+    }
+
+    const aIsDate: boolean = a instanceof Date;
+    const bIsDate: boolean = b instanceof Date;
+
+    if (aIsDate && bIsDate) {
+      return (a as Date).getTime() === (b as Date).getTime();
+    }
+
+    const aIsNull: boolean = a === null;
+    const bIsNull: boolean = b === null;
+
+    if (typeof a === 'object' && !aIsNull && !bIsNull && !aIsDate && !bIsDate) {
+      const keysA = Object.keys(a).sort();
+      const keysB = Object.keys(b).sort();
+
+      if (isEqual(keysA, keysB) && !Object.entries(a).some(([key, value]) => !isEqual(b[key], value))) {
         return true;
       }
     }
