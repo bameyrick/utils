@@ -32,7 +32,7 @@ module.exports = function (config) {
     },
 
     coverageReporter: {
-      dir: '../../coverage',
+      dir: './coverage',
       reporters: [{ type: 'lcovonly' }, { type: 'text' }],
     },
 
