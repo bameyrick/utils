@@ -29,4 +29,22 @@ describe('randomNumberBetweenRange', () => {
 
     expect(possibleValues.includes(value)).toBe(true);
   });
+
+  it('should be able to return the min or max number', () => {
+    const min = 0;
+    const max = 1;
+    const maxAttempts = 10000;
+    let attempt = 0;
+
+    const results = [];
+
+    while ((!results.includes(min) || !results.includes(max)) && attempt < maxAttempts) {
+      results.push(randomNumberBetweenRange(min, max));
+
+      attempt++;
+    }
+
+    expect(results.includes(min)).toBe(true);
+    expect(results.includes(max)).toBe(true);
+  });
 });
