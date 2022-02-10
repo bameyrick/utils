@@ -3,7 +3,7 @@
 A collection of useful utility functions with associated TypeScript types.
 
 [![GitHub release](https://img.shields.io/github/release/bameyrick/utils.svg)](https://github.com/bameyrick/utils/releases)
-[![Build Status](https://travis-ci.com/bameyrick/utils.svg?branch=master)](https://travis-ci.com/bameyrick/utils)
+[![Build Status](https://travis-ci.com/bameyrick/utils.svg?branch=master)](https://travis-ci.com/github/bameyrick/utils)
 [![codecov](https://codecov.io/gh/bameyrick/utils/branch/master/graph/badge.svg)](https://codecov.io/gh/bameyrick/utils)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/2bbbe04a25494ebf900bb71f9d6af98f)](https://www.codacy.com/manual/bameyrick/utils)
 
@@ -15,6 +15,7 @@ A collection of useful utility functions with associated TypeScript types.
     - [Generic Helpers](#generic-helpers)
       - [isNullOrUndefined](#isnullorundefined)
       - [clone](#clone)
+      - [difference](#difference)
       - [isDate](#isdate)
       - [isEmpty](#isempty)
       - [isNumber](#isnumber)
@@ -140,6 +141,30 @@ import { clone } from '@qntm-code/utils';
 
 const value: number[] = [1, 2, 3];
 const clonedValues = clone(value);
+```
+
+---
+
+#### difference
+
+Creates an array of array values not included in the other given array using isEqual for equality comparisons. The order and references of result values are determined by the first array.
+
+Method arguments:
+
+| Parameter | Type       | Optional | Description                |
+| --------- | ---------- | -------- | -------------------------- |
+| array     | Array<any> | false    | The array to check         |
+| values    | Array<any> | false    | The array to check against |
+
+Return type: `Array<any>`
+
+**Example**
+
+```typescript
+import { difference } from '@qntm-code/utils';
+
+const diff = difference([1, 2], [2, 3]);
+// returns [1]
 ```
 
 ---

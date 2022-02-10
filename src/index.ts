@@ -1,4 +1,5 @@
 export { clone } from './clone';
+export { difference } from './difference';
 export { isEmpty } from './isEmpty';
 export { isEqual, EqualityType, IndividualEqualityType } from './isEqual';
 export { isNullOrUndefined } from './isNullOrUndefined';
