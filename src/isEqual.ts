@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from '.';
+import { isDate, isNullOrUndefined } from '.';
 
 // tslint:disable-next-line: ban-types
 export type IndividualEqualityType = null | undefined | boolean | number | string | Date | object | Function;
@@ -26,8 +26,8 @@ export function isEqual(a: EqualityType, b: EqualityType): boolean {
       return a.length === b.length && !a.some((value, index) => !isEqual(value, b[index]));
     }
 
-    const aIsDate: boolean = a instanceof Date;
-    const bIsDate: boolean = b instanceof Date;
+    const aIsDate: boolean = isDate(a);
+    const bIsDate: boolean = isDate(b);
 
     if (aIsDate && bIsDate) {
       return (a as Date).getTime() === (b as Date).getTime();

@@ -36,7 +36,7 @@ describe('randomNumberBetweenRange', () => {
     const maxAttempts = 10000;
     let attempt = 0;
 
-    const results = [];
+    const results: any[] = [];
 
     while ((!results.includes(min) || !results.includes(max)) && attempt < maxAttempts) {
       results.push(randomNumberBetweenRange(min, max));
