@@ -14,8 +14,11 @@ A collection of useful utility functions with associated TypeScript types.
   - [Documentation](#documentation)
     - [Generic Helpers](#generic-helpers)
       - [isNullOrUndefined](#isnullorundefined)
+      - [clone](#clone)
+      - [isDate](#isdate)
       - [isEmpty](#isempty)
       - [isNumber](#isnumber)
+      - [isObject](#isobject)
       - [isString](#isstring)
       - [isEqual](#isequal)
         - [EqualityType](#equalitytype)
@@ -118,6 +121,55 @@ if (isNullOrUndefined(value)) {
 
 ---
 
+#### clone
+
+Deeply clones any provided array, object, or date.
+
+Method arguments:
+
+| Parameter | Type | Optional | Description        |
+| --------- | ---- | -------- | ------------------ |
+| value     | any  | false    | The value to clone |
+
+Return type: `T`
+
+**Example**
+
+```typescript
+import { clone } from '@qntm-code/utils';
+
+const value: number[] = [1, 2, 3];
+const clonedValues = clone(value);
+```
+
+---
+
+#### isDate
+
+Checks if a given value is a Date object.
+
+Method arguments:
+
+| Parameter | Type | Optional | Description        |
+| --------- | ---- | -------- | ------------------ |
+| value     | any  | false    | The value to check |
+
+Return type: `boolean`
+
+**Example**
+
+```typescript
+import { isDate } from '@qntm-code/utils';
+
+const value = getDate();
+
+if (isDate(value)) {
+  // Do something
+}
+```
+
+---
+
 #### isEmpty
 
 Checks if a given value is empty.
@@ -164,6 +216,32 @@ import { isNumber } from '@qntm-code/utils';
 const value = getTheValue();
 
 if (isNumber(value)) {
+  // Do something
+}
+```
+
+---
+
+#### isObject
+
+Detects whether a given value is an object
+
+Method arguments:
+
+| Parameter | Type | Optional | Description        |
+| --------- | ---- | -------- | ------------------ |
+| value     | any  | false    | The value to check |
+
+Return type: `boolean`
+
+**Example**
+
+```typescript
+import { isObject } from '@qntm-code/utils';
+
+const value = getTheValue();
+
+if (isObject(value)) {
   // Do something
 }
 ```

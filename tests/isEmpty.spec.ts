@@ -29,6 +29,7 @@ describe('isEmpty', () => {
     // tslint:disable-next-line: prefer-const
     let value: string;
 
+    // @ts-ignore
     expect(isEmpty(value)).toBe(true);
   });
 
@@ -45,14 +46,12 @@ describe('isEmpty', () => {
   });
 
   it('should return true if value is an empty array', () => {
-    // tslint:disable-next-line: no-any
     const value: any[] = [];
 
     expect(isEmpty(value)).toBe(true);
   });
 
   it('should return false if value is not an empty array', () => {
-    // tslint:disable-next-line: no-any
     const value: any[] = ['a'];
 
     expect(isEmpty(value)).toBe(false);
@@ -71,7 +70,6 @@ describe('isEmpty', () => {
   });
 
   it('should return false if value is a number', () => {
-    // tslint:disable-next-line: no-any
     const value: any = 1;
 
     expect(isEmpty(value)).toBe(false);

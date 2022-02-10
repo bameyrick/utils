@@ -9,19 +9,11 @@ namespace Empty {
 
 type Empty = Empty.Array | Empty.Object | Empty.String;
 
-type EmptyResult<T> = T extends string
-  ? Empty.String
-  : // tslint:disable-next-line: no-any
-  T extends any[]
-  ? Empty.Array
-  : T extends object
-  ? Empty.Object
-  : never;
+type EmptyResult<T> = T extends string ? Empty.String : T extends any[] ? Empty.Array : T extends object ? Empty.Object : never;
 
 /**
  * Checks if a given value is empty
  */
-// tslint:disable-next-line: no-any
 export function isEmpty<T extends string | any[] | object | null | undefined>(
   value: T | Empty | null | undefined
 ): value is EmptyResult<T> | null | undefined {
@@ -31,7 +23,6 @@ export function isEmpty<T extends string | any[] | object | null | undefined>(
 
   switch (typeof value) {
     case 'object': {
-      // tslint:disable-next-line: no-any
       return !Object.keys(value as any).length;
     }
     case 'string': {
