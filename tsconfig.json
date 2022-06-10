@@ -7,8 +7,8 @@
     "noImplicitThis": true,
     "strictNullChecks": true,
     "declaration": true,
-    "target": "es2020",
-    "module": "commonjs",
+    "module": "esnext",
+    "target": "esnext",
     "lib": ["DOM", "esnext"]
   },
   "exclude": ["node_modules", "dist/"],

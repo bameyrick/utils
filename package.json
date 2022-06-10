@@ -73,10 +73,17 @@
   "publishConfig": {
     "access": "public"
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/mjs/index.js",
+  "types": "./dist/mjs/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/mjs/index.js",
+      "require": "./dist/cjs/index.js"
+    }
+  },
   "scripts": {
-    "build": " yarn lint && tsc -p tsconfig.json --outDir dist/",
+    "build": "yarn tidy-clean && yarn lint && tsc -p tsconfig.mjs.json && cpy package.mjs.json dist/mjs --rename package.json && tsc -p tsconfig.cjs.json && cpy package.cjs.json dist/cjs --rename package.json",
     "lint": "yarn tidy-clean && yarn tslint --project tsconfig.lint.json",
     "test": "KARMA_SINGLE_RUN=false karma start ./karma.conf.js",
     "test-single": "yarn tidy-clean && yarn lint && yarn karma start ./karma.conf.js",
@@ -101,6 +108,7 @@
   "devDependencies": {
     "@types/jasmine": "^3.5.14",
     "codecov": "^3.7.2",
+    "cpy-cli": "^4.1.0",
     "husky": "^7.0.0",
     "jasmine-core": "^3.6.0",
     "karma": "^6.3.14",
