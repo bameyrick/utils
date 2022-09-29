@@ -84,7 +84,6 @@ describe('getScrollParent', () => {
   });
 });
 
-// tslint:disable-next-line: completed-docs
 function createScrollElements(x: boolean, y: boolean, noScroll?: boolean): { parent: HTMLElement; child: HTMLElement } {
   const child = document.createElement('div');
   const parent = document.createElement('div');

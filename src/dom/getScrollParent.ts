@@ -5,7 +5,7 @@ const visibilityRegex = new RegExp('^(visible|hidden)');
  * @param x: Optional. Whether to check if the element can scroll on the x axis. Default: true
  * @param y: Optional. Whether to check if the element can scroll on the y axis. Default: true
  */
-export function getScrollParent(element: HTMLElement | null, x: boolean = true, y: boolean = true): HTMLElement | null {
+export function getScrollParent(element: HTMLElement | null, x = true, y = true): HTMLElement | null {
   if (!element) {
     return null;
   }

@@ -32,7 +32,7 @@ describe('isObject', () => {
   });
 
   it('should return false if value is an Array', () => {
-    const value = new Array();
+    const value = [];
 
     expect(isObject(value)).toBe(false);
   });

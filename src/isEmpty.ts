@@ -1,6 +1,6 @@
 import { isNullOrUndefined } from '.';
 
-// tslint:disable-next-line: no-namespace
+// eslint-disable-next-line @typescript-eslint/no-namespace
 namespace Empty {
   export type String = '';
   export type Object = Record<string, never>;
@@ -23,7 +23,7 @@ export function isEmpty<T extends string | any[] | object | null | undefined>(
 
   switch (typeof value) {
     case 'object': {
-      return !Object.keys(value as any).length;
+      return !Object.keys(value).length;
     }
     case 'string': {
       return !value.trim();

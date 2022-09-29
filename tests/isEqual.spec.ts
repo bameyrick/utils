@@ -2,7 +2,7 @@ import { isEqual } from '../src';
 
 describe('isEqual', () => {
   describe('types', () => {
-    // tslint:disable-next-line: no-empty
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const types = [undefined, null, true, 1, '', new Date(), {}, Symbol(), () => {}];
 
     it(`Should return true if the types are the same`, () => {
