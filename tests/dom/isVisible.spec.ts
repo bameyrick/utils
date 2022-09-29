@@ -88,8 +88,6 @@ describe('isVisible', () => {
     expect(isVisible(element)).toEqual(false);
   });
 
-  // tslint:disable-next-line:quotemark
-  // eslint-disable-next-line
   it("should return true for an element that's ancestor has a height of 0", () => {
     const ancestor = createElement('div', { position: 'absolute', top: '0', width: '100px', height: '0' });
 
@@ -100,8 +98,6 @@ describe('isVisible', () => {
     expect(isVisible(element)).toEqual(true);
   });
 
-  // tslint:disable-next-line:quotemark
-  // eslint-disable-next-line
   it("should return true for an element that's ancestor has a width of 0", () => {
     const ancestor = createElement('div', { position: 'absolute', top: '0', width: '0', height: '100px' });
 
@@ -112,8 +108,6 @@ describe('isVisible', () => {
     expect(isVisible(element)).toEqual(true);
   });
 
-  // tslint:disable-next-line:quotemark
-  // eslint-disable-next-line
   it("should return false for an element that's ancestor has a height of 0 and overflow of hidden", () => {
     const ancestor = createElement('div', { position: 'absolute', top: '0', width: '100px', height: '0', overflow: 'hidden' });
 
@@ -124,8 +118,6 @@ describe('isVisible', () => {
     expect(isVisible(element)).toEqual(false);
   });
 
-  // tslint:disable-next-line:quotemark
-  // eslint-disable-next-line
   it("should return false for an element that's ancestor has a width of 0 and overflow of hidden", () => {
     const ancestor = createElement('div', { position: 'absolute', top: '0', width: '0', height: '100px', overflow: 'hidden' });
 
@@ -136,8 +128,6 @@ describe('isVisible', () => {
     expect(isVisible(element)).toEqual(false);
   });
 
-  // tslint:disable-next-line:quotemark
-  // eslint-disable-next-line
   it("should return false for an element that's ancestor has a opacity of 0", () => {
     const ancestor = createElement('div', { position: 'absolute', top: '0', width: '100px', height: '100px', opacity: '0' });
 
@@ -148,8 +138,6 @@ describe('isVisible', () => {
     expect(isVisible(element)).toEqual(false);
   });
 
-  // tslint:disable-next-line:quotemark
-  // eslint-disable-next-line
   it("should return false for an element that's ancestor is display none", () => {
     const ancestor = createElement('div', { position: 'absolute', top: '0', width: '100px', height: '100px', display: 'none' });
 
@@ -160,8 +148,6 @@ describe('isVisible', () => {
     expect(isVisible(element)).toEqual(false);
   });
 
-  // tslint:disable-next-line:quotemark
-  // eslint-disable-next-line
   it("should return false for an element that's ancestor is visibility hidden", () => {
     const ancestor = createElement('div', { position: 'absolute', top: '0', width: '100px', height: '100px', visibility: 'hidden' });
 
@@ -172,8 +158,6 @@ describe('isVisible', () => {
     expect(isVisible(element)).toEqual(false);
   });
 
-  // tslint:disable-next-line:quotemark
-  // eslint-disable-next-line
   it("should return false for an element that's ancestor is positioned off screen (negative)", () => {
     const ancestor = createElement('div', {
       width: '100px',
@@ -190,8 +174,6 @@ describe('isVisible', () => {
     expect(isVisible(element)).toEqual(false);
   });
 
-  // tslint:disable-next-line:quotemark
-  // eslint-disable-next-line
   it("should return false for an element that's ancestor is positioned off screen (positive)", () => {
     const ancestor = createElement('div', {
       width: '100px',
@@ -208,8 +190,6 @@ describe('isVisible', () => {
     expect(isVisible(element)).toEqual(false);
   });
 
-  // tslint:disable-next-line:quotemark
-  // eslint-disable-next-line
   it("should return false for an element that's scrolled off screen (y positive)", () => {
     const viewportDetails = getViewportDetails();
 
@@ -223,8 +203,6 @@ describe('isVisible', () => {
     expect(isVisible(element)).toEqual(false);
   });
 
-  // tslint:disable-next-line:quotemark
-  // eslint-disable-next-line
   it("should return false for an element that's scrolled off screen (y negative)", () => {
     document.documentElement.scrollTo(0, 50);
 
@@ -238,8 +216,6 @@ describe('isVisible', () => {
     expect(isVisible(element)).toEqual(false);
   });
 
-  // tslint:disable-next-line:quotemark
-  // eslint-disable-next-line
   it("should return false for an element that's scrolled off screen (x positive)", () => {
     const viewportDetails = getViewportDetails();
 
@@ -254,8 +230,6 @@ describe('isVisible', () => {
     expect(isVisible(element)).toEqual(false);
   });
 
-  // tslint:disable-next-line:quotemark
-  // eslint-disable-next-line
   it("should return false for an element that's scrolled off screen (x negative)", () => {
     document.documentElement.scrollTo(100, 0);
 

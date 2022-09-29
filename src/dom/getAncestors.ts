@@ -14,7 +14,7 @@ function _getAncestors(element: HTMLElement, result: HTMLElement[] = []): HTMLEl
   const parent: HTMLElement | null = element.parentNode as HTMLElement | null;
 
   if (!isNullOrUndefined(parent) && parent.nodeType === parent.ELEMENT_NODE) {
-    result.push(parent as HTMLElement);
+    result.push(parent);
 
     return _getAncestors(parent, result);
   } else {

@@ -32,7 +32,7 @@ describe('isDate', () => {
   });
 
   it('should return false if value is an Array', () => {
-    const value = new Array();
+    const value = [];
 
     expect(isDate(value)).toBe(false);
   });

@@ -1,7 +1,6 @@
 import { getStartOfWeek, setStartOfWeek } from '../../../src';
 
 describe('getStartOfWeek', () => {
-  // tslint:disable-next-line: max-line-length
   it('milliseconds, seconds, minutes, and hour should be set to 0 and day to first day of week and the result should be a new Object', () => {
     const value = new Date(2020, 8, 3, 15, 31, 22, 123);
 

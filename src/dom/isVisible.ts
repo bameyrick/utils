@@ -32,7 +32,7 @@ export function isVisible(element: HTMLElement): boolean {
 /**
  * Generic internal function for common checks
  */
-function elementVisible(rect: DOMRect, style: CSSStyleDeclaration, skipDimensionsCheck: boolean = false): boolean {
+function elementVisible(rect: DOMRect, style: CSSStyleDeclaration, skipDimensionsCheck = false): boolean {
   if (!skipDimensionsCheck && (rect.width === 0 || rect.height === 0)) {
     return false;
   }

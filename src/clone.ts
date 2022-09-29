@@ -9,6 +9,7 @@ export function clone<T>(value: T): T {
   }
 
   if (Array.isArray(value)) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return value.map(item => clone(item)) as unknown as T;
   }
 

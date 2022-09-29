@@ -32,7 +32,6 @@ describe('isNullOrUndefined', () => {
   });
 
   it('should return true if value is not set', () => {
-    // tslint:disable-next-line: prefer-const
     let value: void;
 
     expect(isNullOrUndefined(value)).toBe(true);
