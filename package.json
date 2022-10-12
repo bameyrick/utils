@@ -74,16 +74,9 @@
     "access": "public"
   },
   "main": "./dist/cjs/index.js",
-  "module": "./dist/mjs/index.js",
-  "types": "./dist/mjs/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/mjs/index.js",
-      "require": "./dist/cjs/index.js"
-    }
-  },
+  "types": "./dist/cjs/index.d.ts",
   "scripts": {
-    "build": "yarn tidy-clean && yarn lint && tsc -p tsconfig.mjs.json && cpy package.mjs.json dist/mjs --rename package.json && tsc -p tsconfig.cjs.json && cpy package.cjs.json dist/cjs --rename package.json",
+    "build": "yarn tidy-clean && yarn lint && tsc -p tsconfig.cjs.json && cpy package.cjs.json dist/cjs --rename package.json",
     "lint": "yarn tidy-clean && eslint {src,tests}/**/* --ext .ts --ext .js",
     "test": "KARMA_SINGLE_RUN=false karma start ./karma.conf.js",
     "test-single": "yarn tidy-clean && yarn lint && yarn karma start ./karma.conf.js",
