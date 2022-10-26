@@ -26,7 +26,10 @@ A collection of useful utility functions with associated TypeScript types.
         - [IndividualEqualityType](#individualequalitytype)
       - [randomNumberBetweenRange](#randomnumberbetweenrange)
     - [Async helpers](#async-helpers)
+      - [asyncEvery](#asyncevery)
+      - [asyncFilter](#asyncfilter)
       - [asyncForEach](#asyncforeach)
+      - [asyncSome](#asyncsome)
       - [delay](#delay)
     - [Date helpers](#date-helpers)
       - [convertTimeUnit](#converttimeunit)
@@ -379,6 +382,90 @@ const random = randomNumberBetweenRange(2, 10);
 
 ---
 
+#### asyncEvery
+
+Allows you to run Array.every() with an async predicate function and await the result.
+
+Method arguments:
+
+| Parameter | Type     | Optional | Description                               |
+| --------- | -------- | -------- | ----------------------------------------- |
+| items     | Array<T> | false    | The items to iterate over                 |
+| predicate | Function | false    | A predicate function to run for each item |
+
+Callback arguments:
+
+| Parameter | Type     | Optional | Description                         |
+| --------- | -------- | -------- | ----------------------------------- |
+| item      | T        | true     | The current item from the loop      |
+| index     | number   | true     | The index of the given in the array |
+| array     | Array<T> | true     | The array provided                  |
+
+Return type:
+
+```typescript
+Promise<boolean>;
+```
+
+**Example**
+
+```typescript
+import { asyncEvery } from '@qntm-code/utils';
+
+async function doAThing(): Promise<void> {
+  // Array of items to iterate over
+  const items: Array<string> = ['a', 'b', 'c'];
+
+  const result = await asyncEvery(items, async item => await someAsynchronousOperation(item));
+
+  functionToRunWhenAllItemsAreProcessed(result);
+}
+```
+
+---
+
+#### asyncFilter
+
+Allows you to run Array.filter() with an async predicate function and await the result.
+
+Method arguments:
+
+| Parameter | Type     | Optional | Description                               |
+| --------- | -------- | -------- | ----------------------------------------- |
+| items     | Array<T> | false    | The items to iterate over                 |
+| predicate | Function | false    | A predicate function to run for each item |
+
+Callback arguments:
+
+| Parameter | Type     | Optional | Description                         |
+| --------- | -------- | -------- | ----------------------------------- |
+| item      | T        | true     | The current item from the loop      |
+| index     | number   | true     | The index of the given in the array |
+| array     | Array<T> | true     | The array provided                  |
+
+Return type:
+
+```typescript
+Promise<T[]>;
+```
+
+**Example**
+
+```typescript
+import { asyncFilter } from '@qntm-code/utils';
+
+async function doAThing(): Promise<void> {
+  // Array of items to iterate over
+  const items: Array<string> = ['a', 'b', 'c'];
+
+  const results = await asyncFilter(items, async item => await someAsynchronousOperation(item));
+
+  functionToRunWhenAllItemsAreProcessed(results);
+}
+```
+
+---
+
 #### asyncForEach
 
 Allows you to iterate over an array asynchronously.
@@ -401,7 +488,7 @@ Callback arguments:
 Return type:
 
 ```typescript
-Promise<void>
+Promise<void>;
 ```
 
 **Example**
@@ -413,11 +500,51 @@ async function doAThing(): Promise<void> {
   // Array of items to iterate over
   const items: Array<string> = ['a', 'b', 'c'];
 
-  await asyncForEach(items, async item => {
-    const result = await someAsynchronousOperation(item);
-  });
+  await asyncForEach(items, async item => await someAsynchronousOperation(item));
 
   functionToRunWhenAllItemsAreProcessed();
+}
+```
+
+---
+
+#### asyncSome
+
+Allows you to run Array.some() with an async predicate function and await the result.
+
+Method arguments:
+
+| Parameter | Type     | Optional | Description                               |
+| --------- | -------- | -------- | ----------------------------------------- |
+| items     | Array<T> | false    | The items to iterate over                 |
+| predicate | Function | false    | A predicate function to run for each item |
+
+Callback arguments:
+
+| Parameter | Type     | Optional | Description                         |
+| --------- | -------- | -------- | ----------------------------------- |
+| item      | T        | true     | The current item from the loop      |
+| index     | number   | true     | The index of the given in the array |
+| array     | Array<T> | true     | The array provided                  |
+
+Return type:
+
+```typescript
+Promise<boolean>;
+```
+
+**Example**
+
+```typescript
+import { asyncSome } from '@qntm-code/utils';
+
+async function doAThing(): Promise<void> {
+  // Array of items to iterate over
+  const items: Array<string> = ['a', 'b', 'c'];
+
+  const result = await asyncSome(items, async item => await someAsynchronousOperation(item));
+
+  functionToRunWhenAllItemsAreProcessed(result);
 }
 ```
 
@@ -436,7 +563,7 @@ Method arguments:
 Return type:
 
 ```typescript
-Promise<void>
+Promise<void>;
 ```
 
 **Example**
