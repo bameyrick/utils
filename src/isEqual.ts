@@ -1,4 +1,5 @@
 import { isDate, isNullOrUndefined, isObject } from '.';
+import { isNaNStrict } from './isNaNStrict';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type IndividualEqualityType = null | undefined | boolean | number | string | Date | object | Function;
@@ -17,7 +18,7 @@ export type EqualityType = IndividualEqualityType | IndividualEqualityType[];
  * The order of the array items must be the same for the arrays to be equal.
  */
 export function isEqual(a: any, b: any): boolean {
-  if (a === b) {
+  if (a === b || (isNaNStrict(a) && isNaNStrict(b))) {
     return true;
   }
 

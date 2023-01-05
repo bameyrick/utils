@@ -18,6 +18,7 @@ A collection of useful utility functions with associated TypeScript types.
       - [difference](#difference)
       - [isDate](#isdate)
       - [isEmpty](#isempty)
+      - [isNaNStrict](#isnanstrict)
       - [isNumber](#isnumber)
       - [isObject](#isobject)
       - [isString](#isstring)
@@ -218,6 +219,32 @@ import { isEmpty } from '@qntm-code/utils';
 const value: string = getName();
 
 if (isEmpty(value)) {
+  // Do something
+}
+```
+
+---
+
+#### isNaNStrict
+
+Detects whether a given value is a `NaN` instance
+
+Method arguments:
+
+| Parameter | Type | Optional | Description        |
+| --------- | ---- | -------- | ------------------ |
+| value     | any  | false    | The value to check |
+
+Return type: `boolean`
+
+**Example**
+
+```typescript
+import { isNaNStrict } from '@qntm-code/utils';
+
+const value = getTheValue();
+
+if (isNaNStrict(value)) {
   // Do something
 }
 ```

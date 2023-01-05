@@ -49,6 +49,29 @@ describe('isEqual', () => {
       });
     });
 
+    describe('NaN and NaN', () => {
+      it('NaN and NaN are equal', () => {
+        const a = NaN;
+        const b = NaN;
+
+        expect(isEqual(a, b)).toBeTrue();
+      });
+
+      it('NaN and "NaN" are not equal', () => {
+        const a = NaN;
+        const b = 'NaN';
+
+        expect(isEqual(a, b)).toBeFalse();
+      });
+
+      it('NaN and undefined are not equal', () => {
+        const a = NaN;
+        const b = undefined;
+
+        expect(isEqual(a, b)).toBeFalse();
+      });
+    });
+
     describe('undefined and undefined', () => {
       it('undefined and undefined are equal', () => {
         const a = undefined;
