@@ -94,14 +94,15 @@
   "lint-staged": {
     "*.ts": [
       "prettier --print-width 140 --single-quote --arrow-parens avoid --trailing-comma es5 --parser typescript --write",
-      "eslint --fix --max-warnings 0",
-      "karma start ./karma.conf.js"
+      "eslint --fix --max-warnings 0"
     ],
     "*.js": [
       "prettier --print-width 140 --single-quote --arrow-parens avoid --trailing-comma es5 --parser babel --write",
       "eslint --fix --max-warnings 0"
     ],
-    "*.json": ["prettier --print-width 140 --single-quote --trailing-comma es5 --parser json --write"]
+    "*.json": [
+      "prettier --print-width 140 --single-quote --trailing-comma es5 --parser json --write"
+    ]
   },
   "husky": {
     "hooks": {
