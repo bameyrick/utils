@@ -51,6 +51,10 @@ export function isEqual(a: any, b: any): boolean {
       return a.valueOf() === b.valueOf();
     }
 
+    if (a.toString !== Object.prototype.toString) {
+      return a.toString() === b.toString();
+    }
+
     const keysA = Object.keys(a as object);
     const keysB = Object.keys(b as object);
 
