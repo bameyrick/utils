@@ -9,7 +9,7 @@ export type EqualityType = IndividualEqualityType | IndividualEqualityType[];
 /**
  * Performs a deep comparison between two values to determine if they are equivalent.
  *
- * **Note:** This method supports comparing nulls, undefineds, booleans, numbers, strings, Dates, objects, Functions, Arrays, and RegExs.
+ * **Note:** This method supports comparing nulls, undefineds, booleans, numbers, strings, Dates, objects, Functions, Arrays, RegExs, Maps, Sets, and ArrayBuffers.
  *
  * Object objects are compared by their own, not inherited, enumerable properties.
  *
@@ -43,6 +43,59 @@ export function isEqual(a: any, b: any): boolean {
       return true;
     }
 
+    if (a instanceof Map && b instanceof Map) {
+      if (a.size !== b.size) {
+        return false;
+      }
+
+      const entries = a.entries();
+
+      for (const i of entries) {
+        if (!b.has(i[0])) {
+          return false;
+        }
+      }
+
+      for (const i of entries) {
+        if (!isEqual(i[1], b.get(i[0]))) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    if (a instanceof Set && b instanceof Set) {
+      if (a.size !== b.size) {
+        return false;
+      }
+
+      for (const i of a.entries()) {
+        if (!b.has(i[0])) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
+    if (ArrayBuffer.isView(a) && ArrayBuffer.isView(b)) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const length: number = (a as any).length;
+
+      if (length !== (b as any).length) {
+        return false;
+      }
+
+      for (let i = 0; i < length; i++) {
+        if (a[i] !== b[i]) {
+          return false;
+        }
+      }
+
+      return true;
+    }
+
     if (a.constructor === RegExp) {
       return a.source === (b as RegExp).source && a.flags === (b as RegExp).flags;
     }
@@ -57,7 +110,6 @@ export function isEqual(a: any, b: any): boolean {
 
     const keysA = Object.keys(a as object);
     const keysB = Object.keys(b as object);
-
     const keysALength = keysA.length;
 
     if (keysALength !== keysB.length) {
