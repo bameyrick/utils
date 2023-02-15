@@ -1,5 +1,5 @@
-import { isDate, isNullOrUndefined, isObject } from '.';
-import { isNaNStrict } from './isNaNStrict';
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type IndividualEqualityType = null | undefined | boolean | number | string | Date | object | Function;
@@ -9,7 +9,7 @@ export type EqualityType = IndividualEqualityType | IndividualEqualityType[];
 /**
  * Performs a deep comparison between two values to determine if they are equivalent.
  *
- * **Note:** This method supports comparing nulls, undefineds, booleans, numbers, strings, Dates, objects, Functions, and Arrays.
+ * **Note:** This method supports comparing nulls, undefineds, booleans, numbers, strings, Dates, objects, Functions, Arrays, and RegExs.
  *
  * Object objects are compared by their own, not inherited, enumerable properties.
  *
@@ -18,37 +18,58 @@ export type EqualityType = IndividualEqualityType | IndividualEqualityType[];
  * The order of the array items must be the same for the arrays to be equal.
  */
 export function isEqual(a: any, b: any): boolean {
-  if (a === b || (isNaNStrict(a) && isNaNStrict(b))) {
+  if (a === b) {
     return true;
   }
 
-  if (!isNullOrUndefined(a) && !isNullOrUndefined(b) && typeof a === typeof b) {
-    if (Array.isArray(a) && Array.isArray(b)) {
-      return a.length === b.length && !a.some((value, index) => !isEqual(value as EqualityType, (b as EqualityType[])[index]));
+  if (a && b && typeof a === 'object' && typeof b === 'object') {
+    if (a.constructor !== b.constructor) {
+      return false;
     }
 
-    const aIsDate: boolean = isDate(a);
-    const bIsDate: boolean = isDate(b);
+    if (Array.isArray(a)) {
+      const aLength = a.length;
 
-    if (aIsDate && bIsDate) {
-      return (a as Date).getTime() === (b as Date).getTime();
+      if (aLength !== b.length) {
+        return false;
+      }
+
+      for (let i = 0; i < aLength; i++) {
+        if (!isEqual(a[i], b[i])) {
+          return false;
+        }
+      }
+
+      return true;
     }
 
-    const aIsNull: boolean = a === null;
-    const bIsNull: boolean = b === null;
+    if (a.constructor === RegExp) {
+      return a.source === (b as RegExp).source && a.flags === (b as RegExp).flags;
+    }
 
-    if (isObject(a) && isObject(b) && !aIsNull && !bIsNull && !aIsDate && !bIsDate) {
-      const keysA = Object.keys(a).sort();
-      const keysB = Object.keys(b).sort();
+    if (a.valueOf !== Object.prototype.valueOf) {
+      return a.valueOf() === b.valueOf();
+    }
 
-      if (
-        isEqual(keysA, keysB) &&
-        !Object.entries(a).some(([key, value]) => !isEqual((b as Record<string, EqualityType>)[key], value as EqualityType))
-      ) {
-        return true;
+    const keysA = Object.keys(a as object);
+    const keysB = Object.keys(b as object);
+
+    const keysALength = keysA.length;
+
+    if (keysALength !== keysB.length) {
+      return false;
+    }
+
+    for (let i = 0; i < keysALength; i++) {
+      const key = keysA[i];
+
+      if (!isEqual(a[key], b[key])) {
+        return false;
       }
     }
+
+    return true;
   }
 
-  return false;
+  return a !== a && b !== b;
 }
