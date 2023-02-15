@@ -23,6 +23,7 @@ A collection of useful utility functions with associated TypeScript types.
       - [isObject](#isobject)
       - [isString](#isstring)
       - [isEqual](#isequal)
+        - [Performance comparison](#performance-comparison)
         - [EqualityType](#equalitytype)
         - [IndividualEqualityType](#individualequalitytype)
       - [randomNumberBetweenRange](#randomnumberbetweenrange)
@@ -362,6 +363,22 @@ if (isEqual(a, b)) {
   // Do a thing
 }
 ```
+
+##### Performance comparison
+
+The following benchmarks were run on a 2023 Macbook Pro with a M2 Pro chip and 32GB of RAM.
+
+| Package                  | Operations per second |
+| ------------------------ | --------------------- |
+| @qntm-code/utils.isEqual | 418735                |
+| fast-deep-equal          | 389691                |
+| underscore.isEqual       | 158949                |
+| util.isDeepStrictEqual   | 93527                 |
+| lodash.isEqual           | 79419                 |
+| ramda.equals             | 27322                 |
+| assert.deepStrictEqual   | 425                   |
+
+To run the benchmarks yourself, clone the repo, install the dependencies and run `yarn benchmark`.
 
 ##### EqualityType
 

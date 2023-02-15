@@ -1,7 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { deepStrictEqual } from 'assert';
 import { Suite } from 'benchmark';
+import * as fastDeepEqual from 'fast-deep-equal';
+import * as lodash from 'lodash';
+import * as markdownTable from 'markdown-table';
+import * as ramda from 'ramda';
+import * as _ from 'underscore';
+import { isDeepStrictEqual } from 'util';
 import { isEqual } from './src';
 
-const suite = new Suite('isEqual', { minSamples: 200 });
+const suite = new Suite();
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 function func1() {}
@@ -403,15 +414,49 @@ const isEqualTests: Array<{ description: string; tests: Array<{ description: str
   },
 ];
 
-suite.add('isEqual', () => {
-  for (const testSuite of isEqualTests) {
-    for (const test of testSuite.tests) {
-      if (test.description != 'pseudo array and equivalent array are not equal') {
-        isEqual(test.value1, test.value2);
+const isEqualPackages: Record<string, any> = {
+  '@qntm-code/utils.isEqual': isEqual,
+  'fast-deep-equal': fastDeepEqual,
+  'underscore.isEqual': _.isEqual,
+  'lodash.isEqual': lodash.isEqual,
+  'ramda.equals': ramda.equals,
+  'util.isDeepStrictEqual': isDeepStrictEqual,
+  'assert.deepStrictEqual': (a, b) => {
+    try {
+      deepStrictEqual(a, b);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  },
+};
+
+for (const packageName in isEqualPackages) {
+  const func = isEqualPackages[packageName];
+
+  suite.add(packageName, () => {
+    for (const testSuite of isEqualTests) {
+      for (const test of testSuite.tests) {
+        if (test.description != 'pseudo array and equivalent array are not equal') {
+          func(test.value1, test.value2);
+        }
       }
     }
-  }
-});
+  });
+}
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-suite.on('cycle', event => console.log(String(event.target))).run({ async: true });
+const results: Record<string, number> = {};
+
+suite
+  .on('cycle', event => (results[event.target.name] = event.target.hz))
+  .on('complete', () => {
+    console.log(
+      markdownTable([
+        ['Package', 'Operations per second'],
+        ...Object.entries(results)
+          .sort((a, b) => b[1] - a[1])
+          .map(([name, hz]) => [name, hz.toFixed(0).toString()]),
+      ])
+    );
+  })
+  .run({ async: true });
