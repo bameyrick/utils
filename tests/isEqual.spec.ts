@@ -205,14 +205,14 @@ describe('isEqual', () => {
       expect(isEqual(a, b)).toBeTrue();
     });
 
-    it('matching arrays in width different order are not equal', () => {
+    it('matching arrays with different order are not equal', () => {
       const a = [1, 'a', { key: 'value' }];
       const b = [1, { key: 'value' }, 'a'];
 
       expect(isEqual(a, b)).toBeFalse();
     });
 
-    it('non matching arrays in width different order are not equal', () => {
+    it('non matching arrays with different order are not equal', () => {
       const a = [1, 'a', { key: 'value' }];
       const b = [4, 5, 6];
 
@@ -273,6 +273,106 @@ describe('isEqual', () => {
       const a = { a: 'yes', b: 0, c: [1, 'a'] };
       const b = { a: 'no', b: 1 };
 
+      expect(isEqual(a, b)).toBeFalse();
+    });
+
+    it('matching big object', () => {
+      const a = {
+        prop1: 'value1',
+        prop2: 'value2',
+        prop3: 'value3',
+        prop4: {
+          subProp1: 'sub value1',
+          subProp2: {
+            subSubProp1: 'sub sub value1',
+            subSubProp2: [1, 2, { prop2: 1, prop: 2 }, 4, 5],
+          },
+        },
+        prop5: 1000,
+        prop6: new Date(2016, 2, 10),
+      };
+
+      const b = {
+        prop5: 1000,
+        prop3: 'value3',
+        prop1: 'value1',
+        prop2: 'value2',
+        prop6: new Date('2016/03/10'),
+        prop4: {
+          subProp2: {
+            subSubProp1: 'sub sub value1',
+            subSubProp2: [1, 2, { prop2: 1, prop: 2 }, 4, 5],
+          },
+          subProp1: 'sub value1',
+        },
+      };
+
+      expect(isEqual(a, b)).toBeTrue();
+    });
+
+    it('non matching big object', () => {
+      const a = {
+        prop1: 'value1',
+        prop2: 'value2',
+        prop3: 'value3',
+        prop4: {
+          subProp1: 'sub value1',
+          subProp2: {
+            subSubProp1: 'sub sub value',
+            subSubProp2: [1, 2, { prop2: 1, prop: 2 }, 4, 5],
+          },
+        },
+        prop5: 1000,
+        prop6: new Date(2016, 2, 10),
+      };
+
+      const b = {
+        prop5: 1000,
+        prop3: 'value3',
+        prop1: 'value1',
+        prop2: 'value2',
+        prop6: new Date('2016/03/10'),
+        prop4: {
+          subProp2: {
+            subSubProp1: 'sub sub value1',
+            subSubProp2: [1, 2, { prop2: 1, prop: 2 }, 4, 5],
+          },
+          subProp1: 'sub value1',
+        },
+      };
+
+      expect(isEqual(a, b)).toBeFalse();
+    });
+  });
+
+  describe('RegExp', () => {
+    it('equal RegExp objects', () => {
+      const a = /foo/;
+      const b = /foo/;
+      expect(isEqual(a, b)).toBeTrue();
+    });
+
+    it('not equal RegExp objects (different pattern)', () => {
+      const a = /foo/;
+      const b = /bar/;
+      expect(isEqual(a, b)).toBeFalse();
+    });
+
+    it('not equal RegExp objects (different flags)', () => {
+      const a = /foo/;
+      const b = /foo/i;
+      expect(isEqual(a, b)).toBeFalse();
+    });
+
+    it('RegExp and string are not equal', () => {
+      const a = /foo/;
+      const b = 'foo';
+      expect(isEqual(a, b)).toBeFalse();
+    });
+
+    it('RegExp and object are not equal', () => {
+      const a = /foo/;
+      const b = {};
       expect(isEqual(a, b)).toBeFalse();
     });
   });
