@@ -387,7 +387,7 @@ To run the benchmarks yourself, clone the repo, install the dependencies and run
 
 ##### EqualityType
 
-An EqualityType can be an [IndividualEqualityType](#individualequalitytype) or an array of mixed[IndividualEqualityType](#individualequalitytype)s
+An EqualityType can be an [IndividualEqualityType](#individualequalitytype) or an array of mixed [IndividualEqualityTypes](#individualequalitytype)
 
 ##### IndividualEqualityType
 
