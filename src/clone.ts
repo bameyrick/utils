@@ -4,7 +4,7 @@ import { typeOf, ValueType } from './typeOf';
 type InstanceClone<T> = ((value: T) => T) | boolean;
 
 /**
- * Deeply clones any given array, object, or date
+ * Recursively (deep) clones native types, like Object, Array, RegExp, Date, Map, Set, Symbol, Error as well as primitives.
  */
 export function clone<T>(value: T, instanceClone: InstanceClone<T> = true): T {
   switch (typeOf(value)) {

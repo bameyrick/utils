@@ -144,7 +144,7 @@ if (isNullOrUndefined(value)) {
 
 #### clone
 
-Deeply clones any provided array, object, or date.
+Recursively (deep) clones native types, like Object, Array, RegExp, Date, Map, Set, Symbol, Error as well as primitives.
 
 Method arguments:
 
