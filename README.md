@@ -113,7 +113,7 @@ Method arguments:
 
 Return type: `boolean`
 
-**Example**
+**Example:**
 
 ```typescript
 import { isNullOrUndefined } from '@qntm-code/utils';
@@ -139,7 +139,7 @@ Method arguments:
 
 Return type: `T`
 
-**Example**
+**Example:**
 
 ```typescript
 import { clone } from '@qntm-code/utils';
@@ -163,7 +163,7 @@ Method arguments:
 
 Return type: `Array<any>`
 
-**Example**
+**Example:**
 
 ```typescript
 import { difference } from '@qntm-code/utils';
@@ -186,7 +186,7 @@ Method arguments:
 
 Return type: `boolean`
 
-**Example**
+**Example:**
 
 ```typescript
 import { isDate } from '@qntm-code/utils';
@@ -212,7 +212,7 @@ Method arguments:
 
 Return type: `boolean`
 
-**Example**
+**Example:**
 
 ```typescript
 import { isEmpty } from '@qntm-code/utils';
@@ -238,7 +238,7 @@ Method arguments:
 
 Return type: `boolean`
 
-**Example**
+**Example:**
 
 ```typescript
 import { isNaNStrict } from '@qntm-code/utils';
@@ -264,7 +264,7 @@ Method arguments:
 
 Return type: `boolean`
 
-**Example**
+**Example:**
 
 ```typescript
 import { isNumber } from '@qntm-code/utils';
@@ -290,7 +290,7 @@ Method arguments:
 
 Return type: `boolean`
 
-**Example**
+**Example:**
 
 ```typescript
 import { isObject } from '@qntm-code/utils';
@@ -316,7 +316,7 @@ Method arguments:
 
 Return type: `boolean`
 
-**Example**
+**Example:**
 
 ```typescript
 import { isString } from '@qntm-code/utils';
@@ -334,7 +334,7 @@ if (isString(value)) {
 
 Performs a deep comparison between two values to determine if they are equivalent.
 
-**Note:** This method supports comparing nulls, undefineds, booleans, numbers, strings, Dates, objects, Functions, and Arrays.
+**Note:** This method supports comparing nulls, undefineds, booleans, numbers, strings, Dates, objects, Functions, Arrays, RegExs, Maps, Sets, and Typed Arrays.
 
 Object objects are compared by their own, not inherited, enumerable properties.
 
@@ -351,7 +351,7 @@ Method arguments:
 
 Return type: `boolean`
 
-**Example**
+**Example:**
 
 ```typescript
 import { isEqual } from '@qntm-code/utils';
@@ -366,17 +366,17 @@ if (isEqual(a, b)) {
 
 ##### Performance comparison
 
-The following benchmarks were run on a 2023 Macbook Pro with a M2 Pro chip and 32GB of RAM.
+The following benchmarks go through the [isEqual test suite](tests/isEqualTestDefinitions.spec.ts) and were run on a 2023 Macbook Pro with a M2 Pro chip and 32GB of RAM.
 
 | Package                  | Operations per second |
 | ------------------------ | --------------------- |
-| @qntm-code/utils.isEqual | 418735                |
-| fast-deep-equal          | 389691                |
-| underscore.isEqual       | 158949                |
-| util.isDeepStrictEqual   | 93527                 |
-| lodash.isEqual           | 79419                 |
-| ramda.equals             | 27322                 |
-| assert.deepStrictEqual   | 425                   |
+| @qntm-code/utils.isEqual | 218781                |
+| fast-deep-equal          | 192329                |
+| underscore.isEqual       | 65518                 |
+| util.isDeepStrictEqual   | 39740                 |
+| lodash.isEqual           | 18842                 |
+| ramda.equals             | 10231                 |
+| assert.deepStrictEqual   | 215                   |
 
 To run the benchmarks yourself, clone the repo, install the dependencies and run `yarn benchmark`.
 
@@ -412,7 +412,7 @@ Method arguments:
 
 Return type: `number`
 
-**Example**
+**Example:**
 
 ```typescript
 import { randomNumberBetweenRange } from '@qntm-code/utils';
@@ -451,7 +451,7 @@ Return type:
 Promise<boolean>;
 ```
 
-**Example**
+**Example:**
 
 ```typescript
 import { asyncEvery } from '@qntm-code/utils';
@@ -493,7 +493,7 @@ Return type:
 Promise<T[]>;
 ```
 
-**Example**
+**Example:**
 
 ```typescript
 import { asyncFilter } from '@qntm-code/utils';
@@ -535,7 +535,7 @@ Return type:
 Promise<void>;
 ```
 
-**Example**
+**Example:**
 
 ```typescript
 import { asyncForEach } from '@qntm-code/utils';
@@ -577,7 +577,7 @@ Return type:
 Promise<boolean>;
 ```
 
-**Example**
+**Example:**
 
 ```typescript
 import { asyncSome } from '@qntm-code/utils';
@@ -610,7 +610,7 @@ Return type:
 Promise<void>;
 ```
 
-**Example**
+**Example:**
 
 ```typescript
 import { delay } from '@qntm-code/utils';
@@ -642,7 +642,7 @@ Method arguments:
 
 Return type: `number`
 
-**Example**
+**Example:**
 
 ```typescript
 import { convertTimeUnit, TimeUnit } from '@qntm-code/utils';
@@ -675,7 +675,7 @@ Method arguments:
 
 Return type: `number`
 
-**Example**
+**Example:**
 
 ```typescript
 import { msToUnit, TimeUnit } from '@qntm-code/utils';
@@ -684,7 +684,7 @@ const milliseconds: number = 4567876;
 const hours: number = msToUnit(milliseconds, TimeUnit.Hours);
 ```
 
-**Example**
+**Example:**
 
 ```javascript
 import { msToUnit } from '@qntm-code/utils';
@@ -708,7 +708,7 @@ Method arguments:
 
 Return type: `number`
 
-**Example**
+**Example:**
 
 ```typescript
 import { unitToMs, TimeUnit } from '@qntm-code/utils';
@@ -717,7 +717,7 @@ const days: number = 10;
 const milliseconds: number = unitToMs(days, TimeUnit.Days);
 ```
 
-**Example**
+**Example:**
 
 ```javascript
 import { unitToMs } from '@qntm-code/utils';
@@ -749,7 +749,7 @@ Gets a Date for the start of the given day.
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { getToday } from '@qntm-code/utils';
@@ -769,7 +769,7 @@ Takes an optional date and returns a new Date object set to the end of the given
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { getEndOfDay } from '@qntm-code/utils';
@@ -789,7 +789,7 @@ Takes an optional date and returns a new Date object set to the end of the given
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { getEndOfHour } from '@qntm-code/utils';
@@ -809,7 +809,7 @@ Takes an optional date and returns a new Date object set to the end of the given
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { getEndOfMinute } from '@qntm-code/utils';
@@ -829,7 +829,7 @@ Takes an optional date and returns a new Date object set to the end of the given
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { getEndOfMonth } from '@qntm-code/utils';
@@ -849,7 +849,7 @@ Takes an optional date and returns a new Date object set to the end of the given
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { getEndOfSecond } from '@qntm-code/utils';
@@ -869,7 +869,7 @@ Takes an optional date and returns a new Date object set to the end of the given
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { getEndOfWeek } from '@qntm-code/utils';
@@ -889,7 +889,7 @@ Takes an optional date and returns a new Date object set to the end of the given
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { getEndOfYear } from '@qntm-code/utils';
@@ -909,7 +909,7 @@ Takes an optional date and returns a new Date object set to the start of the giv
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { getStartOfDay } from '@qntm-code/utils';
@@ -929,7 +929,7 @@ Takes an optional date and returns a new Date object set to the start of the giv
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { getStartOfHour } from '@qntm-code/utils';
@@ -949,7 +949,7 @@ Takes an optional date and returns a new Date object set to the start of the giv
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { getStartOfMinute } from '@qntm-code/utils';
@@ -969,7 +969,7 @@ Takes an optional date and returns a new Date object set to the start of the giv
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { getStartOfMonth } from '@qntm-code/utils';
@@ -989,7 +989,7 @@ Takes an optional date and returns a new Date object set to the start of the giv
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { getStartOfSecond } from '@qntm-code/utils';
@@ -1009,7 +1009,7 @@ Takes an optional date and returns a new Date object set to the start of the giv
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { getStartOfWeek } from '@qntm-code/utils';
@@ -1029,7 +1029,7 @@ Takes an optional date and returns a new Date object set to the start of the giv
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { getStartOfYear } from '@qntm-code/utils';
@@ -1049,7 +1049,7 @@ Takes a given date and mutates it to the end of the given day.
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { setEndOfDay } from '@qntm-code/utils';
@@ -1070,7 +1070,7 @@ Takes a given date and mutates it to the end of the given hour.
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { setEndOfHour } from '@qntm-code/utils';
@@ -1091,7 +1091,7 @@ Takes a given date and mutates it to the end of the given minute.
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { setEndOfMinute } from '@qntm-code/utils';
@@ -1112,7 +1112,7 @@ Takes a given date and mutates it to the end of the given month.
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { setEndOfMonth } from '@qntm-code/utils';
@@ -1133,7 +1133,7 @@ Takes a given date and mutates it to the end of the given second.
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { setEndOfSecond } from '@qntm-code/utils';
@@ -1154,7 +1154,7 @@ Takes a given date and mutates it to the end of the given week.
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { setEndOfWeek } from '@qntm-code/utils';
@@ -1175,7 +1175,7 @@ Takes a given date and mutates it to the end of the given year.
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { setEndOfYear } from '@qntm-code/utils';
@@ -1196,7 +1196,7 @@ Takes a given date and mutates it to the start of the given day.
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { setStartOfDay } from '@qntm-code/utils';
@@ -1217,7 +1217,7 @@ Takes a given date and mutates it to the start of the given hour.
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { setStartOfHour } from '@qntm-code/utils';
@@ -1238,7 +1238,7 @@ Takes a given date and mutates it to the start of the given minute.
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { setStartOfMinute } from '@qntm-code/utils';
@@ -1259,7 +1259,7 @@ Takes a given date and mutates it to the start of the given month.
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { setStartOfMonth } from '@qntm-code/utils';
@@ -1280,7 +1280,7 @@ Takes a given date and mutates it to the start of the given second.
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { setStartOfSecond } from '@qntm-code/utils';
@@ -1301,7 +1301,7 @@ Takes a given date and mutates it to the start of the given week.
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { setStartOfWeek } from '@qntm-code/utils';
@@ -1322,7 +1322,7 @@ Takes a given date and mutates it to the start of the given year.
 
 Return type: `Date`
 
-**Example**
+**Example:**
 
 ```typescript
 import { setStartOfYear } from '@qntm-code/utils';
@@ -1343,7 +1343,7 @@ Gets all the elements that a given element is nested within
 | --------- | ----------- | -------- | ------------- | --------------------------------------------------- |
 | element   | HTMLElement | false    |               | The HTML element you want to find the ancestors for |
 
-**Example**
+**Example:**
 
 ```typescript
 import { getAncestors } from '@qntm-code/utils';
@@ -1359,7 +1359,7 @@ Gets the first parent of an element that isn't `display: inline`. Returns null i
 | --------- | ----------- | -------- | ------------- | ------------------------------------------------------------- |
 | element   | HTMLElement | false    |               | The HTML element you want to non `display: inline` parent for |
 
-**Example**
+**Example:**
 
 ```typescript
 import { getNonInlineParent } from '@qntm-code/utils';
@@ -1375,7 +1375,7 @@ Gets the first parent element with a relative or absolute position
 | --------- | ----------- | -------- | ------------- | --------------------------------------------------- |
 | element   | HTMLElement | false    |               | The HTML element you want to find the ancestors for |
 
-**Example**
+**Example:**
 
 ```typescript
 import { getPositionedParent } from '@qntm-code/utils';
@@ -1393,7 +1393,7 @@ Gets the scrollable parent element of a given element
 | x         | boolean     | true     | true          | Whether to check if the element can scroll on the x axis |
 | y         | boolean     | true     | true          | Whether to check if the element can scroll on the y axis |
 
-**Example**
+**Example:**
 
 ```typescript
 import { getScrollParent } from '@qntm-code/utils';
@@ -1409,7 +1409,7 @@ Return whether an element is `display: inline`
 | --------- | ----------- | -------- | ------------- | -------------------------------------------------------- |
 | element   | HTMLElement | false    |               | The HTML element you want to check for `display: inline` |
 
-**Example**
+**Example:**
 
 ```typescript
 import { isDisplayInline } from '@qntm-code/utils';
@@ -1425,7 +1425,7 @@ Return whether an element is practically visible, considering things like dimens
 | --------- | ----------- | -------- | ------------- | ------------------------------------------------- |
 | element   | HTMLElement | false    |               | The HTML element you want to check for visibility |
 
-**Example**
+**Example:**
 
 ```typescript
 import { isVisible } from '@qntm-code/utils';
@@ -1441,7 +1441,7 @@ const visible: boolean = isVisible(document.getElementById('my-element'));
 
 Reusable dictionary type for typed maps
 
-**Example**
+**Example:**
 
 ```typescript
 import { Dictionary } from '@qntm-code/utils';
