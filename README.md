@@ -3,8 +3,9 @@
 A collection of useful utility functions with associated TypeScript types.
 
 [![GitHub release](https://img.shields.io/github/release/bameyrick/utils.svg)](https://github.com/bameyrick/utils/releases)
-[![Build Status](https://travis-ci.com/bameyrick/utils.svg?branch=master)](https://travis-ci.com/github/bameyrick/utils)
+[![Tests](https://github.com/bameyrick/utils/actions/workflows/tests.yml/badge.svg)](https://github.com/bameyrick/utils/actions/workflows/tests.yml)
 [![codecov](https://codecov.io/gh/bameyrick/utils/branch/master/graph/badge.svg)](https://codecov.io/gh/bameyrick/utils)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bameyrick_utils&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bameyrick_utils)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=bameyrick_utils&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=bameyrick_utils)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=bameyrick_utils&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=bameyrick_utils)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=bameyrick_utils&metric=bugs)](https://sonarcloud.io/summary/new_code?id=bameyrick_utils)
