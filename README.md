@@ -153,13 +153,13 @@ Method arguments:
 | value         | any                | false    | The value to clone                      |
 | instanceClone | `((value: T) => T) | boolean` | [See description below](#instanceclone) |
 
+Return type: `T`
+
 ##### instanceClone
 
 This paramater specifies whether or not to clone instances (objects that are from a custom class or are not created by the Object constructor. This value may be true or the function use for cloning instances.
 
 When an instanceClone function is provided, it will be invoked to clone objects that are not "plain" objects (as defined by [isPlainObject](#isplainobject)). If instanceClone is not specified, the function will not attempt to clone non-plain objects, and will simply copy the object reference.
-
-Return type: `T`
 
 **Example:**
 
