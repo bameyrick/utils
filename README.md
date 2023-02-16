@@ -4,7 +4,7 @@ A collection of useful utility functions with associated TypeScript types.
 
 [![GitHub release](https://img.shields.io/github/release/bameyrick/utils.svg)](https://github.com/bameyrick/utils/releases)
 [![Tests](https://github.com/bameyrick/utils/actions/workflows/tests.yml/badge.svg)](https://github.com/bameyrick/utils/actions/workflows/tests.yml)
-[![codecov](https://codecov.io/gh/bameyrick/utils/branch/master/graph/badge.svg)](https://codecov.io/gh/bameyrick/utils)
+[![codecov](https://codecov.io/gh/bameyrick/utils/branch/main/graph/badge.svg)](https://codecov.io/gh/bameyrick/utils)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=bameyrick_utils&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=bameyrick_utils)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=bameyrick_utils&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=bameyrick_utils)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=bameyrick_utils&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=bameyrick_utils)
@@ -1865,4 +1865,4 @@ const dictionary: Dictionary<string> = {
 - [isPlainObject](#isplainobject) based off Jonschlinkert's [is-plain-object](https://github.com/jonschlinkert/is-plain-object)
 - [clone](#clone) initially based off Jonschlinkert's [clone-deep](https://github.com/jonschlinkert/clone-deep) and [shallow-clone](https://github.com/jonschlinkert/shallow-clone)
 - [isEqual](#isequal) initially based off Evgeny Poberezkin's [fast-deep-equal](https://github.com/epoberezkin/fast-deep-equal)
-- [merge](#merge) initially based off Josh Duff's [deepmerge](https://github.com/TehShrike/deepmerge) and [s-mergeable-object](https://github.com/TehShrike/is-mergeable-object)
+- [merge](#merge) initially based off Josh Duff's [deepmerge](https://github.com/TehShrike/deepmerge) and [is-mergeable-object](https://github.com/TehShrike/is-mergeable-object)
