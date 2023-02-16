@@ -20,6 +20,8 @@ A collection of useful utility functions with associated TypeScript types.
     - [Generic Helpers](#generic-helpers)
       - [isNullOrUndefined](#isnullorundefined)
       - [clone](#clone)
+        - [instanceClone](#instanceclone)
+        - [Performance comparison](#performance-comparison)
       - [difference](#difference)
       - [isDate](#isdate)
       - [isEmpty](#isempty)
@@ -28,9 +30,16 @@ A collection of useful utility functions with associated TypeScript types.
       - [isObject](#isobject)
       - [isString](#isstring)
       - [isEqual](#isequal)
-        - [Performance comparison](#performance-comparison)
+        - [Performance comparison](#performance-comparison-1)
         - [EqualityType](#equalitytype)
         - [IndividualEqualityType](#individualequalitytype)
+      - [isRegExp](#isregexp)
+      - [isArguments](#isarguments)
+      - [isBuffer](#isbuffer)
+      - [isError](#iserror)
+      - [isGeneratorObject](#isgeneratorobject)
+      - [isPlainObject](#isplainobject)
+      - [typeOf](#typeof)
       - [randomNumberBetweenRange](#randomnumberbetweenrange)
     - [Async helpers](#async-helpers)
       - [asyncEvery](#asyncevery)
@@ -81,6 +90,7 @@ A collection of useful utility functions with associated TypeScript types.
       - [isVisible](#isvisible)
     - [Types](#types)
       - [Dictionary](#dictionary)
+  - [Attribution](#attribution)
 
 ## Install
 
@@ -108,7 +118,7 @@ This documentation is written in TypeScript, however this library works fine in 
 
 #### isNullOrUndefined
 
-Detects whether a given value is null or undefined.
+Determines whether a given value is null or undefined.
 
 Method arguments:
 
@@ -138,9 +148,16 @@ Deeply clones any provided array, object, or date.
 
 Method arguments:
 
-| Parameter | Type | Optional | Description        |
-| --------- | ---- | -------- | ------------------ |
-| value     | any  | false    | The value to clone |
+| Parameter     | Type               | Optional | Description                             |
+| ------------- | ------------------ | -------- | --------------------------------------- |
+| value         | any                | false    | The value to clone                      |
+| instanceClone | `((value: T) => T) | boolean` | [See description below](#instanceclone) |
+
+##### instanceClone
+
+This paramater specifies whether or not to clone instances (objects that are from a custom class or are not created by the Object constructor. This value may be true or the function use for cloning instances.
+
+When an instanceClone function is provided, it will be invoked to clone objects that are not "plain" objects (as defined by [isPlainObject](#isplainobject)). If instanceClone is not specified, the function will not attempt to clone non-plain objects, and will simply copy the object reference.
 
 Return type: `T`
 
@@ -152,6 +169,16 @@ import { clone } from '@qntm-code/utils';
 const value: number[] = [1, 2, 3];
 const clonedValues = clone(value);
 ```
+
+##### Performance comparison
+
+The following benchmarks were run on a 2023 Macbook Pro with a M2 Pro chip and 32GB of RAM.
+
+| Package                | Operations per second |
+| ---------------------- | --------------------- |
+| @qntm-code/utils.clone | 127338                |
+| clone-deep             | 115475                |
+| lodash.cloneDeep       | 73027                 |
 
 ---
 
@@ -233,7 +260,7 @@ if (isEmpty(value)) {
 
 #### isNaNStrict
 
-Detects whether a given value is a `NaN` instance
+Determines whether a given value is a `NaN` instance
 
 Method arguments:
 
@@ -259,7 +286,7 @@ if (isNaNStrict(value)) {
 
 #### isNumber
 
-Detects whether a given value is a number
+Determines whether a given value is a number
 
 Method arguments:
 
@@ -285,7 +312,7 @@ if (isNumber(value)) {
 
 #### isObject
 
-Detects whether a given value is an object
+Determines whether a given value is an object
 
 Method arguments:
 
@@ -311,7 +338,7 @@ if (isObject(value)) {
 
 #### isString
 
-Detects whether a given value is a string
+Determines whether a given value is a string
 
 Method arguments:
 
@@ -401,6 +428,186 @@ The equality types allowed are:
 - `Date`
 - `object`
 - `Function`
+
+---
+
+#### isRegExp
+
+Determines whether a given value is a regular expression
+
+Method arguments:
+
+| Parameter | Type | Optional | Description        |
+| --------- | ---- | -------- | ------------------ |
+| value     | any  | false    | The value to check |
+
+Return type: `boolean`
+
+**Example:**
+
+```typescript
+import { isRegExp } from '@qntm-code/utils';
+
+const value = getTheValue();
+
+if (isRegExp(value)) {
+  // Do something
+}
+```
+
+---
+
+#### isArguments
+
+Determines whether a given value is an arguments object
+
+Method arguments:
+
+| Parameter | Type | Optional | Description        |
+| --------- | ---- | -------- | ------------------ |
+| value     | any  | false    | The value to check |
+
+Return type: `boolean`
+
+**Example:**
+
+```typescript
+import { isArguments } from '@qntm-code/utils';
+
+const value = getTheValue();
+
+if (isArguments(value)) {
+  // Do something
+}
+```
+
+---
+
+#### isBuffer
+
+Determines whether a given value is a buffer
+
+Method arguments:
+
+| Parameter | Type | Optional | Description        |
+| --------- | ---- | -------- | ------------------ |
+| value     | any  | false    | The value to check |
+
+Return type: `boolean`
+
+**Example:**
+
+```typescript
+import { isBuffer } from '@qntm-code/utils';
+
+const value = getTheValue();
+
+if (isBuffer(value)) {
+  // Do something
+}
+```
+
+---
+
+#### isError
+
+Determines whether a given value is an error
+
+Method arguments:
+
+| Parameter | Type | Optional | Description        |
+| --------- | ---- | -------- | ------------------ |
+| value     | any  | false    | The value to check |
+
+Return type: `boolean`
+
+**Example:**
+
+```typescript
+import { isError } from '@qntm-code/utils';
+
+const value = getTheValue();
+
+if (isError(value)) {
+  // Do something
+}
+```
+
+#### isGeneratorObject
+
+Determines whether a given value is a generator object
+
+Method arguments:
+
+| Parameter | Type | Optional | Description        |
+| --------- | ---- | -------- | ------------------ |
+| value     | any  | false    | The value to check |
+
+Return type: `boolean`
+
+**Example:**
+
+```typescript
+import { isGeneratorObject } from '@qntm-code/utils';
+
+const value = getTheValue();
+
+if (isGeneratorObject(value)) {
+  // Do something
+}
+```
+
+---
+
+#### isPlainObject
+
+Determines whether a given value is a plain object
+
+Method arguments:
+
+| Parameter | Type | Optional | Description        |
+| --------- | ---- | -------- | ------------------ |
+| value     | any  | false    | The value to check |
+
+Return type: `boolean`
+
+**Example:**
+
+```typescript
+import { isPlainObject } from '@qntm-code/utils';
+
+const value = getTheValue();
+
+if (isPlainObject(value)) {
+  // Do something
+}
+```
+
+---
+
+#### typeOf
+
+Returns the type of a given value
+
+Method arguments:
+
+| Parameter | Type | Optional | Description        |
+| --------- | ---- | -------- | ------------------ |
+| value     | any  | false    | The value to check |
+
+Return type: `ValueType` | `string`
+
+**Example:**
+
+```typescript
+import { typeOf, ValueType } from '@qntm-code/utils';
+
+const value = getTheValue();
+
+if (typeOf(value) === ValueType.string) {
+  // Do something
+}
+```
 
 ---
 
@@ -656,7 +863,7 @@ const weeks: number = 24;
 const minutes: number = convertTimeUnit(weeks, TimeUnit.Weeks, TimeUnit.Minutes);
 ```
 
-**Vanilla JS Example**
+**Vanilla JS Example:**
 
 ```javascript
 import { convertTimeUnit } from '@qntm-code/utils';
@@ -1456,3 +1663,10 @@ const dictionary: Dictionary<string> = {
   b: 'no',
 };
 ```
+
+## Attribution
+
+- [isArguments](#isarguments), [isBuffer](#isbuffer), [isError](#iserror), [isGeneratorObject](#isgeneratorobject), [isRegExp](#isregexp), [typeOf](#typeof) initially based off Jon Schlinkert's [kind-of](https://github.com/jonschlinkert/kind-of)
+- [isPlainObject](#isplainobject) based off Jonschlinkert's [is-plain-object](https://github.com/jonschlinkert/is-plain-object)
+- [clone](#clone) initially based off Jonschlinkert's [clone-deep](https://github.com/jonschlinkert/clone-deep/) and [shallow-clone](https://github.com/jonschlinkert/shallow-clone)
+- [isEqual](#isequal) initially based off Evgeny Poberezkin's [fast-deep-equal](https://github.com/epoberezkin/fast-deep-equal/)

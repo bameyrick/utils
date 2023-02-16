@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 
-import { TestSuite } from './types';
+import { IsEqualTestSuite } from './types';
 
 function func1() {}
 function func2() {}
@@ -41,7 +41,7 @@ function mySet(arr) {
   return set(arr, MySet);
 }
 
-export const isEqualTests: TestSuite[] = [
+export const isEqualTests: IsEqualTestSuite[] = [
   {
     description: 'single values',
     tests: [

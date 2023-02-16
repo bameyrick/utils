@@ -28,7 +28,7 @@ module.exports = function (config) {
     karmaTypescriptConfig: {
       compilerOptions: {
         lib: ['esnext', 'DOM'],
-        target: 'es2015',
+        target: 'es2020',
       },
       bundlerOptions: {
         transforms: [require('karma-typescript-es6-transform')()],

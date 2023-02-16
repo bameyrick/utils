@@ -1,4 +1,4 @@
-export interface TestDefinition {
+export interface IsEqualTestDefinition {
   description: string;
   a: any;
   b: any;
@@ -6,7 +6,7 @@ export interface TestDefinition {
   only?: boolean;
 }
 
-export interface TestSuite {
+export interface IsEqualTestSuite {
   description: string;
-  tests: TestDefinition[];
+  tests: IsEqualTestDefinition[];
 }
