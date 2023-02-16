@@ -1865,4 +1865,4 @@ const dictionary: Dictionary<string> = {
 - [isPlainObject](#isplainobject) based off Jonschlinkert's [is-plain-object](https://github.com/jonschlinkert/is-plain-object)
 - [clone](#clone) initially based off Jonschlinkert's [clone-deep](https://github.com/jonschlinkert/clone-deep) and [shallow-clone](https://github.com/jonschlinkert/shallow-clone)
 - [isEqual](#isequal) initially based off Evgeny Poberezkin's [fast-deep-equal](https://github.com/epoberezkin/fast-deep-equal)
-- [merge](#merge) initially based off Josh Duff's [deepmerge](https://github.com/TehShrike/deepmerge) and [s-mergeable-object](https://github.com/TehShrike/is-mergeable-object)
+- [merge](#merge) initially based off Josh Duff's [deepmerge](https://github.com/TehShrike/deepmerge) and [is-mergeable-object](https://github.com/TehShrike/is-mergeable-object)
