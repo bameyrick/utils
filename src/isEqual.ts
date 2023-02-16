@@ -9,7 +9,7 @@ export type EqualityType = IndividualEqualityType | IndividualEqualityType[];
 /**
  * Performs a deep comparison between two values to determine if they are equivalent.
  *
- * **Note:** This method supports comparing nulls, undefineds, booleans, numbers, strings, Dates, objects, Functions, Arrays, RegExs, Maps, Sets, and ArrayBuffers.
+ * **Note:** This method supports comparing nulls, undefineds, booleans, numbers, strings, Dates, objects, Functions, Arrays, RegExs, Maps, Sets, and Typed Arrays.
  *
  * Object objects are compared by their own, not inherited, enumerable properties.
  *
@@ -48,15 +48,13 @@ export function isEqual(a: any, b: any): boolean {
         return false;
       }
 
-      const entries = a.entries();
-
-      for (const i of entries) {
+      for (const i of a.entries()) {
         if (!b.has(i[0])) {
           return false;
         }
       }
 
-      for (const i of entries) {
+      for (const i of a.entries()) {
         if (!isEqual(i[1], b.get(i[0]))) {
           return false;
         }

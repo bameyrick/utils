@@ -334,7 +334,7 @@ if (isString(value)) {
 
 Performs a deep comparison between two values to determine if they are equivalent.
 
-**Note:** This method supports comparing nulls, undefineds, booleans, numbers, strings, Dates, objects, Functions, Arrays, RegExs, Maps, Sets, and ArrayBuffers.
+**Note:** This method supports comparing nulls, undefineds, booleans, numbers, strings, Dates, objects, Functions, Arrays, RegExs, Maps, Sets, and Typed Arrays.
 
 Object objects are compared by their own, not inherited, enumerable properties.
 
@@ -366,17 +366,17 @@ if (isEqual(a, b)) {
 
 ##### Performance comparison
 
-The following benchmarks were run on a 2023 Macbook Pro with a M2 Pro chip and 32GB of RAM.
+The following benchmarks go through the [isEqual test suite](tests/isEqualTestDefinitions.spec.ts) and were run on a 2023 Macbook Pro with a M2 Pro chip and 32GB of RAM.
 
 | Package                  | Operations per second |
 | ------------------------ | --------------------- |
-| @qntm-code/utils.isEqual | 418735                |
-| fast-deep-equal          | 389691                |
-| underscore.isEqual       | 158949                |
-| util.isDeepStrictEqual   | 93527                 |
-| lodash.isEqual           | 79419                 |
-| ramda.equals             | 27322                 |
-| assert.deepStrictEqual   | 425                   |
+| @qntm-code/utils.isEqual | 218781                |
+| fast-deep-equal          | 192329                |
+| underscore.isEqual       | 65518                 |
+| util.isDeepStrictEqual   | 39740                 |
+| lodash.isEqual           | 18842                 |
+| ramda.equals             | 10231                 |
+| assert.deepStrictEqual   | 215                   |
 
 To run the benchmarks yourself, clone the repo, install the dependencies and run `yarn benchmark`.
 
