@@ -74,7 +74,9 @@
     "deep",
     "equals",
     "deep equals",
-    "fast"
+    "fast",
+    "merge",
+    "deep merge"
   ],
   "repository": {
     "type": "git",
