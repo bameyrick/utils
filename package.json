@@ -74,7 +74,9 @@
     "deep",
     "equals",
     "deep equals",
-    "fast"
+    "fast",
+    "merge",
+    "deep merge"
   ],
   "repository": {
     "type": "git",
@@ -131,8 +133,8 @@
     "clone-deep": "^4.0.1",
     "codecov": "^3.7.2",
     "cpy-cli": "^4.1.0",
-    "deep-eql": "^4.1.3",
     "deep-equal": "^2.2.0",
+    "deepmerge": "^4.3.0",
     "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",

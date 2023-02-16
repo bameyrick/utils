@@ -6,14 +6,16 @@
 import { deepStrictEqual } from 'assert';
 import { Suite } from 'benchmark';
 import * as cloneDeep from 'clone-deep';
+import * as deepmerge from 'deepmerge';
 import * as fastDeepEqual from 'fast-deep-equal/es6';
 import * as lodash from 'lodash';
 import * as markdownTable from 'markdown-table';
 import * as ramda from 'ramda';
 import * as _ from 'underscore';
 import { isDeepStrictEqual } from 'util';
-import { clone, isEqual } from './src';
+import { clone, isEqual, merge } from './src';
 import { isEqualTests } from './tests/isEqualTestDefinitions.spec';
+import { mergeTests } from './tests/mergeTestDefinitions.spec';
 
 interface Benchmark {
   name: string;
@@ -22,6 +24,18 @@ interface Benchmark {
 }
 
 const benchmarks: Benchmark[] = [
+  {
+    name: `merge`,
+    packages: {
+      '@qntm-code/utils.merge': merge,
+      deepmerge: deepmerge,
+    },
+    benchmark: func => {
+      for (const { target, source } of mergeTests) {
+        func(target, source);
+      }
+    },
+  },
   {
     name: `clone`,
     packages: {

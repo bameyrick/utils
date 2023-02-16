@@ -21,7 +21,13 @@ A collection of useful utility functions with associated TypeScript types.
       - [isNullOrUndefined](#isnullorundefined)
       - [clone](#clone)
         - [instanceClone](#instanceclone)
-        - [Performance comparison](#performance-comparison)
+        - [clone performance comparison](#clone-performance-comparison)
+      - [merge](#merge)
+        - [merge options](#merge-options)
+          - [arrayMerge](#arraymerge)
+          - [isMergableObject](#ismergableobject)
+          - [customMerge](#custommerge)
+        - [Merge performance comparison](#merge-performance-comparison)
       - [difference](#difference)
       - [isDate](#isdate)
       - [isEmpty](#isempty)
@@ -30,7 +36,7 @@ A collection of useful utility functions with associated TypeScript types.
       - [isObject](#isobject)
       - [isString](#isstring)
       - [isEqual](#isequal)
-        - [Performance comparison](#performance-comparison-1)
+        - [isEqual performance comparison](#isequal-performance-comparison)
         - [EqualityType](#equalitytype)
         - [IndividualEqualityType](#individualequalitytype)
       - [isRegExp](#isregexp)
@@ -39,6 +45,7 @@ A collection of useful utility functions with associated TypeScript types.
       - [isError](#iserror)
       - [isGeneratorObject](#isgeneratorobject)
       - [isPlainObject](#isplainobject)
+      - [isReactElement](#isreactelement)
       - [typeOf](#typeof)
       - [randomNumberBetweenRange](#randomnumberbetweenrange)
     - [Async helpers](#async-helpers)
@@ -170,7 +177,7 @@ const value: number[] = [1, 2, 3];
 const clonedValues = clone(value);
 ```
 
-##### Performance comparison
+##### clone performance comparison
 
 The following benchmarks were run on a 2023 Macbook Pro with a M2 Pro chip and 32GB of RAM.
 
@@ -179,6 +186,168 @@ The following benchmarks were run on a 2023 Macbook Pro with a M2 Pro chip and 3
 | @qntm-code/utils.clone | 127338                |
 | clone-deep             | 115475                |
 | lodash.cloneDeep       | 73027                 |
+
+---
+
+#### merge
+
+Merges two objects x and y deeply, returning a new merged object with the elements from both x and y.
+
+If an element at the same key is present for both x and y, the value from y will appear in the result.
+
+Merging creates a new object, so that neither x or y is modified.
+
+Note: By default, arrays are merged by concatenating them.
+
+Method arguments:
+
+| Parameter | Type | Optional | Description                             |
+| --------- | ---- | -------- | --------------------------------------- |
+| x         | any  | false    | The first object to merge               |
+| y         | any  | false    | The second object to merge              |
+| options   | any  | true     | [See description below](#merge-options) |
+
+##### merge options
+
+###### arrayMerge
+
+There are multiple ways to merge two arrays, below are a few examples but you can also create your own custom function.
+
+Your `arrayMerge` function will be called with three arguments: a `target` array, the `source` array, and an `options` object with these properties:
+
+- `isMergeableObject(value)`
+- `cloneUnlessOtherwiseSpecified(value, options)`
+
+**example: overwrite target array:**
+
+Overwrites the existing array values completely rather than concatenating them:
+
+```typescript
+import { merge } from '@qntm-code/utils';
+
+const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray;
+
+merge([1, 2, 3], [3, 2, 1], { arrayMerge: overwriteMerge }); // => [3, 2, 1]
+```
+
+**example: combine arrays:**
+
+Combines objects at the same index in the two arrays.
+
+```typescript
+import { merge } from '@qntm-code/utils';
+
+const combineMerge = (target, source, options) => {
+  const destination = target.slice();
+
+  source.forEach((item, index) => {
+    if (typeof destination[index] === 'undefined') {
+      destination[index] = options.cloneUnlessOtherwiseSpecified(item, options);
+    } else if (options.isMergeableObject(item)) {
+      destination[index] = merge(target[index], item, options);
+    } else if (target.indexOf(item) === -1) {
+      destination.push(item);
+    }
+  });
+  return destination;
+};
+
+merge([{ a: true }], [{ b: true }, 'ah yup'], { arrayMerge: combineMerge }); // => [{ a: true, b: true }, 'ah yup']
+```
+
+###### isMergableObject
+
+By default, `merge` clones every property from almost every kind of object.
+
+You may not want this, if your objects are of special types, and you want to copy the whole object instead of just copying its properties.
+
+You can accomplish this by passing in a function for the `isMergeableObject` option.
+
+If you only want to clone properties of plain objects, and ignore all "special" kinds of instantiated objects, you probably want to drop in [`isPlainObject`](#isplainobject).
+
+```typescript
+import { merge, isPlainObject } from '@qntm-code/utils';
+
+function SuperSpecial() {
+  this.special = 'oh yeah man totally';
+}
+
+const instantiatedSpecialObject = new SuperSpecial();
+
+const target = {
+  someProperty: {
+    cool: 'oh for sure',
+  },
+};
+
+const source = {
+  someProperty: instantiatedSpecialObject,
+};
+
+const defaultOutput = merge(target, source);
+
+defaultOutput.someProperty.cool; // => 'oh for sure'
+defaultOutput.someProperty.special; // => 'oh yeah man totally'
+defaultOutput.someProperty instanceof SuperSpecial; // => false
+
+const customMergeOutput = merge(target, source, {
+  isMergeableObject: isPlainObject,
+});
+
+customMergeOutput.someProperty.cool; // => undefined
+customMergeOutput.someProperty.special; // => 'oh yeah man totally'
+customMergeOutput.someProperty instanceof SuperSpecial; // => true
+```
+
+###### customMerge
+
+Specifies a function which can be used to override the default merge behaviour for a property, based on the property name.
+
+The `customMerge` function will be passed the key for each property, and should return the function which should be used to merge the values for that property.
+
+It may also return undefined, in which case the default merge behaviour will be used.
+
+```typescript
+const alex = {
+  name: {
+    first: 'Alex',
+    last: 'Alexson',
+  },
+  pets: ['Cat', 'Parrot'],
+};
+
+const tony = {
+  name: {
+    first: 'Tony',
+    last: 'Tonison',
+  },
+  pets: ['Dog'],
+};
+
+const mergeNames = (nameA, nameB) => `${nameA.first} and ${nameB.first}`;
+
+const options = {
+  customMerge: key => {
+    if (key === 'name') {
+      return mergeNames;
+    }
+  },
+};
+
+const result = merge(alex, tony, options);
+
+result.name; // => 'Alex and Tony'
+result.pets; // => ['Cat', 'Parrot', 'Dog']
+```
+
+##### Merge performance comparison
+
+The following benchmarks go through the [merge test suite](tests/mergeTestDefinitions.spec.ts) and were run on a 2023 Macbook Pro with a M2 Pro chip and 32GB of RAM.
+
+| Package                | Operations per second |
+| ---------------------- | --------------------- |
+| @qntm-code/utils.merge | 28332                 |
+| deepmerge              | 23497                 |
 
 ---
 
@@ -396,7 +565,7 @@ if (isEqual(a, b)) {
 }
 ```
 
-##### Performance comparison
+##### isEqual performance comparison
 
 The following benchmarks go through the [isEqual test suite](tests/isEqualTestDefinitions.spec.ts) and were run on a 2023 Macbook Pro with a M2 Pro chip and 32GB of RAM.
 
@@ -579,6 +748,32 @@ import { isPlainObject } from '@qntm-code/utils';
 const value = getTheValue();
 
 if (isPlainObject(value)) {
+  // Do something
+}
+```
+
+---
+
+#### isReactElement
+
+Determines whether a given value is a React element
+
+Method arguments:
+
+| Parameter | Type | Optional | Description        |
+| --------- | ---- | -------- | ------------------ |
+| value     | any  | false    | The value to check |
+
+Return type: `boolean`
+
+**Example:**
+
+```typescript
+import { isReactElement } from '@qntm-code/utils';
+
+const value = getTheValue();
+
+if (isReactElement(value)) {
   // Do something
 }
 ```
@@ -1668,5 +1863,6 @@ const dictionary: Dictionary<string> = {
 
 - [isArguments](#isarguments), [isBuffer](#isbuffer), [isError](#iserror), [isGeneratorObject](#isgeneratorobject), [isRegExp](#isregexp), [typeOf](#typeof) initially based off Jon Schlinkert's [kind-of](https://github.com/jonschlinkert/kind-of)
 - [isPlainObject](#isplainobject) based off Jonschlinkert's [is-plain-object](https://github.com/jonschlinkert/is-plain-object)
-- [clone](#clone) initially based off Jonschlinkert's [clone-deep](https://github.com/jonschlinkert/clone-deep/) and [shallow-clone](https://github.com/jonschlinkert/shallow-clone)
-- [isEqual](#isequal) initially based off Evgeny Poberezkin's [fast-deep-equal](https://github.com/epoberezkin/fast-deep-equal/)
+- [clone](#clone) initially based off Jonschlinkert's [clone-deep](https://github.com/jonschlinkert/clone-deep) and [shallow-clone](https://github.com/jonschlinkert/shallow-clone)
+- [isEqual](#isequal) initially based off Evgeny Poberezkin's [fast-deep-equal](https://github.com/epoberezkin/fast-deep-equal)
+- [merge](#merge) initially based off Josh Duff's [deepmerge](https://github.com/TehShrike/deepmerge) and [s-mergeable-object](https://github.com/TehShrike/is-mergeable-object)
