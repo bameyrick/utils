@@ -155,10 +155,10 @@ Recursively (deep) clones native types, like Object, Array, RegExp, Date, Map, S
 
 Method arguments:
 
-| Parameter     | Type               | Optional | Description                             |
-| ------------- | ------------------ | -------- | --------------------------------------- |
-| value         | any                | false    | The value to clone                      |
-| instanceClone | `((value: T) => T) | boolean` | [See description below](#instanceclone) |
+| Parameter     | Type                           | Optional | Description                             |
+| ------------- | ------------------------------ | -------- | --------------------------------------- |
+| value         | any                            | false    | The value to clone                      |
+| instanceClone | `((value: T) => T) or boolean` | true     | [See description below](#instanceclone) |
 
 Return type: `T`
 
