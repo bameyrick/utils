@@ -6,7 +6,7 @@ type InstanceClone<T> = ((value: T) => T) | boolean;
 /**
  * Recursively (deep) clones native types, like Object, Array, RegExp, Date, Map, Set, Symbol, Error as well as primitives.
  */
-export function clone<T>(value: T, instanceClone: InstanceClone<T> = true): T {
+export function clone<T>(value: T, instanceClone: InstanceClone<T> = false): T {
   switch (typeOf(value)) {
     case ValueType.object: {
       return cloneObjectDeep(value, instanceClone);
