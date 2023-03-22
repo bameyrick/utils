@@ -10,6 +10,11 @@ jobs:
       - name: Checkout repository 🛒
         uses: actions/checkout@v3
 
+      - name: Set Timezone ⏱️
+        uses: szenius/set-timezone@v1.0
+        with:
+          timezone: Europe/London
+
       - name: Set node version 🤖
         run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_OUTPUT
         id: nvm
