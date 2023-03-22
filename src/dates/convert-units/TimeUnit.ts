@@ -1,8 +1,18 @@
 export enum TimeUnit {
+  Millisecond = 'millisecond',
   Milliseconds = 'milliseconds',
+  Second = 'second',
   Seconds = 'seconds',
+  Minute = 'minute',
   Minutes = 'minutes',
+  Hour = 'hour',
   Hours = 'hours',
+  Day = 'day',
   Days = 'days',
   Weeks = 'weeks',
+  Week = 'week',
+  Month = 'month',
+  Months = 'months',
+  Year = 'year',
+  Years = 'years',
 }
