@@ -76,7 +76,9 @@
     "deep equals",
     "fast",
     "merge",
-    "deep merge"
+    "deep merge",
+    "same date",
+    "isSameDate"
   ],
   "repository": {
     "type": "git",

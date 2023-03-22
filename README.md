@@ -58,6 +58,7 @@ A collection of useful utility functions with associated TypeScript types.
       - [convertTimeUnit](#converttimeunit)
       - [msToUnit](#mstounit)
       - [unitToMs](#unittoms)
+      - [isSameDate](#issamedate)
       - [TimeUnit](#timeunit)
       - [getToday](#gettoday)
       - [getEndOfDay](#getendofday)
@@ -1041,11 +1042,11 @@ Converts a value of a given [TimeUnit](#timeunit) into another [TimeUnit](#timeu
 
 Method arguments:
 
-| Parameter  | Type                  | Optional | Description                                     |
-| ---------- | --------------------- | -------- | ----------------------------------------------- |
-| value      | number                | false    | The value to convert                            |
-| sourceUnit | [TimeUnit](#timeunit) | false    | The time unit the provided value is in          |
-| resultUnit | [TimeUnit](#timeunit) | false    | The time unit you wish to convert your value to |
+| Parameter  | Type                                                          | Optional | Description                                     |
+| ---------- | ------------------------------------------------------------- | -------- | ----------------------------------------------- |
+| value      | number                                                        | false    | The value to convert                            |
+| sourceUnit | [TimeUnit](#timeunit) (Excluding Month/Months and Year/Years) | false    | The time unit the provided value is in          |
+| resultUnit | [TimeUnit](#timeunit) (Excluding Month/Months and Year/Years) | false    | The time unit you wish to convert your value to |
 
 Return type: `number`
 
@@ -1075,10 +1076,10 @@ Converts milliseconds into a [TimeUnit](#timeunit).
 
 Method arguments:
 
-| Parameter | Type                  | Optional | Description                                     |
-| --------- | --------------------- | -------- | ----------------------------------------------- |
-| value     | number                | false    | The value in milliseconds                       |
-| unit      | [TimeUnit](#timeunit) | false    | The time unit you wish to convert your value to |
+| Parameter | Type                                                          | Optional | Description                                     |
+| --------- | ------------------------------------------------------------- | -------- | ----------------------------------------------- |
+| value     | number                                                        | false    | The value in milliseconds                       |
+| unit      | [TimeUnit](#timeunit) (Excluding Month/Months and Year/Years) | false    | The time unit you wish to convert your value to |
 
 Return type: `number`
 
@@ -1108,10 +1109,10 @@ Converts a [TimeUnit](#timeunit) into milliseconds.
 
 Method arguments:
 
-| Parameter | Type                  | Optional | Description                             |
-| --------- | --------------------- | -------- | --------------------------------------- |
-| value     | number                | false    | The value to convert                    |
-| unit      | [TimeUnit](#timeunit) | false    | The time unit of the value you provided |
+| Parameter | Type                                                          | Optional | Description                             |
+| --------- | ------------------------------------------------------------- | -------- | --------------------------------------- |
+| value     | number                                                        | false    | The value to convert                    |
+| unit      | [TimeUnit](#timeunit) (Excluding Month/Months and Year/Years) | false    | The time unit of the value you provided |
 
 Return type: `number`
 
@@ -1135,18 +1136,70 @@ const milliseconds = unitToMs(days, 'days');
 
 ---
 
+#### isSameDate
+
+Determines if two dates are the same. If you want to limit the granularity to a unit other than milliseconds, pass it as the second parameter.
+
+When including a second parameter, it will match all units equal or larger. For example, if passing in month will check month and year, or if passing in day will check day, month, and year.
+
+Method arguments:
+
+| Parameter | Type                  | Optional | Description                                                                   |
+| --------- | --------------------- | -------- | ----------------------------------------------------------------------------- |
+| a         | Date                  | false    | The first date to compare                                                     |
+| b         | Date                  | false    | The second date to compare                                                    |
+| unit      | [TimeUnit](#timeunit) | true     | The time unit to limit the comparison to. Defaults to milliseconds if omitted |
+
+Return type: `boolean`
+
+**Example:**
+
+```typescript
+import { isSameDate, TimeUnit } from '@qntm-code/utils';
+
+const a: Date = new Date(2023, 0, 1, 12, 0, 0, 0);
+const b: Date = new Date(2023, 0, 1, 9, 0, 1, 12);
+const c: Date = new Date(2023, 6, 1, 0, 0, 0, 0);
+
+if (isSameDate(a, b)) {
+  // This will not run as the dates are not the same
+}
+
+if (isSameDate(a, b, TimeUnit.Day)) {
+  // This will run as the dates are the same day
+}
+
+if (isSameDate(a, b, TimeUnit.Hour)) {
+  // This will not run as the dates are not the same hour
+}
+
+if (isSameDate(a, c, TimeUnit.Day)) {
+  // This will not run because even though the dates are the same day, the months are not the same
+}
+```
+
 #### TimeUnit
 
 A TypeScript enum of available options to provide to time unit conversion functions. For vanilla JS just use the string values from the value column.
 
 | Enum Key     | Value          |
 | ------------ | -------------- |
+| Millisecond  | `millisecond`  |
 | Milliseconds | `milliseconds` |
+| Second       | `second`       |
 | Seconds      | `seconds`      |
+| Minute       | `minute`       |
 | Minutes      | `minutes`      |
+| Hour         | `hour`         |
 | Hours        | `hours`        |
+| Day          | `day`          |
 | Days         | `days`         |
+| Week         | `week`         |
 | Weeks        | `weeks`        |
+| Month        | `month`        |
+| Months       | `months`       |
+| Year         | `year`         |
+| Years        | `years`        |
 
 ---
 

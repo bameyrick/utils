@@ -5,6 +5,7 @@ describe('msToUnit', () => {
     const value = 1234;
     const expected = 1234;
 
+    expect(msToUnit(value, TimeUnit.Millisecond)).toBe(expected);
     expect(msToUnit(value, TimeUnit.Milliseconds)).toBe(expected);
   });
 
@@ -12,6 +13,7 @@ describe('msToUnit', () => {
     const value = 3000;
     const expected = 3;
 
+    expect(msToUnit(value, TimeUnit.Second)).toBe(expected);
     expect(msToUnit(value, TimeUnit.Seconds)).toBe(expected);
   });
 
@@ -19,6 +21,7 @@ describe('msToUnit', () => {
     const value = 720000;
     const expected = 12;
 
+    expect(msToUnit(value, TimeUnit.Minute)).toBe(expected);
     expect(msToUnit(value, TimeUnit.Minutes)).toBe(expected);
   });
 
@@ -26,6 +29,7 @@ describe('msToUnit', () => {
     const value = 79200000;
     const expected = 22;
 
+    expect(msToUnit(value, TimeUnit.Hour)).toBe(expected);
     expect(msToUnit(value, TimeUnit.Hours)).toBe(expected);
   });
 
@@ -33,6 +37,7 @@ describe('msToUnit', () => {
     const value = 345600000;
     const expected = 4;
 
+    expect(msToUnit(value, TimeUnit.Day)).toBe(expected);
     expect(msToUnit(value, TimeUnit.Days)).toBe(expected);
   });
 
@@ -40,6 +45,11 @@ describe('msToUnit', () => {
     const value = 1512000000;
     const expected = 2.5;
 
+    expect(msToUnit(value, TimeUnit.Week)).toBe(expected);
     expect(msToUnit(value, TimeUnit.Weeks)).toBe(expected);
+  });
+
+  it(`should throw an error if the unit is not supported`, () => {
+    expect(() => msToUnit(1, 'foo' as TimeUnit)).toThrowError();
   });
 });
