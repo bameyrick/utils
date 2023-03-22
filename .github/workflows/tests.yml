@@ -10,7 +10,7 @@ jobs:
       - name: Checkout repository 🛒
         uses: actions/checkout@v3
 
-      - name: Set Timezone ⏱️
+      - name: Set Timezone 🌍
         uses: szenius/set-timezone@v1.0
         with:
           timezoneLinux: Europe/London
