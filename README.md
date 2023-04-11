@@ -29,6 +29,7 @@ A collection of useful utility functions with associated TypeScript types.
           - [customMerge](#custommerge)
         - [Merge performance comparison](#merge-performance-comparison)
       - [difference](#difference)
+      - [insertAtIndex](#insertatindex)
       - [isDate](#isdate)
       - [isEmpty](#isempty)
       - [isNaNStrict](#isnanstrict)
@@ -375,6 +376,30 @@ const diff = difference([1, 2], [2, 3]);
 ```
 
 ---
+
+#### insertAtIndex
+
+Inserts a string value at a given index in a source string.
+
+Method arguments:
+
+| Parameter | Type   | Optional | Description            |
+| --------- | ------ | -------- | ---------------------- |
+| source    | string | false    | The source string      |
+| value     | string | false    | The value to insert    |
+| index     | number | false    | The index to insert at |
+
+Return type: `string`
+
+**Example:**
+
+```typescript
+import { insertAtIndex } from '@qntm-code/utils';
+
+insertAtIndex('<strong>', '/', 1);
+
+// returns '</strong>'
+```
 
 #### isDate
 
