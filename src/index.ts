@@ -3,6 +3,7 @@ export { clone } from './clone';
 export * from './dates';
 export { difference } from './difference';
 export * from './dom';
+export { insertAtIndex } from './insertAtIndex';
 export { isArguments } from './isArguments';
 export * from './isBoolean';
 export { isBuffer } from './isBuffer';
