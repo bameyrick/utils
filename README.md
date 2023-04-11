@@ -401,6 +401,8 @@ insertAtIndex('<strong>', '/', 1);
 // returns '</strong>'
 ```
 
+---
+
 #### isDate
 
 Checks if a given value is a Date object.
