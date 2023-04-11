@@ -29,6 +29,7 @@ A collection of useful utility functions with associated TypeScript types.
           - [customMerge](#custommerge)
         - [Merge performance comparison](#merge-performance-comparison)
       - [difference](#difference)
+      - [isBoolean](#isboolean)
       - [isDate](#isdate)
       - [isEmpty](#isempty)
       - [isNaNStrict](#isnanstrict)
@@ -372,6 +373,32 @@ import { difference } from '@qntm-code/utils';
 
 const diff = difference([1, 2], [2, 3]);
 // returns [1]
+```
+
+---
+
+#### isBoolean
+
+Checks if a given value is a boolean.
+
+Method arguments:
+
+| Parameter | Type | Optional | Description        |
+| --------- | ---- | -------- | ------------------ |
+| value     | any  | false    | The value to check |
+
+Return type: `boolean`
+
+**Example:**
+
+```typescript
+import { isBoolean } from '@qntm-code/utils';
+
+const value = getBoolean();
+
+if (isBoolean(value)) {
+  // Do something
+}
 ```
 
 ---

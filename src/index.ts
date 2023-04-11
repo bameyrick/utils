@@ -4,6 +4,7 @@ export * from './dates';
 export { difference } from './difference';
 export * from './dom';
 export { isArguments } from './isArguments';
+export * from './isBoolean';
 export { isBuffer } from './isBuffer';
 export { isDate } from './isDate';
 export { isEmpty } from './isEmpty';
