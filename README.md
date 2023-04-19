@@ -29,6 +29,8 @@ A collection of useful utility functions with associated TypeScript types.
           - [customMerge](#custommerge)
         - [Merge performance comparison](#merge-performance-comparison)
       - [difference](#difference)
+      - [formatTime](#formattime)
+        - [FormatTimeOptions](#formattimeoptions)
       - [insertAtIndex](#insertatindex)
       - [isBoolean](#isboolean)
       - [isDate](#isdate)
@@ -100,77 +102,6 @@ A collection of useful utility functions with associated TypeScript types.
       - [isVisible](#isvisible)
     - [Types](#types)
       - [Dictionary](#dictionary)
-  - [Attribution](#attribution)
-    > > > > > > > main
-          - [isDate](#isdate)
-          - [isEmpty](#isempty)
-          - [isNaNStrict](#isnanstrict)
-          - [isNumber](#isnumber)
-          - [isObject](#isobject)
-          - [isString](#isstring)
-          - [isEqual](#isequal)
-            - [isEqual performance comparison](#isequal-performance-comparison)
-            - [EqualityType](#equalitytype)
-            - [IndividualEqualityType](#individualequalitytype)
-          - [isRegExp](#isregexp)
-          - [isArguments](#isarguments)
-          - [isBuffer](#isbuffer)
-          - [isError](#iserror)
-          - [isGeneratorObject](#isgeneratorobject)
-          - [isPlainObject](#isplainobject)
-          - [isReactElement](#isreactelement)
-          - [typeOf](#typeof)
-          - [randomNumberBetweenRange](#randomnumberbetweenrange)
-        - [Async helpers](#async-helpers)
-          - [asyncEvery](#asyncevery)
-          - [asyncFilter](#asyncfilter)
-          - [asyncForEach](#asyncforeach)
-          - [asyncSome](#asyncsome)
-          - [delay](#delay)
-        - [Date helpers](#date-helpers)
-          - [convertTimeUnit](#converttimeunit)
-          - [msToUnit](#mstounit)
-          - [unitToMs](#unittoms)
-          - [isSameDate](#issamedate)
-          - [TimeUnit](#timeunit)
-          - [getToday](#gettoday)
-          - [getEndOfDay](#getendofday)
-          - [getEndOfHour](#getendofhour)
-          - [getEndOfMinute](#getendofminute)
-          - [getEndOfMonth](#getendofmonth)
-          - [getEndOfSecond](#getendofsecond)
-          - [getEndOfWeek](#getendofweek)
-          - [getEndOfYear](#getendofyear)
-          - [getStartOfDay](#getstartofday)
-          - [getStartOfHour](#getstartofhour)
-          - [getStartOfMinute](#getstartofminute)
-          - [getStartOfMonth](#getstartofmonth)
-          - [getStartOfSecond](#getstartofsecond)
-          - [getStartOfWeek](#getstartofweek)
-          - [getStartOfYear](#getstartofyear)
-          - [setEndOfDay](#setendofday)
-          - [setEndOfHour](#setendofhour)
-          - [setEndOfMinute](#setendofminute)
-          - [setEndOfMonth](#setendofmonth)
-          - [setEndOfSecond](#setendofsecond)
-          - [setEndOfWeek](#setendofweek)
-          - [setEndOfYear](#setendofyear)
-          - [setStartOfDay](#setstartofday)
-          - [setStartOfHour](#setstartofhour)
-          - [setStartOfMinute](#setstartofminute)
-          - [setStartOfMonth](#setstartofmonth)
-          - [setStartOfSecond](#setstartofsecond)
-          - [setStartOfWeek](#setstartofweek)
-          - [setStartOfYear](#setstartofyear)
-        - [DOM helpers](#dom-helpers)
-          - [getAncestors](#getancestors)
-          - [getNonInlineParent](#getnoninlineparent)
-          - [getPositionedParent](#getpositionedparent)
-          - [getScrollParent](#getscrollparent)
-          - [isDisplayInline](#isdisplayinline)
-          - [isVisible](#isvisible)
-        - [Types](#types)
-          - [Dictionary](#dictionary)
   - [Attribution](#attribution)
 
 ## Install
@@ -446,6 +377,47 @@ import { difference } from '@qntm-code/utils';
 const diff = difference([1, 2], [2, 3]);
 // returns [1]
 ```
+
+---
+
+#### formatTime
+
+Formats a given time to a human readable string.
+
+Method arguments:
+
+| Parameter | Type                                    | Optional | Description                       |
+| --------- | --------------------------------------- | -------- | --------------------------------- |
+| time      | number                                  | false    | The time to format                |
+| options   | [FormatTimeOptions](#formattimeoptions) | true     | The options to use for formatting |
+
+Return type: `string`
+
+**Example:**
+
+```typescript
+import { formatTime } from '@qntm-code/utils';
+
+const formattedTime = formatTime(71000, {
+  hourSuffix: ' HOURS',
+  minuteSuffix: ' MINUTES',
+  secondSuffix: ' SECONDS',
+});
+
+// formattedTime = '00 HOUR 01 MINUTE 11 SECONDS'
+```
+
+##### FormatTimeOptions
+
+| Parameter            | Type                  | Default               | Description                                                                           |
+| -------------------- | --------------------- | --------------------- | ------------------------------------------------------------------------------------- |
+| forceAllUnits        | boolean               | true                  | Whether to force all units to be displayed                                            |
+| timeUnit             | [TimeUnit](#timeunit) | TimeUnit.Milliseconds | The time unit that is being provided                                                  |
+| secondsDecimalPlaces | number                | 0                     | The number of decimal places to display for seconds                                   |
+| padDecimals          | boolean               | false                 | Whether to pad decimals with 0s to match the number provided for secondsDecimalPlaces |
+| hourSuffix           | string                | `h`                   | The suffix to use for hours                                                           |
+| minuteSuffix         | string                | `m`                   | The suffix to use for minutes                                                         |
+| secondSuffix         | string                | `s`                   | The suffix to use for seconds                                                         |
 
 ---
 
