@@ -1,3 +1,4 @@
+import { isMoment } from 'moment';
 import { isArguments } from './isArguments';
 import { isBuffer } from './isBuffer';
 import { isDate } from './isDate';
@@ -42,6 +43,7 @@ export enum ValueType {
   stringiterator = 'stringiterator',
   arrayiterator = 'arrayiterator',
   generatorfunction = 'generatorfunction',
+  moment = 'moment',
 }
 
 /**
@@ -54,6 +56,10 @@ export function typeOf(value: any): ValueType | string {
 
   if (value === null) {
     return ValueType.null;
+  }
+
+  if (isMoment(value)) {
+    return ValueType.moment;
   }
 
   let type: string = typeof value;

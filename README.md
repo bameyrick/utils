@@ -156,7 +156,7 @@ if (isNullOrUndefined(value)) {
 
 #### clone
 
-Recursively (deep) clones native types, like Object, Array, RegExp, Date, Map, Set, Symbol, Error as well as primitives.
+Recursively (deep) clones native types, like Object, Array, RegExp, Date, Map, Set, Symbol, Error, [moment](https://momentjs.com/) as well as primitives.
 
 Method arguments:
 
@@ -631,7 +631,7 @@ if (isString(value)) {
 
 Performs a deep comparison between two values to determine if they are equivalent.
 
-**Note:** This method supports comparing nulls, undefineds, booleans, numbers, strings, Dates, objects, Functions, Arrays, RegExs, Maps, Sets, and Typed Arrays.
+**Note:** This method supports comparing nulls, undefineds, booleans, numbers, strings, Dates, objects, Functions, Arrays, RegExs, Maps, Sets, Typed Arrays, and [Moments](https://momentjs.com).
 
 Object objects are compared by their own, not inherited, enumerable properties.
 

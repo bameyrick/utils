@@ -163,6 +163,7 @@
     "underscore": "^1.13.6"
   },
   "dependencies": {
+    "moment": "^2.29.4",
     "viewport-details": "^3.0.1"
   }
 }

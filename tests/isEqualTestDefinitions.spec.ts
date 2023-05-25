@@ -5,6 +5,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 
+import * as moment from 'moment';
 import { IsEqualTestSuite } from './types';
 
 function func1() {}
@@ -730,7 +731,6 @@ export const isEqualTests: IsEqualTestSuite[] = [
       },
     ],
   },
-
   {
     description: 'Typed arrays',
     tests: [
@@ -786,6 +786,29 @@ export const isEqualTests: IsEqualTestSuite[] = [
         description: 'pseudo array and equivalent typed array are not equal',
         a: { '0': 1, '1': 2, length: 2, constructor: Int32Array },
         b: new Int32Array([1, 2]),
+        expected: false,
+      },
+    ],
+  },
+  {
+    description: 'Moment',
+    tests: [
+      {
+        description: 'Moment and any other object are not equal',
+        a: moment(),
+        b: new Date(),
+        expected: false,
+      },
+      {
+        description: 'Two moments with the same value are equal',
+        a: moment('2018-01-01'),
+        b: moment('2018-01-01'),
+        expected: true,
+      },
+      {
+        description: 'Two moments with different values are not equal',
+        a: moment('2018-01-01'),
+        b: moment('2018-01-02'),
         expected: false,
       },
     ],

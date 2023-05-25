@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import { clone, isEqual } from '../src';
 
 describe('clone', () => {
@@ -91,6 +92,13 @@ describe('clone', () => {
 
   it(`should return primitives`, () => {
     expect(isEqual(clone(0), 0)).toBeTrue();
+  });
+
+  it(`should use moment's own clone method`, () => {
+    const source = moment();
+    const cloned = clone(source).add(1, 'day');
+
+    expect(source.isSame(cloned)).toBeFalse();
   });
 
   describe(`RegExp`, () => {

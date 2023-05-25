@@ -1,3 +1,4 @@
+import { Moment } from 'moment';
 import { isPlainObject } from './isPlainObject';
 import { typeOf, ValueType } from './typeOf';
 
@@ -53,6 +54,9 @@ function cloneShallow<T>(value: T): T {
     }
     case ValueType.regexp: {
       return cloneRegExp(value as unknown as RegExp) as unknown as T;
+    }
+    case ValueType.moment: {
+      return (value as Moment).clone() as T;
     }
   }
 
