@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import { typeOf, ValueType } from '../src/typeOf';
 
 describe(`typeOf`, () => {
@@ -7,6 +8,10 @@ describe(`typeOf`, () => {
 
   it(`null`, () => {
     expect(typeOf(null)).toBe(ValueType.null);
+  });
+
+  it(`moment`, () => {
+    expect(typeOf(moment())).toBe(ValueType.moment);
   });
 
   describe(`booleans`, () => {
