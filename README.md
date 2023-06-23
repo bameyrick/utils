@@ -64,6 +64,9 @@ A collection of useful utility functions with associated TypeScript types.
       - [unitToMs](#unittoms)
       - [isSameDate](#issamedate)
       - [TimeUnit](#timeunit)
+      - [addToDate](#addtodate)
+        - [Special considerations for months and years](#special-considerations-for-months-and-years)
+    - [subtractFromDate](#subtractfromdate)
       - [getToday](#gettoday)
       - [getEndOfDay](#getendofday)
       - [getEndOfHour](#getendofhour)
@@ -1297,6 +1300,85 @@ A TypeScript enum of available options to provide to time unit conversion functi
 | Years        | `years`        |
 
 ---
+
+#### addToDate
+
+Returns a new date object with a given amount of a given [TimeUnit](#timeunit) added to it.
+
+| Parameter | Type                  | Description        |
+| --------- | --------------------- | ------------------ |
+| date      | Date                  | The date to add to |
+| amount    | any                   | The amount to add  |
+| unit      | [TimeUnit](#timeunit) | The unit to add    |
+
+**Example:**
+
+```typescript
+import { addToDate, TimeUnit } from '@qntm-code/utils';
+
+const date: Date = new Date();
+
+const thisTimeTomorrow: Date = addToDate(date, 1 TimeUnit.Day);
+```
+
+##### Special considerations for months and years
+
+If the day of the month on the original date is greater than the number of days in the final month, the day of the month will change to the last day in the final month.
+
+```typescript
+import { addToDate, TimeUnit } from '@qntm-code/utils';
+
+const date: Date = new Date('2023-01-31'); // 31 January
+
+const nextMonth: Date = addToDate(date, 1, TimeUnit.Month); // 28 February
+```
+
+There are also special considerations to keep in mind when adding time that crosses over daylight saving time. If you are adding years, months, weeks, or days, the original hour will always match the added hour.
+
+Adding a month will add the specified number of months to the date.
+
+```typescript
+const date = new Date('2023-02-28'); // February 28
+const newDate = addToDate(date, 1, TimeUnit.Month); // March 28
+```
+
+```typescript
+const date = new Date('2023-03-25T06:00:00.000Z'); // The day before BST in the UK
+date.getHours(); // 6
+const newDate = addToDate(date, 1, TimeUnit.Day).getHours(); // 6
+```
+
+If you are adding hours, minutes, seconds, or milliseconds, the assumption is that you want precision to the hour, and will result in a different hour.
+
+```typescript
+const date = new Date('2023-03-25T06:00:00.000Z'); // The day before BST in the UK
+date.getHours(); // 6
+const newDate = addToDate(date, 24, TimeUnit.Hours).getHours(); // 7
+```
+
+---
+
+### subtractFromDate
+
+Returns a new date object with a given amount of a given [TimeUnit](#timeunit) subracted from it.
+
+This is exactly the same as moment#add, only instead of [addToDate](#addtodate), it subtracts time.
+
+| Parameter | Type                  | Description               |
+| --------- | --------------------- | ------------------------- |
+| date      | Date                  | The date to subtract from |
+| amount    | any                   | The amount to subtract    |
+| unit      | [TimeUnit](#timeunit) | The unit to subtract      |
+
+**Example:**
+
+```typescript
+import { subtractFrom, TimeUnit } from '@qntm-code/utils';
+
+const date: Date = new Date();
+
+const thisTimeTomorrow: Date = subtractFrom(date, 1 TimeUnit.Day);
+```
 
 #### getToday
 
