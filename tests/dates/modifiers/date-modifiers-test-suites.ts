@@ -89,10 +89,9 @@ function generateTestsForDate(date: string): DateModifierTestUnit[] {
   const hourAfter = momentToISO(moment(date).add(1, 'hour'));
 
   const result = Object.values(TimeUnit)
-    .filter(unit => !/s$/.test(unit))
-    // .filter(unit => unit !== TimeUnit.Year)
+    .filter(unit => !unit.endsWith('s'))
     .map(unit => {
-      const hour = date.match(/T(\d{2}):/)![1];
+      const hour = /T(\d{2}):/.exec(date)![1];
 
       const unitBefore = momentToISOMaintainingHour(moment(date).subtract(1, unit), hour);
       const unitAfter = momentToISOMaintainingHour(moment(date).add(1, unit), hour);
