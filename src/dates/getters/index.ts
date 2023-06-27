@@ -5,6 +5,7 @@ export { getEndOfMonth } from './getEndOfMonth';
 export { getEndOfSecond } from './getEndOfSecond';
 export { getEndOfWeek } from './getEndOfWeek';
 export { getEndOfYear } from './getEndOfYear';
+export * from './getMonthNames';
 export { getStartOfDay } from './getStartOfDay';
 export { getStartOfHour } from './getStartOfHour';
 export { getStartOfMinute } from './getStartOfMinute';
