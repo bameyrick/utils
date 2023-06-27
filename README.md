@@ -71,6 +71,8 @@ A collection of useful utility functions with associated TypeScript types.
       - [subtractFromDate](#subtractfromdate)
       - [getToday](#gettoday)
       - [getWeekOfYear](#getweekofyear)
+      - [getMonthNames](#getmonthnames)
+        - [GetMonthNamesOptions](#getmonthnamesoptions)
       - [getEndOfDay](#getendofday)
       - [getEndOfHour](#getendofhour)
       - [getEndOfMinute](#getendofminute)
@@ -1461,6 +1463,38 @@ import { getWeekOfYear } from '@qntm-code/utils';
 
 const weekNumber: number = getWeekOfYear(new Date('2023-12-30')); // 52
 ```
+
+---
+
+#### getMonthNames
+
+Gets the month names for the provided locale.
+
+| Parameter | Type                                          | Optional                                       | Default value                                   | Description |
+| --------- | --------------------------------------------- | ---------------------------------------------- | ----------------------------------------------- | ----------- |
+| options   | [GetMonthNamesOptions](#getmonthnamesoptions) | { locale: navigator.language, format: 'long' } | The options to use when getting the month names |
+
+Return type: `Array<string>`
+
+**Example:**
+
+```typescript
+import { getMonthNames, GetMonthNamesOptions } from '@qntm-code/utils';
+
+const options: GetMonthNamesOptions = {
+  locale: 'en-GB',
+  format: 'short',
+};
+
+const monthNames: Array<string> = getMonthNames(options); // ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', Dec']
+```
+
+##### GetMonthNamesOptions
+
+| Parameter | Type   | Optional | Default value      | Description                                                                                                    |
+| --------- | ------ | -------- | ------------------ | -------------------------------------------------------------------------------------------------------------- |
+| locale    | string | true     | navigator.language | The locale to use when getting the month names                                                                 |
+| format    | string | true     | `long`             | The format to use when getting the month names. Options are `numeric`, `2-digit`, `long`, `short`, or `narrow` |
 
 ---
 
