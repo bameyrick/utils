@@ -1,5 +1,5 @@
+export * from './comparators';
 export * from './convert-units';
 export * from './getters';
-export * from './isSameDate';
 export * from './modifiers';
 export * from './setters';

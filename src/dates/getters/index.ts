@@ -13,3 +13,4 @@ export { getStartOfSecond } from './getStartOfSecond';
 export { getStartOfWeek } from './getStartOfWeek';
 export { getStartOfYear } from './getStartOfYear';
 export { getToday } from './getToday';
+export { getWeekOfYear } from './getWeekOfYear';
