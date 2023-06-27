@@ -62,12 +62,15 @@ A collection of useful utility functions with associated TypeScript types.
       - [convertTimeUnit](#converttimeunit)
       - [msToUnit](#mstounit)
       - [unitToMs](#unittoms)
-      - [isSameDate](#issamedate)
+      - [compareDates](#comparedates)
+      - [DateComparator](#datecomparator)
       - [TimeUnit](#timeunit)
+      - [isSameDate](#issamedate)
       - [addToDate](#addtodate)
         - [Special considerations for months and years](#special-considerations-for-months-and-years)
-    - [subtractFromDate](#subtractfromdate)
+      - [subtractFromDate](#subtractfromdate)
       - [getToday](#gettoday)
+      - [getWeekOfYear](#getweekofyear)
       - [getEndOfDay](#getendofday)
       - [getEndOfHour](#getendofhour)
       - [getEndOfMinute](#getendofminute)
@@ -1234,6 +1237,76 @@ const milliseconds = unitToMs(days, 'days');
 
 ---
 
+#### compareDates
+
+Determines if date a is before/before or same/same/after or same/or after to date b. If you want to limit the granularity to a unit other than milliseconds, pass it as the second parameter.
+
+When including a second parameter, it will match all units equal or larger. For example, if passing in month will check month and year, or if passing in day will check day, month, and year.
+
+| Parameter                           | Type                              | Optional | Description                               |
+| ----------------------------------- | --------------------------------- | -------- | ----------------------------------------- |
+| a                                   | Date                              | false    | The first date to compare                 |
+| comparator                          | [DateComparator](#datecomparator) | false    | The comparator to use for the comparison  |
+| b                                   | Date                              | false    | The second date to compare                |
+| unit                                | [TimeUnit](#timeunit)             | true     | The time unit to limit the comparison to. |
+| Defaults to milliseconds if omitted |
+
+Return type: `boolean`
+
+**Example:**
+
+```typescript
+import { compareDates, DateComparator, TimeUnit } from '@qntm-code/utils';
+
+const a: Date = new Date(2023, 0, 1, 12, 0, 0, 0);
+const b: Date = new Date(2023, 0, 1, 9, 0, 1, 12);
+
+compareDates(a, DateComparator.Before, b, TimeUnit.Year); // false
+compareDates(a, DateComparator.BeforeOrSame, b, TimeUnit.Day); // true
+compareDates(a, DateComparator.Same, b, TimeUnit.Month); // true
+compareDates(a, DateComparator.AfterOrSame, b, TimeUnit.Hour); // true
+compareDates(a, DateComparator.After, b, TimeUnit.Minute); // false
+```
+
+---
+
+#### DateComparator
+
+A TypeScript enum of available options to provide to date comparison functions. For vanilla JS just use the string values from the value column.
+
+| Enum Key     | Value |
+| ------------ | ----- |
+| Before       | `<`   |
+| BeforeOrSame | `<=`  |
+| Same         | `===` |
+| AfterOrSame  | `>=`  |
+| After        | `>`   |
+
+#### TimeUnit
+
+A TypeScript enum of available options to provide to time unit conversion functions. For vanilla JS just use the string values from the value column.
+
+| Enum Key     | Value          |
+| ------------ | -------------- |
+| Millisecond  | `millisecond`  |
+| Milliseconds | `milliseconds` |
+| Second       | `second`       |
+| Seconds      | `seconds`      |
+| Minute       | `minute`       |
+| Minutes      | `minutes`      |
+| Hour         | `hour`         |
+| Hours        | `hours`        |
+| Day          | `day`          |
+| Days         | `days`         |
+| Week         | `week`         |
+| Weeks        | `weeks`        |
+| Month        | `month`        |
+| Months       | `months`       |
+| Year         | `year`         |
+| Years        | `years`        |
+
+---
+
 #### isSameDate
 
 Determines if two dates are the same. If you want to limit the granularity to a unit other than milliseconds, pass it as the second parameter.
@@ -1275,31 +1348,6 @@ if (isSameDate(a, c, TimeUnit.Day)) {
   // This will not run because even though the dates are the same day, the months are not the same
 }
 ```
-
-#### TimeUnit
-
-A TypeScript enum of available options to provide to time unit conversion functions. For vanilla JS just use the string values from the value column.
-
-| Enum Key     | Value          |
-| ------------ | -------------- |
-| Millisecond  | `millisecond`  |
-| Milliseconds | `milliseconds` |
-| Second       | `second`       |
-| Seconds      | `seconds`      |
-| Minute       | `minute`       |
-| Minutes      | `minutes`      |
-| Hour         | `hour`         |
-| Hours        | `hours`        |
-| Day          | `day`          |
-| Days         | `days`         |
-| Week         | `week`         |
-| Weeks        | `weeks`        |
-| Month        | `month`        |
-| Months       | `months`       |
-| Year         | `year`         |
-| Years        | `years`        |
-
----
 
 #### addToDate
 
@@ -1358,7 +1406,7 @@ const newDate = addToDate(date, 24, TimeUnit.Hours).getHours(); // 7
 
 ---
 
-### subtractFromDate
+#### subtractFromDate
 
 Returns a new date object with a given amount of a given [TimeUnit](#timeunit) subracted from it.
 
@@ -1392,6 +1440,26 @@ Return type: `Date`
 import { getToday } from '@qntm-code/utils';
 
 const today: Date = getToday();
+```
+
+---
+
+#### getWeekOfYear
+
+Gets the week number of the year for the given date. It will use today's date if no date is provided.
+
+| Parameter | Type | Optional | Default value | Description        |
+| --------- | ---- | -------- | ------------- | ------------------ |
+| date      | Date | true     | new Date()    | The date to modify |
+
+Return type: `number`
+
+**Example:**
+
+```typescript
+import { getWeekOfYear } from '@qntm-code/utils';
+
+const weekNumber: number = getWeekOfYear(new Date('2023-12-30')); // 52
 ```
 
 ---

@@ -1,4 +1,4 @@
-import { isSameDate, TimeUnit } from '../../src';
+import { isSameDate, TimeUnit } from '../../../src';
 
 describe(`datesAreSame`, () => {
   describe('year', () => {
