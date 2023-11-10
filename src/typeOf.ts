@@ -1,9 +1,9 @@
-import { isMoment } from 'moment';
 import { isArguments } from './isArguments';
 import { isBuffer } from './isBuffer';
 import { isDate } from './isDate';
 import { isError } from './isError';
 import { isGeneratorObject } from './isGeneratorObject';
+import { isMoment } from './isMoment';
 import { isRegExp } from './isRegExp';
 
 export enum ValueType {

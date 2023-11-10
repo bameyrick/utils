@@ -154,6 +154,7 @@
     "lint-staged": "^10.3.0",
     "lodash": "^4.17.21",
     "markdown-table": "^2.0.0",
+    "moment": "^2.29.4",
     "number-array-from-range": "^1.0.1",
     "prettier": "^2.1.1",
     "puppeteer": "^19.7.0",
@@ -163,7 +164,6 @@
     "underscore": "^1.13.6"
   },
   "dependencies": {
-    "moment": "^2.29.4",
     "viewport-details": "^3.0.1"
   }
 }
