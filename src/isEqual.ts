@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 
-import { isMoment } from 'moment';
+import { Moment } from 'moment';
+import { isMoment } from './isMoment';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type IndividualEqualityType = null | undefined | boolean | number | string | Date | object | Function;
@@ -113,7 +114,7 @@ export function isEqual(a: any, b: any): boolean {
         return false;
       }
 
-      return a.isSame(b);
+      return (a as Moment).isSame(b as Moment);
     }
 
     const keysA = Object.keys(a as object);
