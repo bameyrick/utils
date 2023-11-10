@@ -13,6 +13,7 @@ export { isEmpty } from './isEmpty';
 export { EqualityType, IndividualEqualityType, isEqual } from './isEqual';
 export { isError } from './isError';
 export { isGeneratorObject } from './isGeneratorObject';
+export { isMoment } from './isMoment';
 export { isNaNStrict } from './isNaNStrict';
 export { isNullOrUndefined } from './isNullOrUndefined';
 export { isNumber } from './isNumber';
