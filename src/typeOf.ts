@@ -195,5 +195,7 @@ function constructorName(value: any): string | null {
 }
 
 function isGeneratorFunction(value: any): value is GeneratorFunction {
-  return constructorName(value) === 'GeneratorFunction.js';
+  const name = constructorName(value);
+
+  return name === 'GeneratorFunction' || name === 'GeneratorFunction.js';
 }
