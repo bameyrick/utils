@@ -1,4 +1,4 @@
-import { isNumber } from './isNumber';
+import { isNumber } from './isNumber.js';
 
 /**
  * Determines whether a given value is a NaN instance

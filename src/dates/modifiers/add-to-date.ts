@@ -1,5 +1,5 @@
-import { TimeUnit } from '../convert-units';
-import { modifyDate } from './modify-date';
+import { TimeUnit } from '../convert-units/index.js';
+import { modifyDate } from './modify-date.js';
 
 /**
  * Adds to a date by a given amount of time units

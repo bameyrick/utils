@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from '../isNullOrUndefined';
+import { isNullOrUndefined } from '../isNullOrUndefined.js';
 
 /**
  * Gets all the elements that a given element is nested within

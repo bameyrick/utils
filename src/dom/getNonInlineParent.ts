@@ -1,5 +1,5 @@
-import { isNullOrUndefined } from '../isNullOrUndefined';
-import { isDisplayInline } from './isDisplayInline';
+import { isNullOrUndefined } from '../isNullOrUndefined.js';
+import { isDisplayInline } from './isDisplayInline.js';
 
 /**
  * Gets the first parent of an element that isn't `display: inline`. Returns null if no matching element

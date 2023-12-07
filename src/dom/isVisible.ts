@@ -1,5 +1,5 @@
 import { getViewportDetails, ViewportDetails } from 'viewport-details';
-import { getAncestors } from '.';
+import { getAncestors } from './index.js';
 
 /**
  * Return whether an element is practically visible, considering things like dimensions of 0, opacity, ``visibility: hidden`` and

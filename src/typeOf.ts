@@ -1,10 +1,10 @@
-import { isArguments } from './isArguments';
-import { isBuffer } from './isBuffer';
-import { isDate } from './isDate';
-import { isError } from './isError';
-import { isGeneratorObject } from './isGeneratorObject';
-import { isMoment } from './isMoment';
-import { isRegExp } from './isRegExp';
+import { isArguments } from './isArguments.js';
+import { isBuffer } from './isBuffer.js';
+import { isDate } from './isDate.js';
+import { isError } from './isError.js';
+import { isGeneratorObject } from './isGeneratorObject.js';
+import { isMoment } from './isMoment.js';
+import { isRegExp } from './isRegExp.js';
 
 export enum ValueType {
   undefined = 'undefined',
@@ -195,5 +195,5 @@ function constructorName(value: any): string | null {
 }
 
 function isGeneratorFunction(value: any): value is GeneratorFunction {
-  return constructorName(value) === 'GeneratorFunction';
+  return constructorName(value) === 'GeneratorFunction.js';
 }

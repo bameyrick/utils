@@ -1,4 +1,4 @@
-import { isEqual } from '.';
+import { isEqual } from './index.js';
 
 /**
  * Creates an array of array values not included in the other given array using isEqual for equality comparisons. The order and references

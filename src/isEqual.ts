@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 
 import { Moment } from 'moment';
-import { isMoment } from './isMoment';
+import { isMoment } from './isMoment.js';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type IndividualEqualityType = null | undefined | boolean | number | string | Date | object | Function;

@@ -1,6 +1,6 @@
-import { TimeUnit, convertTimeUnit, unitToMS } from '../dates';
-import { isNullOrUndefined } from '../isNullOrUndefined';
-import { FormatTimeOptions, FormatTimeOptionsComplete } from './format-time-options';
+import { TimeUnit, convertTimeUnit, unitToMS } from '../dates/index.js';
+import { isNullOrUndefined } from '../isNullOrUndefined.js';
+import { FormatTimeOptions, FormatTimeOptionsComplete } from './format-time-options.js';
 
 /**
  * Formats a given time to a human readable string

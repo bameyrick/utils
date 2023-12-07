@@ -1,4 +1,4 @@
-import { TimeUnit } from '../dates';
+import { TimeUnit } from '../dates/index.js';
 
 export interface FormatTimeOptionsComplete {
   /**

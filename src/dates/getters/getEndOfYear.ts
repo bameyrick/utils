@@ -1,4 +1,4 @@
-import { setEndOfYear } from '../setters';
+import { setEndOfYear } from '../setters/index.js';
 
 /**
  * Takes an optional date and returns a new Date object set to the end of the given/current year

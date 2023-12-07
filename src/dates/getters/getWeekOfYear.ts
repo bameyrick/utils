@@ -1,5 +1,5 @@
-import { TimeUnit, convertTimeUnit } from '../convert-units';
-import { getStartOfYear } from './getStartOfYear';
+import { TimeUnit, convertTimeUnit } from '../convert-units/index.js';
+import { getStartOfYear } from './getStartOfYear.js';
 
 /**
  * Gets the week number of the year for the given date. Will use today's date if no date is provided.

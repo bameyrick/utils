@@ -1,4 +1,4 @@
-import { setStartOfDay } from '../setters';
+import { setStartOfDay } from '../setters/index.js';
 
 /**
  * Gets a Date for the start of the given/current day

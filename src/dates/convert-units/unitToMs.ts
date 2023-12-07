@@ -1,4 +1,4 @@
-import { TimeUnit } from '.';
+import { TimeUnit } from './index.js';
 
 /**
  * Converts a TimeUnit into milliseconds

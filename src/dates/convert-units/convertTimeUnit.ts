@@ -1,4 +1,4 @@
-import { unitToMS, msToUnit, TimeUnit } from '.';
+import { TimeUnit, msToUnit, unitToMS } from './index.js';
 
 /**
  * Converts a value of a given TimeUnit into another TimeUnit

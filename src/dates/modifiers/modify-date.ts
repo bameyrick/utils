@@ -1,5 +1,5 @@
-import { TimeUnit, unitToMS } from '../convert-units';
-import { getEndOfMonth, getStartOfMonth } from '../getters';
+import { TimeUnit, unitToMS } from '../convert-units/index.js';
+import { getEndOfMonth, getStartOfMonth } from '../getters/index.js';
 
 /**
  * Modifies a date by a given amount of time units

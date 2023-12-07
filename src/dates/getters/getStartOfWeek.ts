@@ -1,4 +1,4 @@
-import { setStartOfWeek } from '../setters';
+import { setStartOfWeek } from '../setters/index.js';
 
 /**
  * Takes an optional date and returns a new Date object set to the start of the given/current week

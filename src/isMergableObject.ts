@@ -1,4 +1,4 @@
-import { isReactElement } from './isReactElement';
+import { isReactElement } from './isReactElement.js';
 
 /**
  * Figuring out which properties of an object should be recursively iterated over when merging.

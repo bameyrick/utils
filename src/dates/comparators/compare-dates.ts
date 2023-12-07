@@ -1,6 +1,6 @@
-import { TimeUnit } from '../convert-units';
-import { getWeekOfYear } from '../getters';
-import { DateComparator } from './date-comparator.enum';
+import { TimeUnit } from '../convert-units/index.js';
+import { getWeekOfYear } from '../getters/index.js';
+import { DateComparator } from './date-comparator.enum.js';
 
 /**
  * Determines if date a is before/before or same/same/after or same/or after to date b. If you want to limit the granularity to a unit other

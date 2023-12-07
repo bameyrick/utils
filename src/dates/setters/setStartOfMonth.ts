@@ -1,4 +1,4 @@
-import { setStartOfDay } from '.';
+import { setStartOfDay } from './index.js';
 
 /**
  * Takes a given date and mutates it to the start of the given month
