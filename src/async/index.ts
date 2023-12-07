@@ -1,5 +1,5 @@
-export { asyncEvery } from './asyncEvery';
-export { asyncFilter } from './asyncFilter';
-export { asyncForEach } from './asyncForEach';
-export { asyncSome } from './asyncSome';
-export { delay } from './delay';
+export * from './asyncEvery';
+export * from './asyncFilter';
+export * from './asyncForEach';
+export * from './asyncSome';
+export * from './delay';
