@@ -1,6 +1,6 @@
 import { Moment } from 'moment';
-import { isPlainObject } from './isPlainObject';
-import { typeOf, ValueType } from './typeOf';
+import { isPlainObject } from './isPlainObject.js';
+import { typeOf, ValueType } from './typeOf.js';
 
 type InstanceClone<T> = ((value: T) => T) | boolean;
 

@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from './isNullOrUndefined';
+import { isNullOrUndefined } from './isNullOrUndefined.js';
 
 export function isMoment(value: unknown): boolean {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

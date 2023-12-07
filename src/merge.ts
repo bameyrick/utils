@@ -1,4 +1,4 @@
-import { isMergeableObject } from './isMergableObject';
+import { isMergeableObject } from './isMergableObject.js';
 
 export interface MergeOptions {
   /**

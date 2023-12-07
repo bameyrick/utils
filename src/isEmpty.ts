@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from '.';
+import { isNullOrUndefined } from './index.js';
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 namespace Empty {

@@ -1,4 +1,4 @@
-import { setStartOfHour } from '.';
+import { setStartOfHour } from './index.js';
 
 /**
  * Takes a given date and mutates it to the start of the given day

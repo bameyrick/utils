@@ -1,4 +1,4 @@
-import { isDate, isNullOrUndefined } from '.';
+import { isDate, isNullOrUndefined } from './index.js';
 
 /**
  * Determines whether a given value is an object

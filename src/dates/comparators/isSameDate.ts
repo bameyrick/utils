@@ -1,6 +1,6 @@
-import { TimeUnit } from '../convert-units';
-import { compareDates } from './compare-dates';
-import { DateComparator } from './date-comparator.enum';
+import { TimeUnit } from '../convert-units/index.js';
+import { compareDates } from './compare-dates.js';
+import { DateComparator } from './date-comparator.enum.js';
 
 /**
  * Determines if two dates are the same. If you want to limit the granularity to a unit other than milliseconds, pass it as the second

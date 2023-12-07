@@ -1,2 +1,2 @@
-export * from './format-time';
-export * from './format-time-options';
+export * from './format-time-options.js';
+export * from './format-time.js';
