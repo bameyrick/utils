@@ -1,2 +1,2 @@
 export * from './format-time';
-export { FormatTimeOptions } from './format-time-options';
+export * from './format-time-options';
