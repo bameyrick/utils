@@ -168,7 +168,8 @@ describe(`typeOf`, () => {
     });
 
     it(`rejected Promise`, () => {
-      expect(typeOf(Promise.reject())).toBe(ValueType.promise);
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      expect(typeOf(Promise.reject().catch(() => {}))).toBe(ValueType.promise);
     });
   });
 
