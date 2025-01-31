@@ -18,6 +18,6 @@ describe('getComputedStyleAsNumber', () => {
     const element = createElement('div', { width: '100px' });
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-    expect(() => (getComputedStyleAsNumber as any)(element, 'sausage')).toThrowError('Element does not have a computed "height');
+    expect(() => (getComputedStyleAsNumber as any)(element, 'sausage')).toThrowError('Element does not have a computed "sausage');
   });
 });
