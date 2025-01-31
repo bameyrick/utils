@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from '../isNullOrUndefined.js';
+import { isNullOrUndefined } from '../type-predicates/isNullOrUndefined.js';
 import { isDisplayInline } from './isDisplayInline.js';
 
 /**

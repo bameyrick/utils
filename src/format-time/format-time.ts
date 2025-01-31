@@ -1,5 +1,5 @@
 import { TimeUnit, convertTimeUnit, unitToMS } from '../dates/index.js';
-import { isNullOrUndefined } from '../isNullOrUndefined.js';
+import { isNullOrUndefined } from '../type-predicates/isNullOrUndefined.js';
 import { FormatTimeOptions, FormatTimeOptionsComplete } from './format-time-options.js';
 
 /**

@@ -1,4 +1,7 @@
 export * from './getAncestors.js';
+export * from './getComputedStyleAsNumber.js';
+export * from './getElementHeight.js';
+export * from './getElementWidth.js';
 export * from './getNonInlineParent.js';
 export * from './getPositionedParent.js';
 export * from './getScrollParent.js';

@@ -14,8 +14,8 @@ import * as ramda from 'ramda';
 import * as _ from 'underscore';
 import { isDeepStrictEqual } from 'util';
 import { clone, isEqual, merge } from './src';
-import { isEqualTests } from './tests/isEqualTestDefinitions.spec';
-import { mergeTests } from './tests/mergeTestDefinitions.spec';
+import { mergeTests } from './src/merge/mergeTestDefinitions.spec';
+import { isEqualTests } from './src/type-predicates/isEqualTestDefinitions.spec';
 
 interface Benchmark {
   name: string;

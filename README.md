@@ -17,21 +17,8 @@ A collection of useful utility functions with associated TypeScript types.
     - [npm](#npm)
     - [yarn](#yarn)
   - [Documentation](#documentation)
-    - [Generic Helpers](#generic-helpers)
+    - [Type Predicates](#type-predicates)
       - [isNullOrUndefined](#isnullorundefined)
-      - [clone](#clone)
-        - [instanceClone](#instanceclone)
-        - [clone performance comparison](#clone-performance-comparison)
-      - [merge](#merge)
-        - [merge options](#merge-options)
-          - [arrayMerge](#arraymerge)
-          - [isMergableObject](#ismergableobject)
-          - [customMerge](#custommerge)
-        - [Merge performance comparison](#merge-performance-comparison)
-      - [difference](#difference)
-      - [formatTime](#formattime)
-        - [FormatTimeOptions](#formattimeoptions)
-      - [insertAtIndex](#insertatindex)
       - [isBoolean](#isboolean)
       - [isDate](#isdate)
       - [isEmpty](#isempty)
@@ -51,6 +38,21 @@ A collection of useful utility functions with associated TypeScript types.
       - [isPlainObject](#isplainobject)
       - [isReactElement](#isreactelement)
       - [typeOf](#typeof)
+    - [clone](#clone)
+      - [instanceClone](#instanceclone)
+      - [clone performance comparison](#clone-performance-comparison)
+    - [merge](#merge)
+      - [merge options](#merge-options)
+        - [arrayMerge](#arraymerge)
+        - [isMergableObject](#ismergableobject)
+        - [customMerge](#custommerge)
+      - [Merge performance comparison](#merge-performance-comparison)
+    - [difference](#difference)
+    - [formatTime](#formattime)
+      - [FormatTimeOptions](#formattimeoptions)
+    - [insertAtIndex](#insertatindex)
+    - [Math](#math)
+      - [sum](#sum)
       - [randomNumberBetweenRange](#randomnumberbetweenrange)
     - [Async helpers](#async-helpers)
       - [asyncEvery](#asyncevery)
@@ -102,6 +104,9 @@ A collection of useful utility functions with associated TypeScript types.
       - [setStartOfWeek](#setstartofweek)
       - [setStartOfYear](#setstartofyear)
     - [DOM helpers](#dom-helpers)
+      - [getComputedStyleAsNumber](#getcomputedstyleasnumber)
+      - [getElementHeight](#getelementheight)
+      - [getElementWidth](#getelementwidth)
       - [getAncestors](#getancestors)
       - [getNonInlineParent](#getnoninlineparent)
       - [getPositionedParent](#getpositionedparent)
@@ -110,6 +115,8 @@ A collection of useful utility functions with associated TypeScript types.
       - [isVisible](#isvisible)
     - [Types](#types)
       - [Dictionary](#dictionary)
+    - [Constants](#constants)
+      - [isJsdom](#isjsdom)
   - [Attribution](#attribution)
 
 ## Install
@@ -132,7 +139,7 @@ yarn add @qntm-code/utils
 
 This documentation is written in TypeScript, however this library works fine in vanilla JavaScript too.
 
-### Generic Helpers
+### Type Predicates
 
 ---
 
@@ -158,297 +165,6 @@ const value = getTheValue();
 if (isNullOrUndefined(value)) {
   // Do something
 }
-```
-
----
-
-#### clone
-
-Recursively (deep) clones native types, like Object, Array, RegExp, Date, Map, Set, Symbol, Error, [moment](https://momentjs.com/) as well as primitives.
-
-Method arguments:
-
-| Parameter     | Type                           | Optional | Description                             |
-| ------------- | ------------------------------ | -------- | --------------------------------------- |
-| value         | any                            | false    | The value to clone                      |
-| instanceClone | `((value: T) => T) or boolean` | true     | [See description below](#instanceclone) |
-
-Return type: `T`
-
-##### instanceClone
-
-This paramater specifies whether or not to clone instances (objects that are from a custom class or are not created by the Object constructor. This value may be true or the function use for cloning instances.
-
-When an instanceClone function is provided, it will be invoked to clone objects that are not "plain" objects (as defined by [isPlainObject](#isplainobject)). If instanceClone is not specified, the function will not attempt to clone non-plain objects, and will simply copy the object reference.
-
-**Example:**
-
-```typescript
-import { clone } from '@qntm-code/utils';
-
-const value: number[] = [1, 2, 3];
-const clonedValues = clone(value);
-```
-
-##### clone performance comparison
-
-The following benchmarks were run on a 2023 Macbook Pro with a M2 Pro chip and 32GB of RAM.
-
-| Package                | Operations per second |
-| ---------------------- | --------------------- |
-| @qntm-code/utils.clone | 127338                |
-| clone-deep             | 115475                |
-| lodash.cloneDeep       | 73027                 |
-
----
-
-#### merge
-
-Merges two objects x and y deeply, returning a new merged object with the elements from both x and y.
-
-If an element at the same key is present for both x and y, the value from y will appear in the result.
-
-Merging creates a new object, so that neither x or y is modified.
-
-Note: By default, arrays are merged by concatenating them.
-
-Method arguments:
-
-| Parameter | Type | Optional | Description                             |
-| --------- | ---- | -------- | --------------------------------------- |
-| x         | any  | false    | The first object to merge               |
-| y         | any  | false    | The second object to merge              |
-| options   | any  | true     | [See description below](#merge-options) |
-
-##### merge options
-
-###### arrayMerge
-
-There are multiple ways to merge two arrays, below are a few examples but you can also create your own custom function.
-
-Your `arrayMerge` function will be called with three arguments: a `target` array, the `source` array, and an `options` object with these properties:
-
-- `isMergeableObject(value)`
-- `cloneUnlessOtherwiseSpecified(value, options)`
-
-**example: overwrite target array:**
-
-Overwrites the existing array values completely rather than concatenating them:
-
-```typescript
-import { merge } from '@qntm-code/utils';
-
-const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray;
-
-merge([1, 2, 3], [3, 2, 1], { arrayMerge: overwriteMerge }); // => [3, 2, 1]
-```
-
-**example: combine arrays:**
-
-Combines objects at the same index in the two arrays.
-
-```typescript
-import { merge } from '@qntm-code/utils';
-
-const combineMerge = (target, source, options) => {
-  const destination = target.slice();
-
-  source.forEach((item, index) => {
-    if (typeof destination[index] === 'undefined') {
-      destination[index] = options.cloneUnlessOtherwiseSpecified(item, options);
-    } else if (options.isMergeableObject(item)) {
-      destination[index] = merge(target[index], item, options);
-    } else if (target.indexOf(item) === -1) {
-      destination.push(item);
-    }
-  });
-  return destination;
-};
-
-merge([{ a: true }], [{ b: true }, 'ah yup'], { arrayMerge: combineMerge }); // => [{ a: true, b: true }, 'ah yup']
-```
-
-###### isMergableObject
-
-By default, `merge` clones every property from almost every kind of object.
-
-You may not want this, if your objects are of special types, and you want to copy the whole object instead of just copying its properties.
-
-You can accomplish this by passing in a function for the `isMergeableObject` option.
-
-If you only want to clone properties of plain objects, and ignore all "special" kinds of instantiated objects, you probably want to drop in [`isPlainObject`](#isplainobject).
-
-```typescript
-import { merge, isPlainObject } from '@qntm-code/utils';
-
-function SuperSpecial() {
-  this.special = 'oh yeah man totally';
-}
-
-const instantiatedSpecialObject = new SuperSpecial();
-
-const target = {
-  someProperty: {
-    cool: 'oh for sure',
-  },
-};
-
-const source = {
-  someProperty: instantiatedSpecialObject,
-};
-
-const defaultOutput = merge(target, source);
-
-defaultOutput.someProperty.cool; // => 'oh for sure'
-defaultOutput.someProperty.special; // => 'oh yeah man totally'
-defaultOutput.someProperty instanceof SuperSpecial; // => false
-
-const customMergeOutput = merge(target, source, {
-  isMergeableObject: isPlainObject,
-});
-
-customMergeOutput.someProperty.cool; // => undefined
-customMergeOutput.someProperty.special; // => 'oh yeah man totally'
-customMergeOutput.someProperty instanceof SuperSpecial; // => true
-```
-
-###### customMerge
-
-Specifies a function which can be used to override the default merge behaviour for a property, based on the property name.
-
-The `customMerge` function will be passed the key for each property, and should return the function which should be used to merge the values for that property.
-
-It may also return undefined, in which case the default merge behaviour will be used.
-
-```typescript
-const alex = {
-  name: {
-    first: 'Alex',
-    last: 'Alexson',
-  },
-  pets: ['Cat', 'Parrot'],
-};
-
-const tony = {
-  name: {
-    first: 'Tony',
-    last: 'Tonison',
-  },
-  pets: ['Dog'],
-};
-
-const mergeNames = (nameA, nameB) => `${nameA.first} and ${nameB.first}`;
-
-const options = {
-  customMerge: key => {
-    if (key === 'name') {
-      return mergeNames;
-    }
-  },
-};
-
-const result = merge(alex, tony, options);
-
-result.name; // => 'Alex and Tony'
-result.pets; // => ['Cat', 'Parrot', 'Dog']
-```
-
-##### Merge performance comparison
-
-The following benchmarks go through the [merge test suite](tests/mergeTestDefinitions.spec.ts) and were run on a 2023 Macbook Pro with a M2 Pro chip and 32GB of RAM.
-
-| Package                | Operations per second |
-| ---------------------- | --------------------- |
-| @qntm-code/utils.merge | 28332                 |
-| deepmerge              | 23497                 |
-
----
-
-#### difference
-
-Creates an array of array values not included in the other given array using isEqual for equality comparisons. The order and references of result values are determined by the first array.
-
-Method arguments:
-
-| Parameter | Type       | Optional | Description                |
-| --------- | ---------- | -------- | -------------------------- |
-| array     | Array<any> | false    | The array to check         |
-| values    | Array<any> | false    | The array to check against |
-
-Return type: `Array<any>`
-
-**Example:**
-
-```typescript
-import { difference } from '@qntm-code/utils';
-
-const diff = difference([1, 2], [2, 3]);
-// returns [1]
-```
-
----
-
-#### formatTime
-
-Formats a given time to a human readable string.
-
-Method arguments:
-
-| Parameter | Type                                    | Optional | Description                       |
-| --------- | --------------------------------------- | -------- | --------------------------------- |
-| time      | number                                  | false    | The time to format                |
-| options   | [FormatTimeOptions](#formattimeoptions) | true     | The options to use for formatting |
-
-Return type: `string`
-
-**Example:**
-
-```typescript
-import { formatTime } from '@qntm-code/utils';
-
-const formattedTime = formatTime(71000, {
-  hourSuffix: ' HOURS',
-  minuteSuffix: ' MINUTES',
-  secondSuffix: ' SECONDS',
-});
-
-// formattedTime = '00 HOUR 01 MINUTE 11 SECONDS'
-```
-
-##### FormatTimeOptions
-
-| Parameter            | Type                  | Default               | Description                                                                           |
-| -------------------- | --------------------- | --------------------- | ------------------------------------------------------------------------------------- |
-| forceAllUnits        | boolean               | true                  | Whether to force all units to be displayed                                            |
-| timeUnit             | [TimeUnit](#timeunit) | TimeUnit.Milliseconds | The time unit that is being provided                                                  |
-| secondsDecimalPlaces | number                | 0                     | The number of decimal places to display for seconds                                   |
-| padDecimals          | boolean               | false                 | Whether to pad decimals with 0s to match the number provided for secondsDecimalPlaces |
-| hourSuffix           | string                | `h`                   | The suffix to use for hours                                                           |
-| minuteSuffix         | string                | `m`                   | The suffix to use for minutes                                                         |
-| secondSuffix         | string                | `s`                   | The suffix to use for seconds                                                         |
-
----
-
-#### insertAtIndex
-
-Inserts a string value at a given index in a source string.
-
-Method arguments:
-
-| Parameter | Type   | Optional | Description            |
-| --------- | ------ | -------- | ---------------------- |
-| source    | string | false    | The source string      |
-| value     | string | false    | The value to insert    |
-| index     | number | false    | The index to insert at |
-
-Return type: `string`
-
-```typescript
-import { insertAtIndex } from '@qntm-code/utils';
-
-insertAtIndex('<strong>', '/', 1);
-
-// returns '</strong>'
 ```
 
 ---
@@ -906,6 +622,323 @@ const value = getTheValue();
 if (typeOf(value) === ValueType.string) {
   // Do something
 }
+```
+
+---
+
+### clone
+
+Recursively (deep) clones native types, like Object, Array, RegExp, Date, Map, Set, Symbol, Error, [moment](https://momentjs.com/) as well as primitives.
+
+Method arguments:
+
+| Parameter     | Type                           | Optional | Description                             |
+| ------------- | ------------------------------ | -------- | --------------------------------------- |
+| value         | any                            | false    | The value to clone                      |
+| instanceClone | `((value: T) => T) or boolean` | true     | [See description below](#instanceclone) |
+
+Return type: `T`
+
+#### instanceClone
+
+This paramater specifies whether or not to clone instances (objects that are from a custom class or are not created by the Object constructor. This value may be true or the function use for cloning instances.
+
+When an instanceClone function is provided, it will be invoked to clone objects that are not "plain" objects (as defined by [isPlainObject](#isplainobject)). If instanceClone is not specified, the function will not attempt to clone non-plain objects, and will simply copy the object reference.
+
+**Example:**
+
+```typescript
+import { clone } from '@qntm-code/utils';
+
+const value: number[] = [1, 2, 3];
+const clonedValues = clone(value);
+```
+
+#### clone performance comparison
+
+The following benchmarks were run on a 2023 Macbook Pro with a M2 Pro chip and 32GB of RAM.
+
+| Package                | Operations per second |
+| ---------------------- | --------------------- |
+| @qntm-code/utils.clone | 127338                |
+| clone-deep             | 115475                |
+| lodash.cloneDeep       | 73027                 |
+
+---
+
+### merge
+
+Merges two objects x and y deeply, returning a new merged object with the elements from both x and y.
+
+If an element at the same key is present for both x and y, the value from y will appear in the result.
+
+Merging creates a new object, so that neither x or y is modified.
+
+Note: By default, arrays are merged by concatenating them.
+
+Method arguments:
+
+| Parameter | Type | Optional | Description                             |
+| --------- | ---- | -------- | --------------------------------------- |
+| x         | any  | false    | The first object to merge               |
+| y         | any  | false    | The second object to merge              |
+| options   | any  | true     | [See description below](#merge-options) |
+
+#### merge options
+
+##### arrayMerge
+
+There are multiple ways to merge two arrays, below are a few examples but you can also create your own custom function.
+
+Your `arrayMerge` function will be called with three arguments: a `target` array, the `source` array, and an `options` object with these properties:
+
+- `isMergeableObject(value)`
+- `cloneUnlessOtherwiseSpecified(value, options)`
+
+**example: overwrite target array:**
+
+Overwrites the existing array values completely rather than concatenating them:
+
+```typescript
+import { merge } from '@qntm-code/utils';
+
+const overwriteMerge = (destinationArray, sourceArray, options) => sourceArray;
+
+merge([1, 2, 3], [3, 2, 1], { arrayMerge: overwriteMerge }); // => [3, 2, 1]
+```
+
+**example: combine arrays:**
+
+Combines objects at the same index in the two arrays.
+
+```typescript
+import { merge } from '@qntm-code/utils';
+
+const combineMerge = (target, source, options) => {
+  const destination = target.slice();
+
+  source.forEach((item, index) => {
+    if (typeof destination[index] === 'undefined') {
+      destination[index] = options.cloneUnlessOtherwiseSpecified(item, options);
+    } else if (options.isMergeableObject(item)) {
+      destination[index] = merge(target[index], item, options);
+    } else if (target.indexOf(item) === -1) {
+      destination.push(item);
+    }
+  });
+  return destination;
+};
+
+merge([{ a: true }], [{ b: true }, 'ah yup'], { arrayMerge: combineMerge }); // => [{ a: true, b: true }, 'ah yup']
+```
+
+##### isMergableObject
+
+By default, `merge` clones every property from almost every kind of object.
+
+You may not want this, if your objects are of special types, and you want to copy the whole object instead of just copying its properties.
+
+You can accomplish this by passing in a function for the `isMergeableObject` option.
+
+If you only want to clone properties of plain objects, and ignore all "special" kinds of instantiated objects, you probably want to drop in [`isPlainObject`](#isplainobject).
+
+```typescript
+import { merge, isPlainObject } from '@qntm-code/utils';
+
+function SuperSpecial() {
+  this.special = 'oh yeah man totally';
+}
+
+const instantiatedSpecialObject = new SuperSpecial();
+
+const target = {
+  someProperty: {
+    cool: 'oh for sure',
+  },
+};
+
+const source = {
+  someProperty: instantiatedSpecialObject,
+};
+
+const defaultOutput = merge(target, source);
+
+defaultOutput.someProperty.cool; // => 'oh for sure'
+defaultOutput.someProperty.special; // => 'oh yeah man totally'
+defaultOutput.someProperty instanceof SuperSpecial; // => false
+
+const customMergeOutput = merge(target, source, {
+  isMergeableObject: isPlainObject,
+});
+
+customMergeOutput.someProperty.cool; // => undefined
+customMergeOutput.someProperty.special; // => 'oh yeah man totally'
+customMergeOutput.someProperty instanceof SuperSpecial; // => true
+```
+
+##### customMerge
+
+Specifies a function which can be used to override the default merge behaviour for a property, based on the property name.
+
+The `customMerge` function will be passed the key for each property, and should return the function which should be used to merge the values for that property.
+
+It may also return undefined, in which case the default merge behaviour will be used.
+
+```typescript
+const alex = {
+  name: {
+    first: 'Alex',
+    last: 'Alexson',
+  },
+  pets: ['Cat', 'Parrot'],
+};
+
+const tony = {
+  name: {
+    first: 'Tony',
+    last: 'Tonison',
+  },
+  pets: ['Dog'],
+};
+
+const mergeNames = (nameA, nameB) => `${nameA.first} and ${nameB.first}`;
+
+const options = {
+  customMerge: key => {
+    if (key === 'name') {
+      return mergeNames;
+    }
+  },
+};
+
+const result = merge(alex, tony, options);
+
+result.name; // => 'Alex and Tony'
+result.pets; // => ['Cat', 'Parrot', 'Dog']
+```
+
+#### Merge performance comparison
+
+The following benchmarks go through the [merge test suite](tests/mergeTestDefinitions.spec.ts) and were run on a 2023 Macbook Pro with a M2 Pro chip and 32GB of RAM.
+
+| Package                | Operations per second |
+| ---------------------- | --------------------- |
+| @qntm-code/utils.merge | 28332                 |
+| deepmerge              | 23497                 |
+
+---
+
+### difference
+
+Creates an array of array values not included in the other given array using isEqual for equality comparisons. The order and references of result values are determined by the first array.
+
+Method arguments:
+
+| Parameter | Type       | Optional | Description                |
+| --------- | ---------- | -------- | -------------------------- |
+| array     | Array<any> | false    | The array to check         |
+| values    | Array<any> | false    | The array to check against |
+
+Return type: `Array<any>`
+
+**Example:**
+
+```typescript
+import { difference } from '@qntm-code/utils';
+
+const diff = difference([1, 2], [2, 3]);
+// returns [1]
+```
+
+---
+
+### formatTime
+
+Formats a given time to a human readable string.
+
+Method arguments:
+
+| Parameter | Type                                    | Optional | Description                       |
+| --------- | --------------------------------------- | -------- | --------------------------------- |
+| time      | number                                  | false    | The time to format                |
+| options   | [FormatTimeOptions](#formattimeoptions) | true     | The options to use for formatting |
+
+Return type: `string`
+
+**Example:**
+
+```typescript
+import { formatTime } from '@qntm-code/utils';
+
+const formattedTime = formatTime(71000, {
+  hourSuffix: ' HOURS',
+  minuteSuffix: ' MINUTES',
+  secondSuffix: ' SECONDS',
+});
+
+// formattedTime = '00 HOUR 01 MINUTE 11 SECONDS'
+```
+
+#### FormatTimeOptions
+
+| Parameter            | Type                  | Default               | Description                                                                           |
+| -------------------- | --------------------- | --------------------- | ------------------------------------------------------------------------------------- |
+| forceAllUnits        | boolean               | true                  | Whether to force all units to be displayed                                            |
+| timeUnit             | [TimeUnit](#timeunit) | TimeUnit.Milliseconds | The time unit that is being provided                                                  |
+| secondsDecimalPlaces | number                | 0                     | The number of decimal places to display for seconds                                   |
+| padDecimals          | boolean               | false                 | Whether to pad decimals with 0s to match the number provided for secondsDecimalPlaces |
+| hourSuffix           | string                | `h`                   | The suffix to use for hours                                                           |
+| minuteSuffix         | string                | `m`                   | The suffix to use for minutes                                                         |
+| secondSuffix         | string                | `s`                   | The suffix to use for seconds                                                         |
+
+---
+
+### insertAtIndex
+
+Inserts a string value at a given index in a source string.
+
+Method arguments:
+
+| Parameter | Type   | Optional | Description            |
+| --------- | ------ | -------- | ---------------------- |
+| source    | string | false    | The source string      |
+| value     | string | false    | The value to insert    |
+| index     | number | false    | The index to insert at |
+
+Return type: `string`
+
+```typescript
+import { insertAtIndex } from '@qntm-code/utils';
+
+insertAtIndex('<strong>', '/', 1);
+
+// returns '</strong>'
+```
+
+---
+
+### Math
+
+---
+
+#### sum
+
+Calculates the sum of an array of numbers.
+
+| Parameter | Type          | Optional | Description                 |
+| --------- | ------------- | -------- | --------------------------- |
+| values    | Array<number> | false    | The array of numbers to sum |
+
+Return type: `number`
+
+**Example:**
+
+```typescript
+import { sum } from '@qntm-code/utils';
+
+const values: Array<number> = [1, 2, 3, 4, 5];
+
+const total: number = sum(values);
 ```
 
 ---
@@ -2074,6 +2107,71 @@ const startOfCurrentYear: Date = setStartOfYear(now);
 
 ---
 
+#### getComputedStyleAsNumber
+
+Gets the computed style of an element as a number.
+
+| Parameter | Type        | Optional | Default value | Description                                    |
+| --------- | ----------- | -------- | ------------- | ---------------------------------------------- |
+| element   | HTMLElement | false    |               | The HTML element you want to get the style for |
+| property  | string      | false    |               | The CSS property you want to get the value for |
+
+Return type: `number`
+
+**Example:**
+
+```typescript
+import { getComputedStyleAsNumber } from '@qntm-code/utils';
+
+const element: HTMLElement = document.getElementById('my-element');
+
+const width: number = getComputedStyleAsNumber(element, 'width');
+```
+
+#### getElementHeight
+
+Gets the height of an element, including padding and border, but not margin.
+
+| Parameter | Type        | Optional | Default value | Description                                     |
+| --------- | ----------- | -------- | ------------- | ----------------------------------------------- |
+| element   | HTMLElement | false    |               | The HTML element you want to get the height for |
+
+Return type: `number`
+
+**Example:**
+
+```typescript
+import { getElementHeight } from '@qntm-code/utils';
+
+const element: HTMLElement = document.getElementById('my-element');
+
+const height: number = getElementHeight(element);
+```
+
+---
+
+#### getElementWidth
+
+Gets the width of an element, including padding and border, but not margin.
+
+| Parameter | Type        | Optional | Default value | Description                                    |
+| --------- | ----------- | -------- | ------------- | ---------------------------------------------- |
+| element   | HTMLElement | false    |               | The HTML element you want to get the width for |
+
+Return type: `number`
+
+**Example:**
+
+```typescript
+import { getElementWidth } from '@qntm-code/utils';
+
+const element: HTMLElement = document.getElementById('my-element');
+
+const width: number = getElementWidth(element);
+```
+
+---
+
 #### getAncestors
 
 Gets all the elements that a given element is nested within
@@ -2190,6 +2288,28 @@ const dictionary: Dictionary<string> = {
   b: 'no',
 };
 ```
+
+---
+
+### Constants
+
+---
+
+#### isJsdom
+
+A boolean value that is true if the current environment is jsdom.
+
+**Example:**
+
+```typescript
+import { isJsdom } from '@qntm-code/utils';
+
+if (isJsdom) {
+  console.log('Running in jsdom');
+}
+```
+
+---
 
 ## Attribution
 
