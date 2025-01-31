@@ -45,7 +45,7 @@ describe(`getMonthNames`, () => {
       'Jun',
       'Jul',
       'Aug',
-      'Sept',
+      'Sep',
       'Oct',
       'Nov',
       'Dec',
