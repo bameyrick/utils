@@ -98,14 +98,14 @@
     }
   },
   "scripts": {
-    "build": "yarn tidy-clean && yarn lint && tsc -p tsconfig.mjs.json && cpy package.mjs.json dist/mjs --rename package.json && tsc -p tsconfig.cjs.json && cpy package.cjs.json dist/cjs --rename package.json",
-    "lint": "yarn tidy-clean && eslint {src,tests}/**/* --ext .ts --ext .js",
+    "build": "npm run tidy-clean && npm run lint && tsc -p tsconfig.mjs.json && cpy package.mjs.json dist/mjs --rename package.json && tsc -p tsconfig.cjs.json && cpy package.cjs.json dist/cjs --rename package.json",
+    "lint": "npm run tidy-clean && eslint src/**/* --ext .ts --ext .js",
     "test": "KARMA_SINGLE_RUN=false karma start ./karma.conf.js",
-    "test-single": "yarn tidy-clean && yarn lint && yarn karma start ./karma.conf.js",
+    "test-single": "npm run tidy-clean && npm run lint && karma start ./karma.conf.js",
     "benchmark": "ts-node ./benchmark.ts",
     "tidy-clean": "rm -rf dist coverage",
-    "prepare-husky": "npx husky-init && yarn",
-    "pre-commit": "lint-staged && yarn test-single"
+    "prepare-husky": "npx husky-init && npm i",
+    "pre-commit": "lint-staged && npm run test-single"
   },
   "lint-staged": {
     "*.ts": [

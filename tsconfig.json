@@ -19,5 +19,5 @@
     }
   },
   "exclude": ["node_modules", "dist/"],
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "src/math/sum.spec.ts"]
 }

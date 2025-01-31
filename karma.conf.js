@@ -6,10 +6,9 @@ module.exports = function (config) {
   config.set({
     frameworks: ['jasmine', 'karma-typescript'],
 
-    files: ['tests/**/*.ts', 'src/**/*.ts'],
+    files: ['src/**/*.ts'],
 
     preprocessors: {
-      'tests/**/*.ts': 'karma-typescript',
       'src/**/*.ts': 'karma-typescript',
     },
 
