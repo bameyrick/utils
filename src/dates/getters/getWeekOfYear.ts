@@ -6,8 +6,9 @@ import { getStartOfYear } from './getStartOfYear.js';
  */
 export function getWeekOfYear(date: Date = new Date()): number {
   const firstDayOfYear = getStartOfYear(date);
+  const offset = firstDayOfYear.getDay() + 1;
 
   const days = convertTimeUnit(date.getTime() - firstDayOfYear.getTime(), TimeUnit.Milliseconds, TimeUnit.Days);
 
-  return Math.ceil(days / 7);
+  return Math.ceil((days + offset) / 7);
 }

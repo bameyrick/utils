@@ -22,6 +22,7 @@ module.exports = function (config) {
 
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
+      captureConsole: true,
       jasmine: {
         random: false,
       },
@@ -42,7 +43,7 @@ module.exports = function (config) {
       reporters: [{ type: 'lcovonly' }, { type: 'text' }],
     },
 
-    reporters: ['spec', 'coverage'],
+    reporters: ['progress', 'coverage'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
