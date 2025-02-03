@@ -8,5 +8,6 @@ export * from './format-time/index.js';
 export * from './insertAtIndex/insertAtIndex.js';
 export * from './math/index.js';
 export * from './merge/merge.js';
+export * from './strings/index.js';
 export * from './type-predicates/index.js';
 export * from './types/index.js';
