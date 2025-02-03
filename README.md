@@ -47,6 +47,12 @@ A collection of useful utility functions with associated TypeScript types.
         - [isMergableObject](#ismergableobject)
         - [customMerge](#custommerge)
       - [Merge performance comparison](#merge-performance-comparison)
+    - [Strings](#strings)
+      - [capitalise](#capitalise)
+        - [CapitaliseOptions](#capitaliseoptions)
+    - [CapitaliseFirst](#capitalisefirst)
+      - [CapitaliseLast](#capitaliselast)
+    - [kebabToPascal](#kebabtopascal)
     - [difference](#difference)
     - [formatTime](#formattime)
       - [FormatTimeOptions](#formattimeoptions)
@@ -825,6 +831,124 @@ The following benchmarks go through the [merge test suite](tests/mergeTestDefini
 | ---------------------- | --------------------- |
 | @qntm-code/utils.merge | 28332                 |
 | deepmerge              | 23497                 |
+
+---
+
+### Strings
+
+---
+
+#### capitalise
+
+Capitalises the characters of a provided string between the given start and end indexes.
+
+Method arguments:
+
+| Parameter | Type                         | Optional | Description                         |
+| --------- | ---------------------------- | -------- | ----------------------------------- |
+| value     | string                       | false    | The string to capitalise            |
+| options   | `Partial<CapitaliseOptions>` | true     | The options to use for capitalising |
+
+Return type: `string`
+
+**Example:**
+
+```typescript
+import { capitalise } from '@qntm-code/utils';
+
+const value = 'hello world';
+
+const capitalised = capitalise(value, { start: 0, end: 5 });
+
+// capitalised = 'HELL0 world'
+```
+
+##### CapitaliseOptions
+
+| Parameter | Type   | Default          | Description                        |
+| --------- | ------ | ---------------- | ---------------------------------- |
+| start     | number | 0                | The start index to capitalise from |
+| end       | number | length of string | The end index to capitalise to     |
+
+---
+
+### CapitaliseFirst
+
+Capitalises the first n characters of a string.
+
+Method arguments:
+
+| Parameter | Type   | Optional | Description                            |
+| --------- | ------ | -------- | -------------------------------------- |
+| value     | string | false    | The string to capitalise               |
+| number    | number | false    | The number of characters to capitalise |
+
+Return type: `string`
+
+**Example:**
+
+```typescript
+import { capitaliseFirst } from '@qntm-code/utils';
+
+const value = 'hello world';
+
+const capitalised = capitaliseFirst(value, 2);
+
+// capitalised = 'HEllo world'
+```
+
+---
+
+#### CapitaliseLast
+
+Capitalises the last n characters of a string.
+
+Method arguments:
+
+| Parameter | Type   | Optional | Description                            |
+| --------- | ------ | -------- | -------------------------------------- |
+| value     | string | false    | The string to capitalise               |
+| number    | number | false    | The number of characters to capitalise |
+
+Return type: `string`
+
+**Example:**
+
+```typescript
+import { capitaliseLast } from '@qntm-code/utils';
+
+const value = 'hello world';
+
+const capitalised = capitaliseLast(value, 2);
+
+// capitalised = 'hello worLD'
+```
+
+---
+
+### kebabToPascal
+
+Converts a kebab-case word to PascalCase.
+
+Method arguments:
+
+| Parameter | Type   | Optional | Description           |
+| --------- | ------ | -------- | --------------------- |
+| value     | string | false    | The string to convert |
+
+Return type: `string`
+
+**Example:**
+
+```typescript
+import { kebabToPascal } from '@qntm-code/utils';
+
+const value = 'hello-world';
+
+const pascal = kebabToPascal(value);
+
+// pascal = 'HelloWorld'
+```
 
 ---
 
