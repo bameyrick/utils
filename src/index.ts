@@ -1,3 +1,4 @@
+export * from './array/index.js';
 export * from './async/index.js';
 export * from './clone/clone.js';
 export * from './constants/index.js';

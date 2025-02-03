@@ -123,6 +123,8 @@ A collection of useful utility functions with associated TypeScript types.
       - [Dictionary](#dictionary)
     - [Constants](#constants)
       - [isJsdom](#isjsdom)
+    - [Arrays](#arrays)
+      - [toArray](#toarray)
   - [Attribution](#attribution)
 
 ## Install
@@ -2431,6 +2433,32 @@ import { isJsdom } from '@qntm-code/utils';
 if (isJsdom) {
   console.log('Running in jsdom');
 }
+```
+
+---
+
+### Arrays
+
+---
+
+#### toArray
+
+Checks the provided value is an array and if not returns the value within an array.
+
+| Parameter | Type | Optional | Description          |
+| --------- | ---- | -------- | -------------------- |
+| value     | any  | false    | The value to convert |
+
+Return type: `Array<any>`
+
+**Example:**
+
+```typescript
+import { toArray } from '@qntm-code/utils';
+
+const array: Array<any> = toArray('hello');
+
+console.log(array); // ['hello']
 ```
 
 ---
