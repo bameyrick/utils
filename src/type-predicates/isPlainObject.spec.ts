@@ -10,7 +10,7 @@ describe(`isPlainObject`, () => {
   });
 
   it('should return `false` if the object is not created by the `Object` constructor.', () => {
-    function Foo() {
+    function Foo(this: any) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       this.abc = {};
     }
