@@ -58,6 +58,7 @@ A collection of useful utility functions with associated TypeScript types.
       - [FormatTimeOptions](#formattimeoptions)
     - [insertAtIndex](#insertatindex)
     - [Math](#math)
+    - [average](#average)
       - [sum](#sum)
       - [randomNumberBetweenRange](#randomnumberbetweenrange)
     - [Async helpers](#async-helpers)
@@ -1046,6 +1047,26 @@ insertAtIndex('<strong>', '/', 1);
 ### Math
 
 ---
+
+### average
+
+Calculates the average of an array of numbers.
+
+| Parameter | Type          | Optional | Description                     |
+| --------- | ------------- | -------- | ------------------------------- |
+| values    | Array<number> | false    | The array of numbers to agerage |
+
+Return type: `number`
+
+**Example:**
+
+```typescript
+import { average } from '@qntm-code/utils';
+
+const values: Array<number> = [1, 2, 3, 4, 5];
+
+const avg: number = average(values);
+```
 
 #### sum
 
