@@ -78,7 +78,10 @@
     "merge",
     "deep merge",
     "same date",
-    "isSameDate"
+    "isSameDate",
+    "sum",
+    "avarage",
+    "avg"
   ],
   "repository": {
     "type": "git",
