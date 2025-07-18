@@ -7,7 +7,7 @@ import { FormatTimeOptions, FormatTimeOptionsComplete } from './format-time-opti
  */
 export function formatTime(time: number, options?: FormatTimeOptions): string {
   const defaultOptions: FormatTimeOptionsComplete = {
-    forceAllUnits: true,
+    forceAllUnits: false,
     timeUnit: TimeUnit.Milliseconds,
     secondsDecimalPlaces: 0,
     hourSuffix: 'h',
