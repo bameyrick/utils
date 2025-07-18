@@ -105,7 +105,8 @@
     "benchmark": "ts-node ./benchmark.ts",
     "tidy-clean": "rm -rf dist coverage",
     "prepare-husky": "npx husky-init && npm i",
-    "pre-commit": "lint-staged && npm run test-single"
+    "pre-commit": "lint-staged && npm run test-single",
+    "upgrade-interactive": "npx npm-check --update"
   },
   "lint-staged": {
     "*.ts": [
@@ -148,7 +149,7 @@
     "karma-cli": "^2.0.0",
     "karma-coverage": "^2.0.3",
     "karma-jasmine": "^4.0.1",
-    "karma-spec-reporter": "^0.0.32",
+    "karma-spec-reporter": "^0.0.36",
     "karma-typescript": "^5.1.0",
     "karma-typescript-es6-transform": "^5.5.1",
     "lint-staged": "^10.3.0",
@@ -157,7 +158,7 @@
     "moment": "^2.29.4",
     "number-array-from-range": "^1.0.1",
     "prettier": "^2.1.1",
-    "puppeteer": "^24.1.1",
+    "puppeteer": "^24.14.0",
     "ramda": "^0.28.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.0.2",
