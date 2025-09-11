@@ -74,4 +74,28 @@ describe('isEmpty', () => {
 
     expect(isEmpty(value)).toBe(false);
   });
+
+  it('should return true if value is an empty set', () => {
+    const value: Set<unknown> = new Set();
+
+    expect(isEmpty(value)).toBe(true);
+  });
+
+  it('should return false if value is not an empty set', () => {
+    const value: Set<unknown> = new Set(['a']);
+
+    expect(isEmpty(value)).toBe(false);
+  });
+
+  it('should return true if value is an empty map', () => {
+    const value: Map<unknown, unknown> = new Map();
+
+    expect(isEmpty(value)).toBe(true);
+  });
+
+  it('should return false if value is not an empty map', () => {
+    const value: Map<unknown, unknown> = new Map([['a', 'a']]);
+
+    expect(isEmpty(value)).toBe(false);
+  });
 });
