@@ -236,9 +236,9 @@ Checks if a given value is empty.
 
 Method arguments:
 
-| Parameter | Type                       | Optional | Description        |
-| --------- | -------------------------- | -------- | ------------------ |
-| value     | string, Array<any>, object | false    | The value to check |
+| Parameter | Type                                           | Optional | Description        |
+| --------- | ---------------------------------------------- | -------- | ------------------ |
+| value     | string, Array<any>, object, Set<any>, Map<any> | false    | The value to check |
 
 Return type: `boolean`
 
