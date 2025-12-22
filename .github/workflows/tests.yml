@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - name: Checkout repository 🛒
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Set Timezone 🌍
         uses: szenius/set-timezone@v1.0
@@ -20,7 +20,7 @@ jobs:
         id: nvm
 
       - name: Set up Node.js ${{ steps.nvm.outputs.NODE_VERSION }} 🤖
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
 
