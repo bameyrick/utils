@@ -74,21 +74,25 @@ describe('clone', () => {
   });
 
   it(`should deeply clone a Map`, () => {
-    const a = new Map([[1, 2]]);
+    const nested = { x: 1 };
+    const a = new Map<string, { x: number }>([['k', nested]]);
     const b = clone(a);
 
-    a.set(2, 4);
+    nested.x = 2;
 
-    expect(isEqual(Array.from(a), Array.from(b))).toBeFalse();
+    expect(a.get('k')?.x).toBe(2);
+    expect(b.get('k')?.x).toBe(1);
   });
 
   it(`should deeply clone a Set`, () => {
-    const a = new Set([1, 2]);
+    const nested = { x: 1 };
+    const a = new Set([nested]);
     const b = clone(a);
 
-    a.add(4);
+    nested.x = 2;
 
-    expect(isEqual(Array.from(a), Array.from(b))).toBeFalse();
+    const clonedItem = Array.from(b)[0];
+    expect(clonedItem.x).toBe(1);
   });
 
   it(`should return primitives`, () => {
@@ -133,6 +137,7 @@ describe('clone', () => {
     const a = Symbol('a');
     const b = clone(a);
 
+    expect(typeof b).toBe('symbol');
     expect(isEqual(a, b)).toBeFalse();
   });
 
