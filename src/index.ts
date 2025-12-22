@@ -6,6 +6,7 @@ export * from './dates/index.js';
 export * from './difference/difference.js';
 export * from './dom/index.js';
 export * from './format-time/index.js';
+export * from './freeze/freeze.js';
 export * from './insertAtIndex/insertAtIndex.js';
 export * from './math/index.js';
 export * from './merge/merge.js';
