@@ -12,6 +12,12 @@ export function clone<T>(value: T, instanceClone: InstanceClone<T> = false): T {
     case ValueType.object: {
       return cloneObjectDeep(value, instanceClone);
     }
+    case ValueType.map: {
+      return cloneMapDeep(value as unknown as Map<unknown, unknown>, instanceClone as unknown as InstanceClone<unknown>) as unknown as T;
+    }
+    case ValueType.set: {
+      return cloneSetDeep(value as unknown as Set<unknown>, instanceClone as unknown as InstanceClone<unknown>) as unknown as T;
+    }
     case ValueType.array:
     case ValueType.int8array:
     case ValueType.uint8array:
@@ -43,12 +49,6 @@ function cloneShallow<T>(value: T): T {
     case ValueType.error: {
       return Object.create(value as Error) as unknown as T;
     }
-    case ValueType.map: {
-      return new Map(value as Map<any, any>) as unknown as T;
-    }
-    case ValueType.set: {
-      return new Set(value as Set<any>) as unknown as T;
-    }
     case ValueType.date: {
       return new Date(value as Date) as unknown as T;
     }
@@ -69,16 +69,18 @@ function cloneObjectDeep<T>(value: T, instanceClone?: InstanceClone<T>): T {
   }
 
   if (instanceClone || isPlainObject(value)) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-    const cloned = new (value as any).constructor();
+    const source = value as unknown as Record<string, unknown>;
 
-    for (const key in value) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      cloned[key] = clone(value[key]);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const ctor = (value as any).constructor as (new () => unknown) | undefined;
+    const cloned = (ctor === undefined ? Object.create(null) : new ctor()) as Record<string, unknown>;
+
+    // Only clone own enumerable properties (matches `isEqual` semantics)
+    for (const key of Object.keys(source)) {
+      cloned[key] = clone(source[key], instanceClone as unknown as InstanceClone<unknown>);
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return cloned;
+    return cloned as unknown as T;
   }
 
   return value;
@@ -95,6 +97,30 @@ function cloneArrayDeep<T>(value: T, instanceClone?: InstanceClone<T>): T {
   }
 
   return cloned as T;
+}
+
+function cloneMapDeep<K, V>(value: Map<K, V>, instanceClone?: InstanceClone<unknown>): Map<K, V> {
+  const cloned = new Map<K, V>();
+  const nestedInstanceClone = instanceClone as unknown as InstanceClone<any>;
+
+  for (const [key, item] of value.entries()) {
+    const clonedKey = clone(key, nestedInstanceClone as unknown as InstanceClone<K>);
+    const clonedValue = clone(item, nestedInstanceClone as unknown as InstanceClone<V>);
+    cloned.set(clonedKey, clonedValue);
+  }
+
+  return cloned;
+}
+
+function cloneSetDeep<T>(value: Set<T>, instanceClone?: InstanceClone<unknown>): Set<T> {
+  const cloned = new Set<T>();
+  const nestedInstanceClone = instanceClone as unknown as InstanceClone<any>;
+
+  for (const item of value.values()) {
+    cloned.add(clone(item, nestedInstanceClone as unknown as InstanceClone<T>));
+  }
+
+  return cloned;
 }
 
 function cloneRegExp(value: RegExp): RegExp {
@@ -116,10 +142,35 @@ function cloneBuffer(value: Buffer): Buffer {
   return buffer;
 }
 
-// eslint-disable-next-line @typescript-eslint/unbound-method
-const valueOf = Symbol.prototype.valueOf;
-
 function cloneSymbol(value: symbol): symbol {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return valueOf ? Object(valueOf.call(value)) : {};
+  // Symbols are primitives and cannot be truly cloned; create a new symbol with the same description.
+  const description = value.description;
+
+  // Preserve well-known symbols (they cannot be recreated)
+  const wellKnownSymbolKeys = [
+    'asyncIterator',
+    'hasInstance',
+    'isConcatSpreadable',
+    'iterator',
+    'match',
+    'matchAll',
+    'replace',
+    'search',
+    'species',
+    'split',
+    'toPrimitive',
+    'toStringTag',
+    'unscopables',
+    'dispose',
+    'asyncDispose',
+  ] as const;
+
+  for (const key of wellKnownSymbolKeys) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if ((Symbol as any)[key] === value) {
+      return value;
+    }
+  }
+
+  return Symbol(description);
 }
