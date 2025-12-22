@@ -41,6 +41,7 @@ A collection of useful utility functions with associated TypeScript types.
     - [clone](#clone)
       - [instanceClone](#instanceclone)
       - [clone performance comparison](#clone-performance-comparison)
+    - [freeze](#freeze)
     - [merge](#merge)
       - [merge options](#merge-options)
         - [arrayMerge](#arraymerge)
@@ -672,6 +673,40 @@ The following benchmarks were run on a 2023 Macbook Pro with a M2 Pro chip and 3
 | @qntm-code/utils.clone | 127338                |
 | clone-deep             | 115475                |
 | lodash.cloneDeep       | 73027                 |
+
+---
+
+### freeze
+
+Recursively (deep) freezes objects/arrays and freezes nested values (best-effort), including `RegExp`, `Date`, `Error`, `Map`, `Set`, and ArrayBuffer views (TypedArrays/DataView/Buffer).
+
+**Important**: JavaScript cannot universally enforce deep immutability for every built-in.
+This function makes the _returned value_ behave as readonly where possible.
+
+**Notes on exotic built-ins:**
+
+- `Map`/`Set` internal entries are not made immutable by `Object.freeze`, so this function returns a readonly `Proxy` that throws on mutating operations.
+- `Date` and ArrayBuffer views (TypedArrays/DataView/Buffer) have mutating APIs that bypass `Object.freeze`, so this function returns a readonly `Proxy` that throws on common mutators.
+- `WeakMap`/`WeakSet` are made readonly (mutators throw), but their contents cannot be traversed.
+- If other code still holds a reference to the original mutable object, it can mutate it directly; `freeze()` cannot prevent that.
+
+Method arguments:
+
+| Parameter | Type | Optional | Description         |
+| --------- | ---- | -------- | ------------------- |
+| value     | any  | false    | The value to freeze |
+
+Return type: `Readonly<T>`
+
+**Example:**
+
+```typescript
+import { freeze } from '@qntm-code/utils';
+
+const value: number[] = [1, 2, 3];
+
+const frozenValues = freeze(value);
+```
 
 ---
 
