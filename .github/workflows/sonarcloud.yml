@@ -23,13 +23,6 @@ jobs:
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
 
-      - name: Fail if SONAR_TOKEN missing
-        if: env.SONAR_TOKEN == ''
-        run: |
-          echo "SONAR_TOKEN is not configured for this repository/workflow run."
-          echo "Add a SonarCloud token as a GitHub Actions secret named SONAR_TOKEN."
-          exit 1
-
       - name: SonarCloud Scan 🔍
         uses: SonarSource/sonarqube-scan-action@v6
         env:
