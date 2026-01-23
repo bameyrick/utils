@@ -161,8 +161,8 @@
     "moment": "^2.29.4",
     "number-array-from-range": "^1.0.1",
     "prettier": "^2.1.1",
-    "puppeteer": "^24.34.0",
-    "ramda": "^0.28.0",
+    "puppeteer": "^24.36.0",
+    "ramda": "^0.32.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.0.2",
     "underscore": "^1.13.6"
