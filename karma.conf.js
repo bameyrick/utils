@@ -32,6 +32,7 @@ module.exports = function (config) {
       compilerOptions: {
         lib: ['esnext', 'DOM'],
         target: 'es2020',
+        esModuleInterop: true,
       },
       bundlerOptions: {
         transforms: [require('karma-typescript-es6-transform')()],

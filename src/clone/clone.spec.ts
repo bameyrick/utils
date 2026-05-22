@@ -1,4 +1,4 @@
-import * as moment from 'moment';
+import moment from 'moment';
 import { isEqual } from '../type-predicates';
 import { clone } from './clone';
 
