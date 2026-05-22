@@ -5,7 +5,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 
-import * as moment from 'moment';
+import moment from 'moment';
 import { IsEqualTestSuite } from '../types/test-definition';
 
 function func1() {}
