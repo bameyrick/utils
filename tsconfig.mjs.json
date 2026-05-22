@@ -3,7 +3,6 @@
   "include": ["src/**/*"],
   "compilerOptions": {
     "outDir": "dist/mjs",
-    "module": "nodenext",
-    "moduleResolution": "nodenext"
+    "module": "esnext"
   }
 }
