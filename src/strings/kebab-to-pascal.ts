@@ -1,4 +1,4 @@
-import { capitaliseFirst } from './capitalise-first';
+import { capitaliseFirst } from './capitalise-first.js';
 
 /**
  * Converts a kebab-case word to PascalCase

@@ -1,4 +1,4 @@
-import { sum } from './sum';
+import { sum } from './sum.js';
 
 export function average(values: number[]): number {
   const length = values.length;

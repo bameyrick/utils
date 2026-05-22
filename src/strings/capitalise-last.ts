@@ -1,4 +1,4 @@
-import { capitalise } from './capitalise';
+import { capitalise } from './capitalise.js';
 
 /**
  * Capitalises the last n characters of a string
