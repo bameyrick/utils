@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { TimeUnit } from '../../../src';
+import { TimeUnit } from '../../../src/index.js';
 
 interface DateModifierTestDefinition {
   description: string;

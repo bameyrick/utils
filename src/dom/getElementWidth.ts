@@ -1,5 +1,5 @@
-import { isJsdom } from '../constants';
-import { getComputedStyleAsNumber } from './getComputedStyleAsNumber';
+import { isJsdom } from '../constants/index.js';
+import { getComputedStyleAsNumber } from './getComputedStyleAsNumber.js';
 
 /**
  * Get the width of an element.

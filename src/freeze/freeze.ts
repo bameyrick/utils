@@ -1,4 +1,4 @@
-import { typeOf, ValueType } from '../type-predicates';
+import { typeOf, ValueType } from '../type-predicates/index.js';
 
 /**
  * Recursively (deep) freezes objects/arrays and freezes nested values (best-effort).
