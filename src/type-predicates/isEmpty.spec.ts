@@ -26,11 +26,7 @@ describe('isEmpty', () => {
   });
 
   it('should return true if value is not provided', () => {
-    let value: string;
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    expect(isEmpty(value)).toBe(true);
+    expect(isEmpty(undefined as any)).toBe(true);
   });
 
   it('should return true if value is undefined', () => {

@@ -9,7 +9,7 @@ import * as cloneDeep from 'clone-deep';
 import * as deepmerge from 'deepmerge';
 import * as fastDeepEqual from 'fast-deep-equal/es6';
 import * as lodash from 'lodash';
-import * as markdownTable from 'markdown-table';
+import { markdownTable } from 'markdown-table';
 import * as ramda from 'ramda';
 import * as _ from 'underscore';
 import { isDeepStrictEqual } from 'util';

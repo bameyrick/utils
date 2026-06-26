@@ -12,7 +12,7 @@ function isNonNullObject(value: any): boolean {
 }
 
 function isSpecial(value: object): boolean {
-  const stringValue = Object.prototype.toString.call(value) as string;
+  const stringValue = Object.prototype.toString.call(value);
 
   return stringValue === '[object RegExp]' || stringValue === '[object Date]' || isReactElement(value);
 }

@@ -166,7 +166,7 @@ export function typeOf(value: any): ValueType | string {
     return ValueType.generator;
   }
 
-  type = toString.call(value) as string;
+  type = toString.call(value);
 
   switch (type) {
     case '[object Object]': {

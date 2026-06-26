@@ -138,17 +138,14 @@ describe(`typeOf`, () => {
 
   describe(`functions`, () => {
     it(`() => {}`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
       expect(typeOf(() => {})).toBe(ValueType.function);
     });
 
     it(`function () {}`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
       expect(typeOf(function () {})).toBe(ValueType.function);
     });
 
     it(`function* () {}`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
       expect(typeOf(function* () {})).toBe(ValueType.generatorfunction);
     });
 
@@ -168,8 +165,7 @@ describe(`typeOf`, () => {
     });
 
     it(`rejected Promise`, () => {
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      expect(typeOf(Promise.reject().catch(() => {}))).toBe(ValueType.promise);
+      expect(typeOf(Promise.reject(new Error()).catch(() => {}))).toBe(ValueType.promise);
     });
   });
 

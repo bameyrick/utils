@@ -92,7 +92,6 @@ describe(`merge`, () => {
       const destination = {};
       keys.forEach(key => {
         if (key in target && key in source) {
-          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           destination[key] = `${target[key]}-${source[key]}`;
         } else if (key in target) {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -169,7 +168,6 @@ describe(`merge`, () => {
 
     const actual = merge(target, source, options);
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     expect(actual).toEqual(expected as any);
   });
 
@@ -250,7 +248,6 @@ describe(`merge`, () => {
       },
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     expect(result.wat).toEqual(uniqueValue as any);
     expect(customMergeWasCalled).toBe(true);
   });

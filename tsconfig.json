@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "sourceMap": false,
     "experimentalDecorators": true,
     "noImplicitAny": false,
@@ -10,14 +10,8 @@
     "module": "esnext",
     "target": "esnext",
     "lib": ["DOM", "esnext"],
-    "esModuleInterop": true
-  },
-  "ts-node": {
-    // these options are overrides used only by ts-node
-    // same as the --compilerOptions flag and the TS_NODE_COMPILER_OPTIONS environment variable
-    "compilerOptions": {
-      "module": "commonjs"
-    }
+    "esModuleInterop": true,
+    "types": ["node"]
   },
   "exclude": ["node_modules", "dist/"],
   "include": ["src/**/*", "src/math/sum.spec.ts"]

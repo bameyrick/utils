@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import { isGeneratorObject } from './isGeneratorObject';
 
 describe(`isGeneratorObject`, () => {

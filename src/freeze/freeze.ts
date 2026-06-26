@@ -244,9 +244,9 @@ function freezeDate(date: Date, ctx: FreezeContext): Date {
 function freezeArrayBufferView(view: ArrayBufferView, ctx: FreezeContext): ArrayBufferView {
   const isDataView = Object.prototype.toString.call(view) === '[object DataView]';
 
-  defineThrowingMethods(view as unknown as object, ['set', 'copyWithin', 'fill', 'reverse', 'sort', 'write', 'copy']);
+  defineThrowingMethods(view, ['set', 'copyWithin', 'fill', 'reverse', 'sort', 'write', 'copy']);
   defineThrowingMethodsByPrototype(
-    view as unknown as object,
+    view,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     (view as any).constructor?.prototype as object | undefined,
     name => {

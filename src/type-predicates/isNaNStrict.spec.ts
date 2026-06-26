@@ -4,7 +4,7 @@ describe(`isNanStrict`, () => {
   it(`should return true if value is NaN`, () => {
     const value = NaN;
 
-    expect(isNaNStrict(value)).toBeTrue();
+    expect(isNaNStrict(value)).toBe(true);
   });
 
   it('should return false if value is null', () => {

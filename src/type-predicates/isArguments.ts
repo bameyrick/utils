@@ -9,8 +9,7 @@ export function isArguments(value: any): boolean {
       return true;
     }
   } catch (error) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    if (error.message.indexOf('callee') !== -1) {
+    if (error instanceof Error && error.message.indexOf('callee') !== -1) {
       return true;
     }
   }

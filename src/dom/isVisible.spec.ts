@@ -14,12 +14,14 @@ describe('isVisible', () => {
     document.body.removeAttribute('style');
   });
 
-  afterEach(done =>
-    setTimeout(() => {
-      document.documentElement.scrollTo(0, 0);
-
-      done();
-    })
+  afterEach(
+    () =>
+      new Promise<void>(resolve =>
+        setTimeout(() => {
+          document.documentElement.scrollTo(0, 0);
+          resolve();
+        })
+      )
   );
 
   it('should return false for an element that has a height of 0', () => {

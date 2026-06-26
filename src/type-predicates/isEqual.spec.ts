@@ -3,12 +3,11 @@ import { isEqualTests } from './isEqualTestDefinitions.spec';
 
 describe('isEqual', () => {
   describe('types', () => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const types = [undefined, null, true, 1, '', new Date(), {}, Symbol(), () => {}];
 
     it(`Should return true if the types are the same`, () => {
       types.forEach(type => {
-        expect(isEqual(type, type)).toBeTrue();
+        expect(isEqual(type, type)).toBe(true);
       });
     });
 
@@ -19,7 +18,7 @@ describe('isEqual', () => {
             if (isEqual(aType, bType)) {
               console.log(aType, bType);
             }
-            expect(isEqual(aType, bType)).toBeFalse();
+            expect(isEqual(aType, bType)).toBe(false);
           }
         })
       );
@@ -30,7 +29,7 @@ describe('isEqual', () => {
     describe(suite.description, () => {
       for (const test of suite.tests) {
         if (test.only) {
-          fit(test.description, () => expect(isEqual(test.a, test.b)).toBe(test.expected));
+          it.only(test.description, () => expect(isEqual(test.a, test.b)).toBe(test.expected));
         } else {
           it(test.description, () => expect(isEqual(test.a, test.b)).toBe(test.expected));
         }

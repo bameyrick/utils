@@ -72,7 +72,7 @@ export function generateDateModifierTestSuites(
             it(displayDescription, () => {
               const result = fn(new Date(date), amount, unit);
 
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
               expect(result).toEqual(moment(date)[type](amount, unit).toDate());
 
               // console.log(`${displayDescription}: Result ${result.toISOString().slice(0, -1)}`);

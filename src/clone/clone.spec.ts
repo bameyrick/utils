@@ -8,7 +8,7 @@ describe('clone', () => {
 
     const cloned = clone(value);
 
-    expect(Object.is(value, cloned)).toBeFalse();
+    expect(Object.is(value, cloned)).toBe(false);
   });
 
   it('should clone an array', () => {
@@ -16,7 +16,7 @@ describe('clone', () => {
 
     const cloned = clone(value);
 
-    expect(Object.is(value, cloned)).toBeFalse();
+    expect(Object.is(value, cloned)).toBe(false);
   });
 
   it('should clone an object', () => {
@@ -28,7 +28,7 @@ describe('clone', () => {
 
     const cloned = clone(value);
 
-    expect(Object.is(value, cloned)).toBeFalse();
+    expect(Object.is(value, cloned)).toBe(false);
   });
 
   it('should deeply clone an array', () => {
@@ -44,9 +44,9 @@ describe('clone', () => {
     const clonedArray = cloned[0];
     const clonedObject = cloned[1];
 
-    expect(Object.is(value, cloned)).toBeFalse();
-    expect(Object.is(childArray, clonedArray)).toBeFalse();
-    expect(Object.is(childObject, clonedObject)).toBeFalse();
+    expect(Object.is(value, cloned)).toBe(false);
+    expect(Object.is(childArray, clonedArray)).toBe(false);
+    expect(Object.is(childObject, clonedObject)).toBe(false);
   });
 
   it('should deeply clone an object', () => {
@@ -68,9 +68,9 @@ describe('clone', () => {
     const clonedArray = cloned.childArray;
     const clonedObject = cloned.childObject;
 
-    expect(Object.is(value, cloned)).toBeFalse();
-    expect(Object.is(childArray, clonedArray)).toBeFalse();
-    expect(Object.is(childObject, clonedObject)).toBeFalse();
+    expect(Object.is(value, cloned)).toBe(false);
+    expect(Object.is(childArray, clonedArray)).toBe(false);
+    expect(Object.is(childObject, clonedObject)).toBe(false);
   });
 
   it(`should deeply clone a Map`, () => {
@@ -96,14 +96,14 @@ describe('clone', () => {
   });
 
   it(`should return primitives`, () => {
-    expect(isEqual(clone(0), 0)).toBeTrue();
+    expect(isEqual(clone(0), 0)).toBe(true);
   });
 
   it(`should use moment's own clone method`, () => {
     const source = moment();
     const cloned = clone(source).add(1, 'day');
 
-    expect(source.isSame(cloned)).toBeFalse();
+    expect(source.isSame(cloned)).toBe(false);
   });
 
   describe(`RegExp`, () => {
@@ -138,14 +138,15 @@ describe('clone', () => {
     const b = clone(a);
 
     expect(typeof b).toBe('symbol');
-    expect(isEqual(a, b)).toBeFalse();
+    expect(isEqual(a, b)).toBe(false);
   });
 
   it(`should clone an Error`, () => {
     const a = new Error('a');
     const b = clone(a);
 
-    expect(a).toEqual(b);
+    expect(b).toBeInstanceOf(Error);
+    expect(b.message).toBe(a.message);
   });
 
   describe(`Typed Arrays`, () => {

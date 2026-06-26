@@ -4,7 +4,7 @@
 import { Moment } from 'moment';
 import { isMoment } from './isMoment.js';
 
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export type IndividualEqualityType = null | undefined | boolean | number | string | Date | object | Function;
 
 export type EqualityType = IndividualEqualityType | IndividualEqualityType[];

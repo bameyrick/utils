@@ -15,14 +15,14 @@ type Empty = Empty.Array | Empty.Object | Empty.String | Empty._Set | Empty._Map
 type EmptyResult<T> = T extends string
   ? Empty.String
   : T extends any[]
-  ? Empty.Array
-  : T extends Set<unknown>
-  ? Empty._Set
-  : T extends Map<unknown, unknown>
-  ? Empty._Map
-  : T extends object
-  ? Empty.Object
-  : never;
+    ? Empty.Array
+    : T extends Set<unknown>
+      ? Empty._Set
+      : T extends Map<unknown, unknown>
+        ? Empty._Map
+        : T extends object
+          ? Empty.Object
+          : never;
 
 /**
  * Checks if a given value is empty

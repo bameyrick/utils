@@ -2,11 +2,11 @@ import { isPlainObject } from './isPlainObject';
 
 describe(`isPlainObject`, () => {
   it('should return `true` if the object is created by the `Object` constructor.', () => {
-    expect(isPlainObject(Object.create({}))).toBeTrue();
-    expect(isPlainObject(Object.create(Object.prototype))).toBeTrue();
-    expect(isPlainObject({ foo: 'bar' })).toBeTrue();
-    expect(isPlainObject({})).toBeTrue();
-    expect(isPlainObject(Object.create(null))).toBeTrue();
+    expect(isPlainObject(Object.create({}))).toBe(true);
+    expect(isPlainObject(Object.create(Object.prototype))).toBe(true);
+    expect(isPlainObject({ foo: 'bar' })).toBe(true);
+    expect(isPlainObject({})).toBe(true);
+    expect(isPlainObject(Object.create(null))).toBe(true);
   });
 
   it('should return `false` if the object is not created by the `Object` constructor.', () => {
@@ -15,13 +15,13 @@ describe(`isPlainObject`, () => {
       this.abc = {};
     }
 
-    expect(isPlainObject(/foo/)).toBeFalse();
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    expect(isPlainObject(function () {})).toBeFalse();
-    expect(isPlainObject(1)).toBeFalse();
-    expect(isPlainObject(['foo', 'bar'])).toBeFalse();
-    expect(isPlainObject([])).toBeFalse();
-    expect(isPlainObject(new Foo())).toBeFalse();
-    expect(isPlainObject(null)).toBeFalse();
+    expect(isPlainObject(/foo/)).toBe(false);
+
+    expect(isPlainObject(function () {})).toBe(false);
+    expect(isPlainObject(1)).toBe(false);
+    expect(isPlainObject(['foo', 'bar'])).toBe(false);
+    expect(isPlainObject([])).toBe(false);
+    expect(isPlainObject(new Foo())).toBe(false);
+    expect(isPlainObject(null)).toBe(false);
   });
 });

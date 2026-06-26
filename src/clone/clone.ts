@@ -47,7 +47,8 @@ function cloneShallow<T>(value: T): T {
       return cloneSymbol(value as symbol) as unknown as T;
     }
     case ValueType.error: {
-      return Object.create(value as Error) as unknown as T;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+      return Object.create(value as Error);
     }
     case ValueType.date: {
       return new Date(value as Date) as unknown as T;
@@ -93,6 +94,7 @@ function cloneArrayDeep<T>(value: T, instanceClone?: InstanceClone<T>): T {
   const cloned = new (value as any).constructor(length) as unknown[];
 
   for (let i = 0; i < length; i++) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     cloned[i] = clone(value[i], instanceClone);
   }
 
@@ -134,11 +136,12 @@ function cloneRegExp(value: RegExp): RegExp {
 
 function cloneBuffer(value: Buffer): Buffer {
   const length = value.length;
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+
   const buffer = Buffer.allocUnsafe ? Buffer.allocUnsafe(length) : Buffer.from(length as any);
 
   value.copy(buffer);
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return buffer;
 }
 
