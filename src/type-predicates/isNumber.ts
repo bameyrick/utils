@@ -1,6 +1,9 @@
 /**
- * Determines whether a given value is a number
+ * Checks if a value is a number.
+ *
+ * @param value - The value to check.
+ * @returns `true` if the value is a number, otherwise `false`.
  */
-export function isNumber(value: any): value is number {
+export function isNumber(value: unknown): value is number {
   return typeof value === 'number';
 }

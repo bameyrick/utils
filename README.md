@@ -35,7 +35,9 @@ A collection of useful utility functions with associated TypeScript types.
       - [isBuffer](#isbuffer)
       - [isError](#iserror)
       - [isGeneratorObject](#isgeneratorobject)
+      - [isArray](#isarray)
       - [isPlainObject](#isplainobject)
+      - [isMergeableObject](#ismergeableobject)
       - [isReactElement](#isreactelement)
       - [typeOf](#typeof)
     - [clone](#clone)
@@ -45,15 +47,19 @@ A collection of useful utility functions with associated TypeScript types.
     - [merge](#merge)
       - [merge options](#merge-options)
         - [arrayMerge](#arraymerge)
-        - [isMergableObject](#ismergableobject)
+        - [isMergeableObject](#ismergeableobject)
         - [customMerge](#custommerge)
       - [Merge performance comparison](#merge-performance-comparison)
+    - [Sorting](#sorting)
+      - [sortBy](#sortby)
+        - [SortMappingFunction](#sortmappingfunction)
     - [Strings](#strings)
       - [capitalise](#capitalise)
         - [CapitaliseOptions](#capitaliseoptions)
     - [CapitaliseFirst](#capitalisefirst)
       - [CapitaliseLast](#capitaliselast)
     - [kebabToPascal](#kebabtopascal)
+    - [pascalToKebab](#pascaltokebab)
     - [difference](#difference)
     - [formatTime](#formattime)
       - [FormatTimeOptions](#formattimeoptions)
@@ -558,6 +564,32 @@ if (isGeneratorObject(value)) {
 
 ---
 
+#### isArray
+
+Checks if a value is an array.
+
+Method arguments:
+
+| Parameter | Type    | Optional | Description        |
+| --------- | ------- | -------- | ------------------ |
+| value     | unknown | false    | The value to check |
+
+Return type: `value is unknown[]`
+
+**Example:**
+
+```typescript
+import { isArray } from '@qntm-code/utils';
+
+const value = getTheValue();
+
+if (isArray(value)) {
+  // Do something
+}
+```
+
+---
+
 #### isPlainObject
 
 Determines whether a given value is a plain object
@@ -579,6 +611,30 @@ const value = getTheValue();
 
 if (isPlainObject(value)) {
   // Do something
+}
+```
+
+---
+
+#### isMergeableObject
+
+Determines whether a given value should be recursively iterated when merging. Returns `false` for arrays, Dates, RegExps, Maps, Sets, WeakMaps, WeakSets, ArrayBuffers, and typed arrays.
+
+Method arguments:
+
+| Parameter | Type    | Optional | Description        |
+| --------- | ------- | -------- | ------------------ |
+| value     | unknown | false    | The value to check |
+
+Return type: `boolean`
+
+**Example:**
+
+```typescript
+import { isMergeableObject } from '@qntm-code/utils';
+
+if (isMergeableObject(value)) {
+  // Recurse into properties
 }
 ```
 
@@ -612,13 +668,15 @@ if (isReactElement(value)) {
 
 #### typeOf
 
-Returns the type of a given value
+Returns the type of a given value. Returns a `ValueType` enum member for all known types, or a lower-cased intrinsic tag string for unknown types.
+
+The `ValueType` enum uses PascalCase members (e.g. `ValueType.String`, `ValueType.Array`, `ValueType.Map`).
 
 Method arguments:
 
-| Parameter | Type | Optional | Description        |
-| --------- | ---- | -------- | ------------------ |
-| value     | any  | false    | The value to check |
+| Parameter | Type    | Optional | Description        |
+| --------- | ------- | -------- | ------------------ |
+| value     | unknown | false    | The value to check |
 
 Return type: `ValueType` | `string`
 
@@ -629,7 +687,7 @@ import { typeOf, ValueType } from '@qntm-code/utils';
 
 const value = getTheValue();
 
-if (typeOf(value) === ValueType.string) {
+if (typeOf(value) === ValueType.String) {
   // Do something
 }
 ```
@@ -776,7 +834,7 @@ const combineMerge = (target, source, options) => {
 merge([{ a: true }], [{ b: true }, 'ah yup'], { arrayMerge: combineMerge }); // => [{ a: true, b: true }, 'ah yup']
 ```
 
-##### isMergableObject
+##### isMergeableObject
 
 By default, `merge` clones every property from almost every kind of object.
 
@@ -990,18 +1048,44 @@ const pascal = kebabToPascal(value);
 
 ---
 
-### difference
+### pascalToKebab
 
-Creates an array of array values not included in the other given array using isEqual for equality comparisons. The order and references of result values are determined by the first array.
+Converts a PascalCase string to kebab-case.
 
 Method arguments:
 
-| Parameter | Type       | Optional | Description                |
-| --------- | ---------- | -------- | -------------------------- |
-| array     | Array<any> | false    | The array to check         |
-| values    | Array<any> | false    | The array to check against |
+| Parameter | Type   | Optional | Description           |
+| --------- | ------ | -------- | --------------------- |
+| value     | string | false    | The string to convert |
 
-Return type: `Array<any>`
+Return type: `string`
+
+**Example:**
+
+```typescript
+import { pascalToKebab } from '@qntm-code/utils';
+
+const value = 'HelloWorld';
+
+const kebab = pascalToKebab(value);
+
+// kebab = 'hello-world'
+```
+
+---
+
+### difference
+
+Creates an array of values from `array` that are not included in `values`, using deep equality for comparisons. The order and references of result values are determined by the first array. If `values` is empty, a copy of `array` is returned.
+
+Method arguments:
+
+| Parameter | Type                 | Optional | Description           |
+| --------- | -------------------- | -------- | --------------------- |
+| array     | `readonly T[]`       | false    | The array to inspect  |
+| values    | `readonly unknown[]` | false    | The values to exclude |
+
+Return type: `T[]`
 
 **Example:**
 
@@ -1010,6 +1094,69 @@ import { difference } from '@qntm-code/utils';
 
 const diff = difference([1, 2], [2, 3]);
 // returns [1]
+
+const all = difference([1, 2], []);
+// returns [1, 2]  (copy of array — nothing excluded)
+```
+
+---
+
+### Sorting
+
+---
+
+#### sortBy
+
+Creates a comparator function for use with `Array.prototype.sort`.
+
+- A plain path (e.g. `'name'`) sorts ascending by that property.
+- Prefix with `'-'` (e.g. `'-age'`) to sort descending.
+- Suffix with `'^'` (e.g. `'name^'`) for case-insensitive sort.
+- The special path `'^'` sorts the items themselves.
+- Dot-notation is supported for nested paths (e.g. `'address.city'`).
+- Multiple properties are applied left-to-right as tie-breakers.
+- An optional [`SortMappingFunction`](#sortmappingfunction) transforms values before comparison.
+- `null`/`undefined`/empty values sort first in ascending order.
+
+Method arguments:
+
+| Parameter     | Type                                | Optional | Description                              |
+| ------------- | ----------------------------------- | -------- | ---------------------------------------- |
+| ...properties | `(string \| SortMappingFunction)[]` | true     | Property paths and/or a mapping function |
+
+Return type: `(a: T, b: T) => number`
+
+**Example:**
+
+```typescript
+import { sortBy } from '@qntm-code/utils';
+
+const people = [
+  { name: 'Charlie', age: 30 },
+  { name: 'alice', age: 25 },
+  { name: 'Bob', age: 25 },
+];
+
+// Sort by age ascending, then name case-insensitively
+people.sort(sortBy('age', 'name^'));
+// => [{ name: 'alice', age: 25 }, { name: 'Bob', age: 25 }, { name: 'Charlie', age: 30 }]
+
+// Sort descending
+people.sort(sortBy('-age'));
+
+// Sort an array of strings directly
+['Banana', 'apple', 'Cherry'].sort(sortBy());
+// => ['apple', 'Banana', 'Cherry']
+```
+
+---
+
+##### SortMappingFunction
+
+A function that transforms a property value before comparison.
+
+```typescript
+type SortMappingFunction = (key: string, value: unknown) => unknown;
 ```
 
 ---

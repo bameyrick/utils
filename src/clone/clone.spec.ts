@@ -1,4 +1,3 @@
-import moment from 'moment';
 import { isEqual } from '../type-predicates';
 import { clone } from './clone';
 
@@ -97,13 +96,6 @@ describe('clone', () => {
 
   it(`should return primitives`, () => {
     expect(isEqual(clone(0), 0)).toBe(true);
-  });
-
-  it(`should use moment's own clone method`, () => {
-    const source = moment();
-    const cloned = clone(source).add(1, 'day');
-
-    expect(source.isSame(cloned)).toBe(false);
   });
 
   describe(`RegExp`, () => {

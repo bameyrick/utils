@@ -1,7 +1,15 @@
 /**
- * Determines whether the given value is a generator object.
+ * Checks if a value is a generator object.
+ *
+ * @param value - The value to check.
+ * @returns `true` if the value is a generator object, otherwise `false`.
  */
-export function isGeneratorObject(value: any): boolean {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-  return typeof value.throw === 'function' && typeof value.return === 'function' && typeof value.next === 'function';
+export function isGeneratorObject(value: unknown): boolean {
+  if (value === null || typeof value !== 'object') {
+    return false;
+  }
+
+  const obj = value as Record<string, unknown>;
+
+  return typeof obj['throw'] === 'function' && typeof obj['return'] === 'function' && typeof obj['next'] === 'function';
 }

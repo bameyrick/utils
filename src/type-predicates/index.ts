@@ -1,4 +1,5 @@
 export * from './isArguments.js';
+export * from './isArray.js';
 export * from './isBoolean.js';
 export * from './isBuffer.js';
 export * from './isDate.js';
@@ -6,7 +7,7 @@ export * from './isEmpty.js';
 export * from './isEqual.js';
 export * from './isError.js';
 export * from './isGeneratorObject.js';
-export * from './isMergableObject.js';
+export * from './isMergeableObject.js';
 export * from './isMoment.js';
 export * from './isNaNStrict.js';
 export * from './isNullOrUndefined.js';

@@ -1,33 +1,35 @@
 import { isObject } from './isObject.js';
 
 /**
- * Determines whether the given value is a plain object.
+ * Checks if a value is a plain object (i.e., an object whose prototype is `Object.prototype` or `null`, or that otherwise looks like an `Object` instance).
+ *
+ * @param value - The value to check.
+ * @returns `true` if the value is a plain object, otherwise `false`.
  */
-export function isPlainObject(value: any): value is object {
+export function isPlainObject(value: unknown): value is object {
   if (!isObject(value)) {
     return false;
   }
 
-  const constructor = value.constructor;
-
-  // If it has a modified constructor
-  if (constructor === undefined) {
+  if (Object.getPrototypeOf(value) === null) {
     return true;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const prototype = constructor.prototype;
+  const ctor = (value as Record<string, unknown>).constructor;
 
-  // If it has a modified prototype
+  if (typeof ctor !== 'function') {
+    return false;
+  }
+
+  const { prototype } = ctor as { prototype: unknown };
+
   if (!isObject(prototype)) {
     return false;
   }
 
-  // If the constructor does not have an Object-specific method
   if (!Object.prototype.hasOwnProperty.call(prototype, 'isPrototypeOf')) {
     return false;
   }
 
-  // Most likely a plain Object
   return true;
 }

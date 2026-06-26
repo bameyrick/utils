@@ -3,198 +3,209 @@ import { isBuffer } from './isBuffer.js';
 import { isDate } from './isDate.js';
 import { isError } from './isError.js';
 import { isGeneratorObject } from './isGeneratorObject.js';
-import { isMoment } from './isMoment.js';
 import { isRegExp } from './isRegExp.js';
 
 export enum ValueType {
-  undefined = 'undefined',
-  null = 'null',
-  boolean = 'boolean',
-  string = 'string',
-  number = 'number',
-  symbol = 'symbol',
-  function = 'function',
-  array = 'array',
-  buffer = 'buffer',
-  arguments = 'arguments',
-  date = 'date',
-  error = 'error',
-  regexp = 'regexp',
-  promise = 'promise',
-  weakmap = 'weakmap',
-  weakset = 'weakset',
-  map = 'map',
-  set = 'set',
-  int8array = 'int8array',
-  uint8array = 'uint8array',
-  uint8clampedarray = 'uint8clampedarray',
-  int16array = 'int16array',
-  uint16array = 'uint16array',
-  int32array = 'int32array',
-  uint32array = 'uint32array',
-  float32array = 'float32array',
-  float64array = 'float64array',
-  bigint64array = 'bigint64array',
-  biguint64array = 'biguint64array',
-  generator = 'generator',
-  object = 'object',
-  mapiterator = 'mapiterator',
-  setiterator = 'setiterator',
-  stringiterator = 'stringiterator',
-  arrayiterator = 'arrayiterator',
-  generatorfunction = 'generatorfunction',
-  moment = 'moment',
+  Undefined = 'undefined',
+  Null = 'null',
+  Boolean = 'boolean',
+  String = 'string',
+  Number = 'number',
+  Symbol = 'symbol',
+  Function = 'function',
+  Array = 'array',
+  Buffer = 'buffer',
+  Arguments = 'arguments',
+  Date = 'date',
+  Error = 'error',
+  RegExp = 'regexp',
+  Promise = 'promise',
+  WeakMap = 'weakmap',
+  WeakSet = 'weakset',
+  Map = 'map',
+  Set = 'set',
+  Int8Array = 'int8array',
+  Uint8Array = 'uint8array',
+  Uint8ClampedArray = 'uint8clampedarray',
+  Int16Array = 'int16array',
+  Uint16Array = 'uint16array',
+  Int32Array = 'int32array',
+  Uint32Array = 'uint32array',
+  Float32Array = 'float32array',
+  Float64Array = 'float64array',
+  BigInt64Array = 'bigint64array',
+  BigUint64Array = 'biguint64array',
+  Generator = 'generator',
+  Object = 'object',
+  MapIterator = 'mapiterator',
+  SetIterator = 'setiterator',
+  StringIterator = 'stringiterator',
+  ArrayIterator = 'arrayiterator',
+  GeneratorFunction = 'generatorfunction',
 }
 
 /**
- * Determines the type of the given value
+ * Returns a normalised string describing the type of the given value.
+ * Extends `typeof` with finer-grained detection for arrays, buffers,
+ * `arguments` objects, dates, errors, regular expressions, typed arrays,
+ * Maps, Sets, WeakMaps, WeakSets, Promises, iterators, and generator objects.
+ *
+ * @param value - The value whose type is to be determined.
+ *
+ * @returns A `ValueType` enum member, or a lower-cased intrinsic tag string
+ * (derived from `Object.prototype.toString`) for types not covered by the enum.
  */
-export function typeOf(value: any): ValueType | string {
+export function typeOf(value: unknown): ValueType | string {
   if (value === void 0) {
-    return ValueType.undefined;
+    return ValueType.Undefined;
   }
 
   if (value === null) {
-    return ValueType.null;
-  }
-
-  if (isMoment(value)) {
-    return ValueType.moment;
+    return ValueType.Null;
   }
 
   let type: string = typeof value;
 
   if (type === 'boolean') {
-    return ValueType.boolean;
+    return ValueType.Boolean;
   }
 
   if (type === 'string') {
-    return ValueType.string;
+    return ValueType.String;
   }
 
   if (type === 'number') {
-    return ValueType.number;
+    return ValueType.Number;
   }
 
   if (type === 'symbol') {
-    return ValueType.symbol;
+    return ValueType.Symbol;
   }
 
   if (type === 'function') {
-    return isGeneratorFunction(value) ? ValueType.generatorfunction : ValueType.function;
+    return isGeneratorFunction(value) ? ValueType.GeneratorFunction : ValueType.Function;
   }
 
   if (Array.isArray(value)) {
-    return ValueType.array;
+    return ValueType.Array;
   }
 
   if (isBuffer(value)) {
-    return ValueType.buffer;
+    return ValueType.Buffer;
   }
 
   if (isArguments(value)) {
-    return ValueType.arguments;
+    return ValueType.Arguments;
   }
 
   if (isDate(value)) {
-    return ValueType.date;
+    return ValueType.Date;
   }
 
   if (isError(value)) {
-    return ValueType.error;
+    return ValueType.Error;
   }
 
   if (isRegExp(value)) {
-    return ValueType.regexp;
+    return ValueType.RegExp;
   }
 
   switch (constructorName(value)) {
     case 'Symbol': {
-      return ValueType.symbol;
+      return ValueType.Symbol;
     }
     case 'Promise': {
-      return ValueType.promise;
+      return ValueType.Promise;
     }
     case 'WeakMap': {
-      return ValueType.weakmap;
+      return ValueType.WeakMap;
     }
     case 'WeakSet': {
-      return ValueType.weakset;
+      return ValueType.WeakSet;
     }
     case 'Map': {
-      return ValueType.map;
+      return ValueType.Map;
     }
     case 'Set': {
-      return ValueType.set;
+      return ValueType.Set;
     }
     case 'Int8Array': {
-      return ValueType.int8array;
+      return ValueType.Int8Array;
     }
     case 'Uint8Array': {
-      return ValueType.uint8array;
+      return ValueType.Uint8Array;
     }
     case 'Uint8ClampedArray': {
-      return ValueType.uint8clampedarray;
+      return ValueType.Uint8ClampedArray;
     }
     case 'Int16Array': {
-      return ValueType.int16array;
+      return ValueType.Int16Array;
     }
     case 'Uint16Array': {
-      return ValueType.uint16array;
+      return ValueType.Uint16Array;
     }
     case 'Int32Array': {
-      return ValueType.int32array;
+      return ValueType.Int32Array;
     }
     case 'Uint32Array': {
-      return ValueType.uint32array;
+      return ValueType.Uint32Array;
     }
     case 'Float32Array': {
-      return ValueType.float32array;
+      return ValueType.Float32Array;
     }
     case 'Float64Array': {
-      return ValueType.float64array;
+      return ValueType.Float64Array;
     }
     case 'BigInt64Array': {
-      return ValueType.bigint64array;
+      return ValueType.BigInt64Array;
     }
     case 'BigUint64Array': {
-      return ValueType.biguint64array;
+      return ValueType.BigUint64Array;
     }
   }
 
   if (isGeneratorObject(value)) {
-    return ValueType.generator;
+    return ValueType.Generator;
   }
 
-  type = toString.call(value);
+  type = Object.prototype.toString.call(value);
 
   switch (type) {
     case '[object Object]': {
-      return ValueType.object;
+      return ValueType.Object;
     }
     case '[object Map Iterator]': {
-      return ValueType.mapiterator;
+      return ValueType.MapIterator;
     }
     case '[object Set Iterator]': {
-      return ValueType.setiterator;
+      return ValueType.SetIterator;
     }
     case '[object String Iterator]': {
-      return ValueType.stringiterator;
+      return ValueType.StringIterator;
     }
     case '[object Array Iterator]': {
-      return ValueType.arrayiterator;
+      return ValueType.ArrayIterator;
     }
   }
 
   return type.slice(8, -1).toLowerCase().replace(/\s/g, '');
 }
 
-function constructorName(value: any): string | null {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access
-  return typeof value.constructor === 'function' ? value.constructor.name : null;
+function constructorName(value: unknown): string | null {
+  if (value === null || (typeof value !== 'object' && typeof value !== 'function')) {
+    return null;
+  }
+
+  const ctor = (value as Record<string, unknown>).constructor;
+
+  if (typeof ctor !== 'function') {
+    return null;
+  }
+
+  return (ctor as { name?: string }).name ?? null;
 }
 
-function isGeneratorFunction(value: any): value is GeneratorFunction {
+function isGeneratorFunction(value: unknown): value is GeneratorFunction {
   const name = constructorName(value);
 
   return name === 'GeneratorFunction' || name === 'GeneratorFunction.js';

@@ -1,13 +1,27 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import { isNullOrUndefined } from './isNullOrUndefined.js';
 
 /**
- * Determines if a value is a Buffer.
+ * Checks if a value is a Buffer.
+ *
+ * @param value - The value to check.
+ * @returns `true` if the value is a Buffer, otherwise `false`.
  */
-export function isBuffer(value: any): value is Buffer {
-  if (value.constructor && typeof value.constructor.isBuffer === 'function') {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
-    return value.constructor.isBuffer(value);
+export function isBuffer(value: unknown): value is Buffer {
+  if (value === null || value === undefined || typeof value !== 'object') {
+    return false;
   }
 
-  return false;
+  const ctor = (value as Record<string, unknown>).constructor;
+
+  if (isNullOrUndefined(ctor) || typeof ctor !== 'function') {
+    return false;
+  }
+
+  const isBufferFn = (ctor as unknown as Record<string, unknown>).isBuffer;
+
+  if (typeof isBufferFn !== 'function') {
+    return false;
+  }
+
+  return (isBufferFn as (v: unknown) => boolean)(value);
 }

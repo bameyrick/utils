@@ -1,4 +1,3 @@
-import { Moment } from 'moment';
 import { isPlainObject } from '../type-predicates/isPlainObject.js';
 import { typeOf, ValueType } from '../type-predicates/typeOf.js';
 
@@ -9,27 +8,27 @@ type InstanceClone<T> = ((value: T) => T) | boolean;
  */
 export function clone<T>(value: T, instanceClone: InstanceClone<T> = false): T {
   switch (typeOf(value)) {
-    case ValueType.object: {
+    case ValueType.Object: {
       return cloneObjectDeep(value, instanceClone);
     }
-    case ValueType.map: {
+    case ValueType.Map: {
       return cloneMapDeep(value as unknown as Map<unknown, unknown>, instanceClone as unknown as InstanceClone<unknown>) as unknown as T;
     }
-    case ValueType.set: {
+    case ValueType.Set: {
       return cloneSetDeep(value as unknown as Set<unknown>, instanceClone as unknown as InstanceClone<unknown>) as unknown as T;
     }
-    case ValueType.array:
-    case ValueType.int8array:
-    case ValueType.uint8array:
-    case ValueType.uint8clampedarray:
-    case ValueType.int16array:
-    case ValueType.uint16array:
-    case ValueType.int32array:
-    case ValueType.uint32array:
-    case ValueType.float32array:
-    case ValueType.float64array:
-    case ValueType.bigint64array:
-    case ValueType.biguint64array: {
+    case ValueType.Array:
+    case ValueType.Int8Array:
+    case ValueType.Uint8Array:
+    case ValueType.Uint8ClampedArray:
+    case ValueType.Int16Array:
+    case ValueType.Uint16Array:
+    case ValueType.Int32Array:
+    case ValueType.Uint32Array:
+    case ValueType.Float32Array:
+    case ValueType.Float64Array:
+    case ValueType.BigInt64Array:
+    case ValueType.BigUint64Array: {
       return cloneArrayDeep(value, instanceClone);
     }
     default: {
@@ -40,24 +39,21 @@ export function clone<T>(value: T, instanceClone: InstanceClone<T> = false): T {
 
 function cloneShallow<T>(value: T): T {
   switch (typeOf(value)) {
-    case ValueType.buffer: {
+    case ValueType.Buffer: {
       return cloneBuffer(value as Buffer) as unknown as T;
     }
-    case ValueType.symbol: {
+    case ValueType.Symbol: {
       return cloneSymbol(value as symbol) as unknown as T;
     }
-    case ValueType.error: {
+    case ValueType.Error: {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return Object.create(value as Error);
     }
-    case ValueType.date: {
+    case ValueType.Date: {
       return new Date(value as Date) as unknown as T;
     }
-    case ValueType.regexp: {
+    case ValueType.RegExp: {
       return cloneRegExp(value as unknown as RegExp) as unknown as T;
-    }
-    case ValueType.moment: {
-      return (value as Moment).clone() as T;
     }
   }
 

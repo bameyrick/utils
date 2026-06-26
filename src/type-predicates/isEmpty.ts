@@ -1,35 +1,33 @@
 import { isNullOrUndefined } from './isNullOrUndefined.js';
 import { typeOf } from './typeOf.js';
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
-namespace Empty {
-  export type String = '';
-  export type Object = Record<string, never>;
-  export type Array = never[];
-  export type _Set = Set<never>;
-  export type _Map = Map<never, never>;
-}
+type EmptyString = '';
+type EmptyObject = Record<string, never>;
+type EmptyArray = never[];
+type EmptySet = Set<never>;
+type EmptyMap = Map<never, never>;
 
-type Empty = Empty.Array | Empty.Object | Empty.String | Empty._Set | Empty._Map;
+type Empty = EmptyArray | EmptyObject | EmptyString | EmptySet | EmptyMap;
 
 type EmptyResult<T> = T extends string
-  ? Empty.String
-  : T extends any[]
-    ? Empty.Array
+  ? EmptyString
+  : T extends unknown[]
+    ? EmptyArray
     : T extends Set<unknown>
-      ? Empty._Set
+      ? EmptySet
       : T extends Map<unknown, unknown>
-        ? Empty._Map
+        ? EmptyMap
         : T extends object
-          ? Empty.Object
+          ? EmptyObject
           : never;
 
 /**
- * Checks if a given value is empty
+ * Checks if a value is empty. A value is considered empty if it is `null`, `undefined`, an empty string (or whitespace-only string), an empty array, an empty object, an empty Set, or an empty Map.
+ *
+ * @param value - The value to check.
+ * @returns `true` if the value is empty, otherwise `false`.
  */
-export function isEmpty<T extends string | Set<unknown> | Map<unknown, unknown> | any[] | object | null | undefined>(
-  value: T | Empty | null | undefined
-): value is EmptyResult<T> | null | undefined {
+export function isEmpty<T>(value: T | Empty | null | undefined): value is EmptyResult<T> | null | undefined {
   if (isNullOrUndefined(value)) {
     return true;
   }
@@ -41,14 +39,15 @@ export function isEmpty<T extends string | Set<unknown> | Map<unknown, unknown> 
     case 'map': {
       return (value as Set<unknown> | Map<unknown, unknown>).size === 0;
     }
-  }
-
-  switch (typeof value) {
+    case 'array': {
+      return (value as unknown[]).length === 0;
+    }
     case 'object': {
-      return !Object.keys(value).length;
+      const obj = value as object;
+      return !Reflect.ownKeys(obj).some(k => Object.prototype.propertyIsEnumerable.call(obj, k));
     }
     case 'string': {
-      return !value.trim();
+      return !(value as string).trim();
     }
     default: {
       return false;

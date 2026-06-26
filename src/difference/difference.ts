@@ -1,24 +1,26 @@
 import { isEqual } from '../index.js';
 
 /**
- * Creates an array of array values not included in the other given array using isEqual for equality comparisons. The order and references
- * of result values are determined by the first array.
+ * Creates an array of values from `array` that are not included in `values`, using deep equality (`isEqual`) for comparisons. The order and references of result values are determined by the first array.
+ *
+ * @param array - The array to inspect.
+ * @param values - The values to exclude.
+ * @returns A new array of filtered values.
  */
-export function difference<T extends any[]>(array: T, values: any[]): T {
-  if (!array.length || !values.length) {
-    return [] as unknown as T;
+export function difference<T>(array: readonly T[], values: readonly unknown[]): T[] {
+  if (!array.length) {
+    return [];
   }
 
-  return array.reduce(
-    (result, item) => {
-      if (!values.some(value => isEqual(item, value))) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-        result.push(item);
-      }
+  if (!values.length) {
+    return array.slice();
+  }
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return result;
-    },
-    [] as unknown as T
-  ) as T;
+  return array.reduce<T[]>((result, item) => {
+    if (!values.some(value => isEqual(item, value))) {
+      result.push(item);
+    }
+
+    return result;
+  }, []);
 }

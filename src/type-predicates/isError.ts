@@ -1,6 +1,9 @@
 /**
- * Determines whether the given value is an Error.
+ * Checks if a value is an Error object.
+ *
+ * @param value - The value to check.
+ * @returns `true` if the value is an Error object, otherwise `false`.
  */
-export function isError(value: any): value is Error {
+export function isError(value: unknown): value is Error {
   return value instanceof Error;
 }

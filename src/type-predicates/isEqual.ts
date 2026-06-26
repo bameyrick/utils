@@ -1,26 +1,24 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-
-import { Moment } from 'moment';
-import { isMoment } from './isMoment.js';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-export type IndividualEqualityType = null | undefined | boolean | number | string | Date | object | Function;
+export type IndividualEqualityType = null | undefined | boolean | number | bigint | string | symbol | Date | object | Function;
 
 export type EqualityType = IndividualEqualityType | IndividualEqualityType[];
 
 /**
- * Performs a deep comparison between two values to determine if they are equivalent.
+ * Performs a deep equality check between two values (primitives, arrays, objects, Dates/RegExps, ArrayBuffer views, and Maps/Sets).
+ * Note: Map keys and Set entries are matched using `SameValueZero` (i.e. reference equality for objects); Map values are compared recursively.
  *
- * **Note:** This method supports comparing nulls, undefineds, booleans, numbers, strings, Dates, objects, Functions, Arrays, RegExs, Maps, Sets, and Typed Arrays.
+ * @param a - The first value to compare.
+ * @param b - The second value to compare.
  *
- * Object objects are compared by their own, not inherited, enumerable properties.
- *
- * Functions and DOM nodes are compared by strict equality, i.e. ===.
- *
- * The order of the array items must be the same for the arrays to be equal.
+ * @returns `true` if the values are deeply equal, otherwise `false`.
  */
-export function isEqual(a: any, b: any): boolean {
+export function isEqual(a: unknown, b: unknown): boolean {
+  return _isEqual(a, b, new WeakMap<object, WeakSet<object>>());
+}
+
+function _isEqual(a: any, b: any, visited: WeakMap<object, WeakSet<object>>): boolean {
   if (a === b) {
     return true;
   }
@@ -28,6 +26,19 @@ export function isEqual(a: any, b: any): boolean {
   if (a && b && typeof a === 'object' && typeof b === 'object') {
     if (a.constructor !== b.constructor) {
       return false;
+    }
+
+    // Cycle detection: if this object pair has already been seen, treat as equal
+    const visitedB = visited.get(a as object);
+
+    if (visitedB) {
+      if (visitedB.has(b as object)) {
+        return true;
+      }
+
+      visitedB.add(b as object);
+    } else {
+      visited.set(a as object, new WeakSet([b as object]));
     }
 
     if (Array.isArray(a)) {
@@ -38,7 +49,7 @@ export function isEqual(a: any, b: any): boolean {
       }
 
       for (let i = 0; i < aLength; i++) {
-        if (!isEqual(a[i], b[i])) {
+        if (!_isEqual(a[i], b[i], visited)) {
           return false;
         }
       }
@@ -58,7 +69,7 @@ export function isEqual(a: any, b: any): boolean {
       }
 
       for (const i of a.entries()) {
-        if (!isEqual(i[1], b.get(i[0]))) {
+        if (!_isEqual(i[1], b.get(i[0]), visited)) {
           return false;
         }
       }
@@ -81,15 +92,16 @@ export function isEqual(a: any, b: any): boolean {
     }
 
     if (ArrayBuffer.isView(a) && ArrayBuffer.isView(b)) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const length: number = (a as any).length;
+      const viewA = new Uint8Array(a.buffer, a.byteOffset, a.byteLength);
+      const viewB = new Uint8Array(b.buffer, b.byteOffset, b.byteLength);
+      const { length } = viewA;
 
-      if (length !== (b as any).length) {
+      if (length !== viewB.length) {
         return false;
       }
 
       for (let i = 0; i < length; i++) {
-        if (a[i] !== b[i]) {
+        if (viewA[i] !== viewB[i]) {
           return false;
         }
       }
@@ -101,24 +113,20 @@ export function isEqual(a: any, b: any): boolean {
       return a.source === (b as RegExp).source && a.flags === (b as RegExp).flags;
     }
 
-    if (a.valueOf !== Object.prototype.valueOf) {
-      return a.valueOf() === b.valueOf();
+    const aValueOf = a.valueOf as unknown;
+    const bValueOf = b.valueOf as unknown;
+    if (typeof aValueOf === 'function' && typeof bValueOf === 'function' && aValueOf !== Object.prototype.valueOf) {
+      return aValueOf.call(a) === bValueOf.call(b);
     }
 
-    if (a.toString !== Object.prototype.toString) {
-      return a.toString() === b.toString();
+    const aToString = a.toString as unknown;
+    const bToString = b.toString as unknown;
+    if (typeof aToString === 'function' && typeof bToString === 'function' && aToString !== Object.prototype.toString) {
+      return aToString.call(a) === bToString.call(b);
     }
 
-    if (isMoment(a)) {
-      if (!isMoment(b)) {
-        return false;
-      }
-
-      return (a as Moment).isSame(b as Moment);
-    }
-
-    const keysA = Object.keys(a as object);
-    const keysB = Object.keys(b as object);
+    const keysA = Reflect.ownKeys(a as object).filter(k => Object.prototype.propertyIsEnumerable.call(a as object, k));
+    const keysB = Reflect.ownKeys(b as object).filter(k => Object.prototype.propertyIsEnumerable.call(b as object, k));
     const keysALength = keysA.length;
 
     if (keysALength !== keysB.length) {
@@ -128,7 +136,11 @@ export function isEqual(a: any, b: any): boolean {
     for (let i = 0; i < keysALength; i++) {
       const key = keysA[i];
 
-      if (!isEqual(a[key], b[key])) {
+      if (!Object.prototype.hasOwnProperty.call(b as object, key)) {
+        return false;
+      }
+
+      if (!_isEqual(a[key], b[key], visited)) {
         return false;
       }
     }

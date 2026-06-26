@@ -1,6 +1,9 @@
 /**
- * Determines whether a given value is a string
+ * Checks if the value is a string.
+ *
+ * @param value - The value to check.
+ * @returns `true` if the value is a string, otherwise `false`.
  */
-export function isString(value: any): value is string {
+export function isString(value: unknown): value is string {
   return typeof value === 'string';
 }
