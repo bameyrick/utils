@@ -1,5 +1,5 @@
 import { merge } from './merge';
-import { mergeTests } from './mergeTestDefinitions.spec';
+import { mergeTests } from './merge-test-definitions.spec';
 
 describe(`merge`, () => {
   for (const { description, target, source, expected, notEqual } of mergeTests) {

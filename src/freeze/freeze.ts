@@ -13,6 +13,10 @@ import { typeOf, ValueType } from '../type-predicates/index.js';
  *   function returns a readonly `Proxy` that throws on common mutators.
  * - If other code still holds a reference to the original mutable object, it can mutate it directly; `freeze()` cannot
  *   prevent that.
+ *
+ * @template T - The type of the value to freeze.
+ * @param value - The value to freeze.
+ * @returns A readonly version of the value, with nested values frozen where possible.
  */
 export function freeze<T>(value: T): Readonly<T> {
   const ctx: FreezeContext = {

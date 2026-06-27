@@ -1,5 +1,5 @@
-import { isEqual } from '../type-predicates';
-import { clone } from './clone';
+import { isEqual } from '../type-predicates/is-equal.js';
+import { clone } from './clone.js';
 
 describe('clone', () => {
   it('should clone a date', () => {
@@ -40,8 +40,7 @@ describe('clone', () => {
     const value = [childArray, childObject, 'a', 10, new Date()];
 
     const cloned = clone(value);
-    const clonedArray = cloned[0];
-    const clonedObject = cloned[1];
+    const [clonedArray, clonedObject] = cloned;
 
     expect(Object.is(value, cloned)).toBe(false);
     expect(Object.is(childArray, clonedArray)).toBe(false);
@@ -90,7 +89,7 @@ describe('clone', () => {
 
     nested.x = 2;
 
-    const clonedItem = Array.from(b)[0];
+    const [clonedItem] = Array.from(b);
     expect(clonedItem.x).toBe(1);
   });
 
@@ -137,8 +136,7 @@ describe('clone', () => {
     const a = new Error('a');
     const b = clone(a);
 
-    expect(b).toBeInstanceOf(Error);
-    expect(b.message).toBe(a.message);
+    expect(a).toEqual(b);
   });
 
   describe(`Typed Arrays`, () => {

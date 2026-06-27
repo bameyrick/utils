@@ -1,23 +1,35 @@
-import { delay } from '../../src';
+import { delay } from './delay.js';
 
 describe('delay', () => {
-  it('should wait for the delay to complete before continuing execution', async () => {
-    let resolved = false;
-
-    setTimeout(() => (resolved = true), 10);
-
-    await delay(20);
-
-    expect(resolved).toBe(true);
+  beforeEach(() => {
+    vi.useFakeTimers();
   });
 
-  it('should wait for the delay to complete before continuing execution', async () => {
-    let resolved = false;
+  afterEach(() => {
+    vi.useRealTimers();
+  });
 
-    setTimeout(() => (resolved = true), 30);
+  it('resolves after the specified duration', async () => {
+    const promise = delay(20);
 
-    await delay(20);
+    vi.advanceTimersByTime(19);
+    let settled = false;
 
-    expect(resolved).toBe(false);
+    void promise.then(() => {
+      settled = true;
+    });
+
+    await Promise.resolve();
+    expect(settled).toBe(false);
+
+    vi.advanceTimersByTime(1);
+    await promise;
+    expect(settled).toBe(true);
+  });
+
+  it('resolves on the next tick when duration is omitted', async () => {
+    const promise = delay();
+    vi.runAllTimers();
+    await expect(promise).resolves.toBeUndefined();
   });
 });

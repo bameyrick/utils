@@ -1,4 +1,4 @@
-import { isMergeableObject as defaultIsMergeableObject } from '../type-predicates/isMergeableObject.js';
+import { isMergeableObject as defaultIsMergeableObject } from '../type-predicates/is-mergeable-object.js';
 
 interface MergeOptions {
   /**

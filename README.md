@@ -27,7 +27,6 @@ A collection of useful utility functions with associated TypeScript types.
       - [isObject](#isobject)
       - [isString](#isstring)
       - [isEqual](#isequal)
-        - [isEqual performance comparison](#isequal-performance-comparison)
         - [EqualityType](#equalitytype)
         - [IndividualEqualityType](#individualequalitytype)
       - [isRegExp](#isregexp)
@@ -42,25 +41,23 @@ A collection of useful utility functions with associated TypeScript types.
       - [typeOf](#typeof)
     - [clone](#clone)
       - [instanceClone](#instanceclone)
-      - [clone performance comparison](#clone-performance-comparison)
     - [freeze](#freeze)
     - [merge](#merge)
       - [merge options](#merge-options)
         - [arrayMerge](#arraymerge)
-        - [isMergeableObject](#ismergeableobject)
+        - [isMergeableObject](#ismergeableobject-1)
         - [customMerge](#custommerge)
-      - [Merge performance comparison](#merge-performance-comparison)
-    - [Sorting](#sorting)
-      - [sortBy](#sortby)
-        - [SortMappingFunction](#sortmappingfunction)
     - [Strings](#strings)
       - [capitalise](#capitalise)
         - [CapitaliseOptions](#capitaliseoptions)
-    - [CapitaliseFirst](#capitalisefirst)
-      - [CapitaliseLast](#capitaliselast)
+      - [capitaliseFirst](#capitalisefirst)
+      - [capitaliseLast](#capitaliselast)
     - [kebabToPascal](#kebabtopascal)
     - [pascalToKebab](#pascaltokebab)
     - [difference](#difference)
+    - [Sorting](#sorting)
+      - [sortBy](#sortby)
+        - [SortMappingFunction](#sortmappingfunction)
     - [formatTime](#formattime)
       - [FormatTimeOptions](#formattimeoptions)
     - [insertAtIndex](#insertatindex)
@@ -371,7 +368,7 @@ if (isString(value)) {
 
 Performs a deep comparison between two values to determine if they are equivalent.
 
-**Note:** This method supports comparing nulls, undefineds, booleans, numbers, strings, Dates, objects, Functions, Arrays, RegExs, Maps, Sets, Typed Arrays, and [Moments](https://momentjs.com).
+**Note:** This method supports comparing nulls, undefineds, booleans, numbers, bigints, symbols, strings, Dates, objects, Functions, Arrays, RegExps, Maps, Sets, and Typed Arrays.
 
 Object objects are compared by their own, not inherited, enumerable properties.
 
@@ -401,22 +398,6 @@ if (isEqual(a, b)) {
 }
 ```
 
-##### isEqual performance comparison
-
-The following benchmarks go through the [isEqual test suite](tests/isEqualTestDefinitions.spec.ts) and were run on a 2023 Macbook Pro with a M2 Pro chip and 32GB of RAM.
-
-| Package                  | Operations per second |
-| ------------------------ | --------------------- |
-| @qntm-code/utils.isEqual | 218781                |
-| fast-deep-equal          | 192329                |
-| underscore.isEqual       | 65518                 |
-| util.isDeepStrictEqual   | 39740                 |
-| lodash.isEqual           | 18842                 |
-| ramda.equals             | 10231                 |
-| assert.deepStrictEqual   | 215                   |
-
-To run the benchmarks yourself, clone the repo, install the dependencies and run `yarn benchmark`.
-
 ##### EqualityType
 
 An EqualityType can be an [IndividualEqualityType](#individualequalitytype) or an array of mixed [IndividualEqualityTypes](#individualequalitytype)
@@ -429,7 +410,9 @@ The equality types allowed are:
 - `undefined`
 - `boolean`
 - `number`
+- `bigint`
 - `string`
+- `symbol`
 - `Date`
 - `object`
 - `Function`
@@ -696,7 +679,7 @@ if (typeOf(value) === ValueType.String) {
 
 ### clone
 
-Recursively (deep) clones native types, like Object, Array, RegExp, Date, Map, Set, Symbol, Error, [moment](https://momentjs.com/) as well as primitives.
+Recursively (deep) clones native types, like Object, Array, RegExp, Date, Map, Set, Symbol, and Error as well as primitives.
 
 Method arguments:
 
@@ -721,16 +704,6 @@ import { clone } from '@qntm-code/utils';
 const value: number[] = [1, 2, 3];
 const clonedValues = clone(value);
 ```
-
-#### clone performance comparison
-
-The following benchmarks were run on a 2023 Macbook Pro with a M2 Pro chip and 32GB of RAM.
-
-| Package                | Operations per second |
-| ---------------------- | --------------------- |
-| @qntm-code/utils.clone | 127338                |
-| clone-deep             | 115475                |
-| lodash.cloneDeep       | 73027                 |
 
 ---
 
@@ -919,15 +892,6 @@ result.name; // => 'Alex and Tony'
 result.pets; // => ['Cat', 'Parrot', 'Dog']
 ```
 
-#### Merge performance comparison
-
-The following benchmarks go through the [merge test suite](tests/mergeTestDefinitions.spec.ts) and were run on a 2023 Macbook Pro with a M2 Pro chip and 32GB of RAM.
-
-| Package                | Operations per second |
-| ---------------------- | --------------------- |
-| @qntm-code/utils.merge | 28332                 |
-| deepmerge              | 23497                 |
-
 ---
 
 ### Strings
@@ -968,7 +932,7 @@ const capitalised = capitalise(value, { start: 0, end: 5 });
 
 ---
 
-### CapitaliseFirst
+#### capitaliseFirst
 
 Capitalises the first n characters of a string.
 
@@ -995,7 +959,7 @@ const capitalised = capitaliseFirst(value, 2);
 
 ---
 
-#### CapitaliseLast
+#### capitaliseLast
 
 Capitalises the last n characters of a string.
 
@@ -1773,8 +1737,6 @@ const newDate = addToDate(date, 24, TimeUnit.Hours).getHours(); // 7
 #### subtractFromDate
 
 Returns a new date object with a given amount of a given [TimeUnit](#timeunit) subracted from it.
-
-This is exactly the same as moment#add, only instead of [addToDate](#addtodate), it subtracts time.
 
 | Parameter | Type                  | Description               |
 | --------- | --------------------- | ------------------------- |

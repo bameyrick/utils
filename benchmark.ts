@@ -1,21 +1,20 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { deepStrictEqual } from 'assert';
 import { Suite } from 'benchmark';
-import * as cloneDeep from 'clone-deep';
-import * as deepmerge from 'deepmerge';
-import * as fastDeepEqual from 'fast-deep-equal/es6';
+import cloneDeep from 'clone-deep';
+import deepmerge from 'deepmerge';
+import fastDeepEqual from 'fast-deep-equal/es6';
 import * as lodash from 'lodash';
 import { markdownTable } from 'markdown-table';
 import * as ramda from 'ramda';
 import * as _ from 'underscore';
 import { isDeepStrictEqual } from 'util';
 import { clone, isEqual, merge } from './src';
-import { mergeTests } from './src/merge/mergeTestDefinitions.spec';
-import { isEqualTests } from './src/type-predicates/isEqualTestDefinitions.spec';
+import { mergeTests } from './src/merge/merge-test-definitions.spec';
+import { isEqualTests } from './src/type-predicates/is-equal-test-definitions.spec';
 
 interface Benchmark {
   name: string;
@@ -102,7 +101,7 @@ const benchmarks: Benchmark[] = [
         try {
           deepStrictEqual(a, b);
           return true;
-        } catch (e) {
+        } catch (_error) {
           return false;
         }
       },

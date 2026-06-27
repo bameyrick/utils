@@ -1,9 +1,13 @@
-import { TimeUnit, convertTimeUnit, unitToMS } from '../dates/index.js';
-import { isNullOrUndefined } from '../type-predicates/isNullOrUndefined.js';
+import { TimeUnit, convertTimeUnit, timeUnitToMilliseconds } from '../dates/index.js';
+import { isNullOrUndefined } from '../type-predicates/is-null-or-undefined.js';
 import { FormatTimeOptions, FormatTimeOptionsComplete } from './format-time-options.js';
 
 /**
  * Formats a given time to a human readable string
+ *
+ * @param time - The time to format
+ * @param options - The options to use for formatting the time
+ * @returns The formatted time string
  */
 export function formatTime(time: number, options?: FormatTimeOptions): string {
   const defaultOptions: FormatTimeOptionsComplete = {
@@ -21,31 +25,36 @@ export function formatTime(time: number, options?: FormatTimeOptions): string {
     ...options,
   };
 
-  const timeMs = unitToMS(time, timeUnit);
+  const timeMs = timeUnitToMilliseconds(time, timeUnit);
 
   const result: Array<string> = [];
 
-  const hours = Math.floor(convertTimeUnit(timeMs, TimeUnit.Milliseconds, TimeUnit.Hours));
+  const hours = Math.floor(convertTimeUnit({ value: timeMs, sourceUnit: TimeUnit.Milliseconds, resultUnit: TimeUnit.Hours }));
 
   if (forceAllUnits || hours > 0) {
     result.push(formatUnit(hours, hourSuffix, forceAllUnits));
   }
 
   let minutes = Math.floor(
-    convertTimeUnit(timeMs - convertTimeUnit(hours, TimeUnit.Hours, TimeUnit.Milliseconds), TimeUnit.Milliseconds, TimeUnit.Minutes)
+    convertTimeUnit({
+      value: timeMs - convertTimeUnit({ value: hours, sourceUnit: TimeUnit.Hours, resultUnit: TimeUnit.Milliseconds }),
+      sourceUnit: TimeUnit.Milliseconds,
+      resultUnit: TimeUnit.Minutes,
+    })
   );
 
   const secondsMultiplier = Math.pow(10, secondsDecimalPlaces);
 
   let seconds =
     Math.round(
-      convertTimeUnit(
-        timeMs -
-          convertTimeUnit(hours, TimeUnit.Hours, TimeUnit.Milliseconds) -
-          convertTimeUnit(minutes, TimeUnit.Minutes, TimeUnit.Milliseconds),
-        TimeUnit.Milliseconds,
-        TimeUnit.Seconds
-      ) * secondsMultiplier
+      convertTimeUnit({
+        value:
+          timeMs -
+          convertTimeUnit({ value: hours, sourceUnit: TimeUnit.Hours, resultUnit: TimeUnit.Milliseconds }) -
+          convertTimeUnit({ value: minutes, sourceUnit: TimeUnit.Minutes, resultUnit: TimeUnit.Milliseconds }),
+        sourceUnit: TimeUnit.Milliseconds,
+        resultUnit: TimeUnit.Seconds,
+      }) * secondsMultiplier
     ) / secondsMultiplier;
 
   if (seconds === 60) {

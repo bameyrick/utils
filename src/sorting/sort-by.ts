@@ -1,4 +1,4 @@
-import { isNullOrUndefined } from '../type-predicates/isNullOrUndefined.js';
+import { isNullOrUndefined } from '../type-predicates/is-null-or-undefined.js';
 import { SortMappingFunction } from './sort-mapping-function.model.js';
 
 /**

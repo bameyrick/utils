@@ -1,16 +1,14 @@
 {
   "extends": "./tsconfig.json",
   "include": ["src/**/*"],
-  "exclude": [
-    "src/**/*.spec.ts",
-    "src/**/*.spec.tsx",
-    "src/dates/modifiers/date-modifiers-test-suites.ts"
-  ],
+  "exclude": ["src/**/*.spec.ts", "src/**/*.spec.tsx", "src/dates/modifiers/date-modifiers-test-suites.ts"],
   "compilerOptions": {
+    "rootDir": "src",
     "module": "commonjs",
     "moduleResolution": "node10",
     "ignoreDeprecations": "6.0",
     "outDir": "dist/cjs",
-    "target": "es2020"
+    "target": "es2020",
+    "types": ["node"]
   }
 }

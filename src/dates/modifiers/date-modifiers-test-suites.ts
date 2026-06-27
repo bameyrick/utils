@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { describe, expect, it } from 'vitest';
 import { TimeUnit } from '../../../src/index.js';
 
 interface DateModifierTestDefinition {
@@ -58,7 +59,7 @@ const dateModifierTestSuites: DateModifierTestSuite[] = [
 ];
 
 export function generateDateModifierTestSuites(
-  fn: (date: Date, amount: number, unit: TimeUnit) => Date,
+  fn: (args: { date: Date; amount: number; unit: TimeUnit }) => Date,
   type: string,
   toFrom: string
 ): void {
@@ -70,7 +71,7 @@ export function generateDateModifierTestSuites(
             const displayDescription = description.replace('%type%', type).replace('%to_from%', toFrom);
 
             it(displayDescription, () => {
-              const result = fn(new Date(date), amount, unit);
+              const result = fn({ date: new Date(date), amount, unit });
 
               // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
               expect(result).toEqual(moment(date)[type](amount, unit).toDate());

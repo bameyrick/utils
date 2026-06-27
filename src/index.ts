@@ -7,7 +7,7 @@ export * from './difference/difference.js';
 export * from './dom/index.js';
 export * from './format-time/index.js';
 export * from './freeze/freeze.js';
-export * from './insertAtIndex/insertAtIndex.js';
+export * from './insert-at-index/insert-at-index.js';
 export * from './math/index.js';
 export * from './merge/merge.js';
 export * from './sorting/sort-by.js';
