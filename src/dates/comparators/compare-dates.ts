@@ -8,8 +8,14 @@ import { DateComparator } from './date-comparator.enum.js';
  *
  * When including a second parameter, it will match all units equal or larger. For example, if passing in month will check month and year,
  * or if passing in day will check day, month, and year.
+ *
+ * @param a - The first date to compare.
+ * @param comparator - The comparator to use for the comparison.
+ * @param b - The second date to compare.
+ * @param unit - The unit of time to compare.
+ * @returns True if the dates match the comparator, false otherwise.
  */
-export function compareDates(a: Date, comparator: DateComparator, b: Date, unit?: TimeUnit): boolean {
+export function compareDates({ a, comparator, b, unit }: { a: Date; comparator: DateComparator; b: Date; unit?: TimeUnit }): boolean {
   unit = singulariseUnit(unit);
 
   const sameComparator = getSameComparator(comparator);

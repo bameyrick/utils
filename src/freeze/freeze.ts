@@ -13,6 +13,10 @@ import { typeOf, ValueType } from '../type-predicates/index.js';
  *   function returns a readonly `Proxy` that throws on common mutators.
  * - If other code still holds a reference to the original mutable object, it can mutate it directly; `freeze()` cannot
  *   prevent that.
+ *
+ * @template T - The type of the value to freeze.
+ * @param value - The value to freeze.
+ * @returns A readonly version of the value, with nested values frozen where possible.
  */
 export function freeze<T>(value: T): Readonly<T> {
   const ctx: FreezeContext = {
@@ -52,45 +56,45 @@ function freezeInternal<T>(value: T, ctx: FreezeContext): unknown {
   const valueType = typeOf(value);
 
   switch (valueType) {
-    case ValueType.array: {
+    case ValueType.Array: {
       return freezeArrayDeep(value as unknown as unknown[], ctx);
     }
-    case ValueType.object: {
+    case ValueType.Object: {
       return freezeObjectDeep(value as unknown as Record<PropertyKey, unknown>, ctx);
     }
-    case ValueType.map: {
+    case ValueType.Map: {
       return freezeMapDeep(value as unknown as Map<unknown, unknown>, ctx);
     }
-    case ValueType.set: {
+    case ValueType.Set: {
       return freezeSetDeep(value as unknown as Set<unknown>, ctx);
     }
-    case ValueType.date: {
+    case ValueType.Date: {
       return freezeDate(value as unknown as Date, ctx);
     }
-    case ValueType.regexp: {
+    case ValueType.RegExp: {
       return Object.freeze(value);
     }
-    case ValueType.error: {
+    case ValueType.Error: {
       return freezeObjectDeep(value as unknown as Record<PropertyKey, unknown>, ctx);
     }
-    case ValueType.weakmap: {
+    case ValueType.WeakMap: {
       return freezeWeakMap(value as unknown as WeakMap<object, unknown>, ctx);
     }
-    case ValueType.weakset: {
+    case ValueType.WeakSet: {
       return freezeWeakSet(value as unknown as WeakSet<object>, ctx);
     }
-    case ValueType.buffer:
-    case ValueType.int8array:
-    case ValueType.uint8array:
-    case ValueType.uint8clampedarray:
-    case ValueType.int16array:
-    case ValueType.uint16array:
-    case ValueType.int32array:
-    case ValueType.uint32array:
-    case ValueType.float32array:
-    case ValueType.float64array:
-    case ValueType.bigint64array:
-    case ValueType.biguint64array: {
+    case ValueType.Buffer:
+    case ValueType.Int8Array:
+    case ValueType.Uint8Array:
+    case ValueType.Uint8ClampedArray:
+    case ValueType.Int16Array:
+    case ValueType.Uint16Array:
+    case ValueType.Int32Array:
+    case ValueType.Uint32Array:
+    case ValueType.Float32Array:
+    case ValueType.Float64Array:
+    case ValueType.BigInt64Array:
+    case ValueType.BigUint64Array: {
       return freezeArrayBufferView(value as unknown as ArrayBufferView, ctx);
     }
     default: {

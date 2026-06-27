@@ -1,121 +1,157 @@
-import { isMergeableObject } from '../type-predicates/isMergableObject.js';
+import { isMergeableObject as defaultIsMergeableObject } from '../type-predicates/is-mergeable-object.js';
 
-export interface MergeOptions {
+interface MergeOptions {
   /**
    * The function to use for merging arrays. Defaults to concatenating the arrays
    */
-  arrayMerge: <X extends unknown[], Y extends unknown[]>(x: X, y: Y, options: MergeOptions) => X & Y;
+  readonly arrayMerge: <X extends unknown[], Y extends unknown[]>(x: X, y: Y, options: MergeOptions) => X & Y;
 
   /**
-     * The function to use for merging objects. Defaults to merging the objects
-
+   * The function to use for merging objects. Defaults to merging the objects
    */
-  customMerge?: (key: string, options?: MergeOptions) => ((x: any, y: any) => any) | undefined;
-
-  /**
-   * The function to use for determining if a value is mergeable. Defaults to isPlainObject
-   */
-  isMergeableObject: (value: any) => boolean;
+  readonly customMerge?: (key: PropertyKey, options?: MergeOptions) => ((x: unknown, y: unknown) => unknown) | undefined;
 
   /**
-   * NOT OVERRIDABLE
+   * The function to use for determining if a value is mergeable. Defaults to `isMergeableObject`.
    */
-  cloneUnlessOtherwiseSpecified: (value, options) => any;
+  readonly isMergeableObject: (value: unknown) => boolean;
+
+  /**
+   * Internal hook used to clone values before merging.
+   */
+  readonly cloneUnlessOtherwiseSpecified: (value: unknown, options: MergeOptions) => unknown;
 }
 
 /**
- * Merges two objects x and y deeply, returning a new merged object with the elements from both x and y.
+ * Recursively merges the properties of two objects together. The source object is merged into the target object, and a new object is returned. The merge is performed recursively, meaning that nested objects and arrays are also merged. The function handles various edge cases, such as merging arrays, handling non-mergeable objects, and preventing prototype pollution.
  *
- * If an element at the same key is present for both x and y, the value from y will appear in the result.
+ * @param x - The target object to merge into.
+ * @param y - The source object to merge from.
+ * @param options - Optional configuration for the merge operation, including custom array merging, custom object merging, and a custom function to determine if a value is mergeable.
  *
- * Merging creates a new object, so that neither x or y is modified.
- *
- * Note: By default, arrays are merged by concatenating them.
+ * @returns A new object that is the result of merging the source object into the target object.
  */
-export function merge<X, Y>(x: Partial<X>, y: Partial<Y>, options: Partial<MergeOptions> = {}): X & Y {
-  if (!options.arrayMerge) {
-    options.arrayMerge = defaultArrayMerge;
-  }
+function mergeImpl<X, Y>(x: readonly X[], y: readonly Y[], options?: Partial<MergeOptions>): (X | Y)[];
+function mergeImpl<X, Y>(x: Partial<X>, y: Partial<Y>, options?: Partial<MergeOptions>): X & Y;
+function mergeImpl<X, Y>(x: Partial<X>, y: Partial<Y>, options: Partial<MergeOptions> = {}): X & Y {
+  const {
+    arrayMerge = defaultArrayMerge,
+    cloneUnlessOtherwiseSpecified = defaultCloneUnlessOtherwiseSpecified,
+    isMergeableObject = defaultIsMergeableObject,
+    customMerge,
+  } = options;
 
-  if (!options.isMergeableObject) {
-    options.isMergeableObject = isMergeableObject;
-  }
-
-  /**
-   * cloneUnlessOtherwiseSpecified is added to `options` so that custom arrayMerge() implementations can use it. The caller may not replace
-   * it.
-   */
-  options.cloneUnlessOtherwiseSpecified = cloneUnlessOtherwiseSpecified;
+  const newOptions: MergeOptions = {
+    arrayMerge,
+    cloneUnlessOtherwiseSpecified,
+    isMergeableObject,
+    customMerge,
+  };
 
   const xIsArray = Array.isArray(x);
   const yIsArray = Array.isArray(y);
 
   if (xIsArray !== yIsArray) {
-    return cloneUnlessOtherwiseSpecified(y, options as MergeOptions) as Y & X;
+    return cloneUnlessOtherwiseSpecified(y, newOptions) as Y & X;
   } else if (xIsArray) {
-    return options.arrayMerge(x as unknown[], y as unknown as unknown[], options as MergeOptions) as Y & X;
-  } else {
-    return mergeObject(x as object, y as object, options as MergeOptions) as Y & X;
+    return arrayMerge(x as unknown[], y as unknown as unknown[], newOptions) as Y & X;
   }
+
+  if (!isMergeableObject(x) || !isMergeableObject(y)) {
+    return cloneUnlessOtherwiseSpecified(y, newOptions) as Y & X;
+  }
+
+  return mergeObject(x as object, y as object, newOptions) as Y & X;
 }
 
-merge.all = function mergeAll<T>(array: Partial<T>[], options?: Partial<MergeOptions>): T {
-  if (!Array.isArray(array)) {
-    throw new Error('First argument should be an array');
-  }
+export const merge = Object.assign(mergeImpl, {
+  all<T>(array: Partial<T>[], options?: Partial<MergeOptions>): T {
+    if (!Array.isArray(array)) {
+      throw new Error('First argument should be an array');
+    }
 
-  let result = {} as T;
+    let result = {} as T;
 
-  for (let i = 0, l = array.length; i < l; i++) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    result = merge(result as any, array[i], options);
-  }
+    for (let i = 0, l = array.length; i < l; i++) {
+      result = merge(result as unknown as Partial<T>, array[i], options);
+    }
 
-  return result;
-};
+    return result;
+  },
+});
 
 function emptyTarget<T>(value: T): T[] | object {
   return Array.isArray(value) ? [] : {};
 }
 
-function cloneUnlessOtherwiseSpecified<T>(value: T, options: MergeOptions): T {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  return options.isMergeableObject(value) ? (merge(emptyTarget(value) as any, value as any, options) as T) : value;
+function defaultCloneUnlessOtherwiseSpecified<T>(value: T, options: MergeOptions): T {
+  return options.isMergeableObject(value) || Array.isArray(value)
+    ? merge(emptyTarget(value) as unknown as Partial<T>, value as unknown as Partial<T>, options)
+    : value;
 }
 
 function defaultArrayMerge<X extends unknown[], Y extends unknown[]>(x: X, y: Y, options: MergeOptions): X & Y {
-  return x.concat(y).map(element => cloneUnlessOtherwiseSpecified(element, options)) as X & Y;
-}
+  const xLen = x.length;
+  const result = new Array(xLen + y.length) as unknown[];
 
-function getMergeFunction(key: string, options: MergeOptions) {
-  if (!options.customMerge) {
-    return merge;
+  for (let i = 0; i < xLen; i++) {
+    result[i] = options.cloneUnlessOtherwiseSpecified(x[i], options);
   }
 
-  const customMerge = options.customMerge(key);
+  for (let i = 0, length = y.length; i < length; i++) {
+    result[xLen + i] = options.cloneUnlessOtherwiseSpecified(y[i], options);
+  }
 
-  return typeof customMerge === 'function' ? customMerge : merge;
+  return result as X & Y;
 }
 
-function getEnumerableOwnPropertySymbols<T extends object>(target: T): ConcatArray<string> {
+function getMergeFunction(key: PropertyKey, options: MergeOptions): (x: unknown, y: unknown, options: MergeOptions) => unknown {
+  if (!options.customMerge) {
+    return merge as unknown as (x: unknown, y: unknown, options: MergeOptions) => unknown;
+  }
+
+  const customMerge = options.customMerge(key, options);
+
+  return typeof customMerge === 'function' ? customMerge : (merge as unknown as (x: unknown, y: unknown, options: MergeOptions) => unknown);
+}
+
+function getEnumerableOwnPropertySymbols(target: object): symbol[] {
   const symbols = Object.getOwnPropertySymbols(target);
 
   const result: symbol[] = [];
 
   for (const symbol of symbols) {
-    if (Object.propertyIsEnumerable.call(target, symbol)) {
+    if (Object.prototype.propertyIsEnumerable.call(target, symbol)) {
       result.push(symbol);
     }
   }
 
-  return result as unknown as ConcatArray<string>;
+  return result;
 }
 
-function getKeys<T extends object>(target: T) {
-  return Object.keys(target).concat(getEnumerableOwnPropertySymbols(target));
+function getKeys(target: object): (string | symbol)[] {
+  const stringKeys = Object.keys(target);
+  const symKeys = getEnumerableOwnPropertySymbols(target);
+
+  if (!symKeys.length) {
+    return stringKeys;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const result: (string | symbol)[] = new Array(stringKeys.length + symKeys.length);
+
+  for (let i = 0, length = stringKeys.length; i < length; i++) {
+    result[i] = stringKeys[i];
+  }
+
+  for (let i = 0, length = symKeys.length; i < length; i++) {
+    result[stringKeys.length + i] = symKeys[i];
+  }
+
+  return result;
 }
 
-function propertyIsOnObject(object: object, property: string): boolean {
+function propertyIsOnObject(object: object, property: PropertyKey): boolean {
   try {
     return property in object;
   } catch (_) {
@@ -124,18 +160,25 @@ function propertyIsOnObject(object: object, property: string): boolean {
 }
 
 // Protects from prototype poisoning and unexpected merging up the prototype chain.
-function propertyIsUnsafe(target: object, key: string): boolean {
+function propertyIsUnsafe(target: object, key: PropertyKey): boolean {
+  if (key === '__proto__' || key === 'prototype' || key === 'constructor') {
+    return true;
+  }
+
   return (
     propertyIsOnObject(target, key) && // Properties are safe to merge if they don't exist in the target yet,
     !(
-      Object.hasOwnProperty.call(target, key) && // unsafe if they exist up the prototype chain,
-      Object.propertyIsEnumerable.call(target, key)
+      Object.prototype.hasOwnProperty.call(target, key) && // unsafe if they exist up the prototype chain,
+      Object.prototype.propertyIsEnumerable.call(target, key)
     )
   ); // and also unsafe if they're nonenumerable.
 }
 
 function mergeObject<X extends object, Y extends object>(x: X, y: Y, options: MergeOptions): X & Y {
   const destination = {} as X & Y;
+  const xRecord = x as Record<PropertyKey, unknown>;
+  const yRecord = y as Record<PropertyKey, unknown>;
+  const destRecord = destination as Record<PropertyKey, unknown>;
 
   if (options.isMergeableObject(x)) {
     const xKeys = getKeys(x);
@@ -143,7 +186,11 @@ function mergeObject<X extends object, Y extends object>(x: X, y: Y, options: Me
     for (let i = 0, l = xKeys.length; i < l; i++) {
       const key = xKeys[i];
 
-      destination[key] = cloneUnlessOtherwiseSpecified(x[key], options) as X & Y;
+      if (propertyIsUnsafe(x, key)) {
+        continue;
+      }
+
+      destRecord[key] = options.cloneUnlessOtherwiseSpecified(xRecord[key], options);
     }
   }
 
@@ -153,13 +200,13 @@ function mergeObject<X extends object, Y extends object>(x: X, y: Y, options: Me
     const key = yKeys[i];
 
     if (propertyIsUnsafe(x, key)) {
-      break;
+      continue;
     }
 
-    if (propertyIsOnObject(x, key) && options.isMergeableObject(y[key])) {
-      destination[key] = getMergeFunction(key, options)(x[key], y[key], options) as X & Y;
+    if (propertyIsOnObject(x, key) && (options.isMergeableObject(yRecord[key]) || Array.isArray(yRecord[key]))) {
+      destRecord[key] = getMergeFunction(key, options)(xRecord[key], yRecord[key], options);
     } else {
-      destination[key] = cloneUnlessOtherwiseSpecified(y[key], options) as X & Y;
+      destRecord[key] = options.cloneUnlessOtherwiseSpecified(yRecord[key], options);
     }
   }
 

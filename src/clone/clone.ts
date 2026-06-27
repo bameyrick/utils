@@ -1,179 +1,296 @@
-import { Moment } from 'moment';
-import { isPlainObject } from '../type-predicates/isPlainObject.js';
-import { typeOf, ValueType } from '../type-predicates/typeOf.js';
+import { isPlainObject } from '../type-predicates/is-plain-object.js';
 
 type InstanceClone<T> = ((value: T) => T) | boolean;
 
 /**
- * Recursively (deep) clones native types, like Object, Array, RegExp, Date, Map, Set, Symbol, Error as well as primitives.
+ * Performs a deep clone of the provided value.
+ *
+ * - Plain objects are deeply cloned by default.
+ * - Arrays, Maps, Sets, and typed arrays are deeply cloned.
+ * - Class instances are returned as-is unless `instanceClone` is `true` (clone own enumerable
+ *   properties while preserving the prototype) or a custom cloner function is provided.
+ * - Primitives and functions are returned as-is.
  */
 export function clone<T>(value: T, instanceClone: InstanceClone<T> = false): T {
-  switch (typeOf(value)) {
-    case ValueType.object: {
-      return cloneObjectDeep(value, instanceClone);
-    }
-    case ValueType.map: {
-      return cloneMapDeep(value as unknown as Map<unknown, unknown>, instanceClone as unknown as InstanceClone<unknown>) as unknown as T;
-    }
-    case ValueType.set: {
-      return cloneSetDeep(value as unknown as Set<unknown>, instanceClone as unknown as InstanceClone<unknown>) as unknown as T;
-    }
-    case ValueType.array:
-    case ValueType.int8array:
-    case ValueType.uint8array:
-    case ValueType.uint8clampedarray:
-    case ValueType.int16array:
-    case ValueType.uint16array:
-    case ValueType.int32array:
-    case ValueType.uint32array:
-    case ValueType.float32array:
-    case ValueType.float64array:
-    case ValueType.bigint64array:
-    case ValueType.biguint64array: {
-      return cloneArrayDeep(value, instanceClone);
-    }
-    default: {
-      return cloneShallow(value);
-    }
-  }
+  return instanceClone ? (cloneWith(value, instanceClone as InstanceClone<unknown>) as T) : (cloneFast(value) as T);
 }
 
-function cloneShallow<T>(value: T): T {
-  switch (typeOf(value)) {
-    case ValueType.buffer: {
-      return cloneBuffer(value as Buffer) as unknown as T;
-    }
-    case ValueType.symbol: {
-      return cloneSymbol(value as symbol) as unknown as T;
-    }
-    case ValueType.error: {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      return Object.create(value as Error);
-    }
-    case ValueType.date: {
-      return new Date(value as Date) as unknown as T;
-    }
-    case ValueType.regexp: {
-      return cloneRegExp(value as unknown as RegExp) as unknown as T;
-    }
-    case ValueType.moment: {
-      return (value as Moment).clone() as T;
-    }
+// ─── Fast path (no instanceClone) ────────────────────────────────────────────
+
+function cloneFast(value: unknown): unknown {
+  if (value === null || value === undefined) {
+    return value;
   }
 
-  return value;
+  const t = typeof value;
+
+  if (t === 'symbol') {
+    return cloneSymbol(value as symbol);
+  }
+
+  if (t !== 'object') {
+    return value;
+  }
+
+  if (Array.isArray(value)) {
+    return cloneArrayFast(value);
+  }
+
+  // Check for plain objects before the instanceof chain — most common non-array object type.
+  const proto = Object.getPrototypeOf(value) as object | null;
+  if (proto === Object.prototype || proto === null) {
+    return cloneObjectFast(value as Record<PropertyKey, unknown>, proto);
+  }
+
+  if (value instanceof Date) {
+    return new Date(value);
+  }
+
+  if (value instanceof RegExp) {
+    return cloneRegExp(value);
+  }
+
+  if (value instanceof Map) {
+    return cloneMapFast(value as Map<unknown, unknown>);
+  }
+
+  if (value instanceof Set) {
+    return cloneSetFast(value as Set<unknown>);
+  }
+
+  if (value instanceof Error) {
+    return cloneError(value);
+  }
+
+  if (Buffer.isBuffer(value)) {
+    return cloneBuffer(value);
+  }
+
+  if (ArrayBuffer.isView(value)) {
+    return cloneTypedArray(value);
+  }
+
+  // Non-standard prototype — check if it's still plain-ish
+  return isPlainObject(value) ? cloneObjectFast(value as Record<PropertyKey, unknown>, proto) : value;
 }
 
-function cloneObjectDeep<T>(value: T, instanceClone?: InstanceClone<T>): T {
-  if (typeof instanceClone === 'function') {
-    return instanceClone(value);
+function cloneObjectFast(source: Record<PropertyKey, unknown>, proto: object | null): unknown {
+  // For proto === Object.prototype / null, for..in only visits own enumerable string keys
+  // (Object.prototype has no enumerable properties) so hasOwnProperty is not needed, and
+  // we avoid the array allocation that Object.keys() would require.
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const cloned: Record<PropertyKey, unknown> = proto === Object.prototype ? {} : Object.create(proto);
+
+  for (const k in source) {
+    cloned[k] = cloneFast(source[k]);
   }
 
-  if (instanceClone || isPlainObject(value)) {
-    const source = value as unknown as Record<string, unknown>;
-
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const ctor = (value as any).constructor as (new () => unknown) | undefined;
-    const cloned = (ctor === undefined ? Object.create(null) : new ctor()) as Record<string, unknown>;
-
-    // Only clone own enumerable properties (matches `isEqual` semantics)
-    for (const key of Object.keys(source)) {
-      cloned[key] = clone(source[key], instanceClone as unknown as InstanceClone<unknown>);
+  const symKeys = Object.getOwnPropertySymbols(source);
+  if (symKeys.length) {
+    for (let i = 0, len = symKeys.length; i < len; i++) {
+      const sym = symKeys[i];
+      if (Object.prototype.propertyIsEnumerable.call(source, sym)) {
+        (cloned as Record<symbol, unknown>)[sym] = cloneFast((source as Record<symbol, unknown>)[sym]);
+      }
     }
-
-    return cloned as unknown as T;
   }
 
-  return value;
+  return cloned;
 }
 
-function cloneArrayDeep<T>(value: T, instanceClone?: InstanceClone<T>): T {
-  const length = (value as unknown[]).length;
-
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  const cloned = new (value as any).constructor(length) as unknown[];
+function cloneArrayFast(value: unknown[]): unknown[] {
+  const { length } = value;
+  const cloned = new Array<unknown>(length);
 
   for (let i = 0; i < length; i++) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    cloned[i] = clone(value[i], instanceClone);
-  }
-
-  return cloned as T;
-}
-
-function cloneMapDeep<K, V>(value: Map<K, V>, instanceClone?: InstanceClone<unknown>): Map<K, V> {
-  const cloned = new Map<K, V>();
-  const nestedInstanceClone = instanceClone as unknown as InstanceClone<any>;
-
-  for (const [key, item] of value.entries()) {
-    const clonedKey = clone(key, nestedInstanceClone as unknown as InstanceClone<K>);
-    const clonedValue = clone(item, nestedInstanceClone as unknown as InstanceClone<V>);
-    cloned.set(clonedKey, clonedValue);
+    cloned[i] = cloneFast(value[i]);
   }
 
   return cloned;
 }
 
-function cloneSetDeep<T>(value: Set<T>, instanceClone?: InstanceClone<unknown>): Set<T> {
-  const cloned = new Set<T>();
-  const nestedInstanceClone = instanceClone as unknown as InstanceClone<any>;
+function cloneMapFast(value: Map<unknown, unknown>): Map<unknown, unknown> {
+  const cloned = new (value.constructor as typeof Map)<unknown, unknown>();
 
-  for (const item of value.values()) {
-    cloned.add(clone(item, nestedInstanceClone as unknown as InstanceClone<T>));
+  for (const [k, v] of value) {
+    cloned.set(cloneFast(k), cloneFast(v));
   }
 
   return cloned;
 }
+
+function cloneSetFast(value: Set<unknown>): Set<unknown> {
+  const cloned = new (value.constructor as typeof Set)<unknown>();
+
+  for (const item of value) {
+    cloned.add(cloneFast(item));
+  }
+
+  return cloned;
+}
+
+// ─── Slow path (with instanceClone) ──────────────────────────────────────────
+
+function cloneWith(value: unknown, instanceClone: InstanceClone<unknown>): unknown {
+  if (value === null || value === undefined) {
+    return value;
+  }
+
+  const t = typeof value;
+
+  if (t === 'symbol') {
+    return cloneSymbol(value as symbol);
+  }
+
+  if (t !== 'object') {
+    return value;
+  }
+
+  if (Array.isArray(value)) {
+    return cloneArrayWith(value, instanceClone);
+  }
+
+  const proto = Object.getPrototypeOf(value) as object | null;
+  if (proto === Object.prototype || proto === null) {
+    return cloneObjectWith(value as Record<PropertyKey, unknown>, instanceClone, proto);
+  }
+
+  if (value instanceof Date) {
+    return new Date(value);
+  }
+
+  if (value instanceof RegExp) {
+    return cloneRegExp(value);
+  }
+
+  if (value instanceof Map) {
+    return cloneMapWith(value as Map<unknown, unknown>, instanceClone);
+  }
+
+  if (value instanceof Set) {
+    return cloneSetWith(value as Set<unknown>, instanceClone);
+  }
+
+  if (value instanceof Error) {
+    return cloneError(value);
+  }
+
+  if (Buffer.isBuffer(value)) {
+    return cloneBuffer(value);
+  }
+
+  if (ArrayBuffer.isView(value)) {
+    return cloneTypedArray(value);
+  }
+
+  if (isPlainObject(value)) {
+    return cloneObjectWith(value as Record<PropertyKey, unknown>, instanceClone, proto);
+  }
+
+  return cloneObjectWith(value as Record<PropertyKey, unknown>, instanceClone, proto);
+}
+
+function cloneObjectWith(source: Record<PropertyKey, unknown>, instanceClone: InstanceClone<unknown>, proto: object | null): unknown {
+  if (typeof instanceClone === 'function') {
+    return instanceClone(source);
+  }
+
+  if (!instanceClone && proto !== null && proto !== Object.prototype && !isPlainObject(source)) {
+    return source;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const cloned: Record<PropertyKey, unknown> = proto === Object.prototype ? {} : Object.create(proto);
+
+  for (const k in source) {
+    cloned[k] = cloneWith(source[k], instanceClone);
+  }
+
+  const symKeys = Object.getOwnPropertySymbols(source);
+  if (symKeys.length) {
+    for (let i = 0, len = symKeys.length; i < len; i++) {
+      const sym = symKeys[i];
+      if (Object.prototype.propertyIsEnumerable.call(source, sym)) {
+        (cloned as Record<symbol, unknown>)[sym] = cloneWith((source as Record<symbol, unknown>)[sym], instanceClone);
+      }
+    }
+  }
+
+  return cloned;
+}
+
+function cloneArrayWith(value: unknown[], instanceClone: InstanceClone<unknown>): unknown[] {
+  const { length } = value;
+  const cloned = new Array<unknown>(length);
+
+  for (let i = 0; i < length; i++) {
+    cloned[i] = cloneWith(value[i], instanceClone);
+  }
+
+  return cloned;
+}
+
+function cloneMapWith(value: Map<unknown, unknown>, instanceClone: InstanceClone<unknown>): Map<unknown, unknown> {
+  const cloned = new (value.constructor as typeof Map)<unknown, unknown>();
+
+  for (const [k, v] of value) {
+    cloned.set(cloneWith(k, instanceClone), cloneWith(v, instanceClone));
+  }
+
+  return cloned;
+}
+
+function cloneSetWith(value: Set<unknown>, instanceClone: InstanceClone<unknown>): Set<unknown> {
+  const cloned = new (value.constructor as typeof Set)<unknown>();
+
+  for (const item of value) {
+    cloned.add(cloneWith(item, instanceClone));
+  }
+
+  return cloned;
+}
+
+// ─── Shared helpers ───────────────────────────────────────────────────────────
 
 function cloneRegExp(value: RegExp): RegExp {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-  const cloned = new (value as any).constructor(value.source, value.flags) as RegExp;
-
+  const cloned = new RegExp(value.source, value.flags);
   cloned.lastIndex = value.lastIndex;
-
   return cloned;
 }
 
 function cloneBuffer(value: Buffer): Buffer {
-  const length = value.length;
-
-  const buffer = Buffer.allocUnsafe ? Buffer.allocUnsafe(length) : Buffer.from(length as any);
-
-  value.copy(buffer);
-
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return buffer;
+  const cloned = Buffer.allocUnsafe(value.length);
+  value.copy(cloned);
+  return cloned;
 }
 
-function cloneSymbol(value: symbol): symbol {
-  // Symbols are primitives and cannot be truly cloned; create a new symbol with the same description.
-  const description = value.description;
+function cloneTypedArray(value: ArrayBufferView): ArrayBufferView {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const v = value as any;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+  return new v.constructor(v.buffer.slice(v.byteOffset, v.byteOffset + v.byteLength)) as ArrayBufferView;
+}
 
-  // Preserve well-known symbols (they cannot be recreated)
-  const wellKnownSymbolKeys = [
-    'asyncIterator',
-    'hasInstance',
-    'isConcatSpreadable',
-    'iterator',
-    'match',
-    'matchAll',
-    'replace',
-    'search',
-    'species',
-    'split',
-    'toPrimitive',
-    'toStringTag',
-    'unscopables',
-    'dispose',
-    'asyncDispose',
-  ] as const;
+function cloneError(value: Error): Error {
+  const cloned = new (value.constructor as typeof Error)(value.message);
+  cloned.stack = value.stack;
 
-  for (const key of wellKnownSymbolKeys) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if ((Symbol as any)[key] === value) {
-      return value;
+  for (const key of Object.getOwnPropertyNames(value)) {
+    if (key !== 'message' && key !== 'stack') {
+      Object.defineProperty(cloned, key, Object.getOwnPropertyDescriptor(value, key)!);
     }
   }
 
-  return Symbol(description);
+  return cloned;
+}
+
+// Precomputed at module load — avoids scanning Object.getOwnPropertyNames(Symbol) on every clone.
+const WELL_KNOWN_SYMBOLS: ReadonlySet<symbol> = new Set(
+  Object.getOwnPropertyNames(Symbol)
+    .map(k => (Symbol as unknown as Record<string, unknown>)[k])
+    .filter((v): v is symbol => typeof v === 'symbol')
+);
+
+function cloneSymbol(value: symbol): symbol {
+  return WELL_KNOWN_SYMBOLS.has(value) ? value : Symbol(value.description);
 }

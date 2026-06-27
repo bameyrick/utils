@@ -1,10 +1,15 @@
-import { TimeUnit, unitToMS } from '../convert-units/index.js';
+import { TimeUnit, timeUnitToMilliseconds } from '../convert-units/index.js';
 import { getEndOfMonth, getStartOfMonth } from '../getters/index.js';
 
 /**
  * Modifies a date by a given amount of time units
+ *
+ * @param date - The date to modify.
+ * @param amount - The amount of time units to modify.
+ * @param unit - The unit of time to modify.
+ * @returns The new date with the modified time units.
  */
-export function modifyDate(date: Date, amount: number, unit: TimeUnit): Date {
+export function modifyDate({ date, amount, unit }: { date: Date; amount: number; unit: TimeUnit }): Date {
   let newDate = new Date(date);
 
   amount = Math.round(amount);
@@ -20,7 +25,7 @@ export function modifyDate(date: Date, amount: number, unit: TimeUnit): Date {
     case TimeUnit.Minutes:
     case TimeUnit.Hour:
     case TimeUnit.Hours: {
-      newDate = new Date(newDate.getTime() + unitToMS(amount, unit));
+      newDate = new Date(newDate.getTime() + timeUnitToMilliseconds(amount, unit));
       break;
     }
     case TimeUnit.Day:

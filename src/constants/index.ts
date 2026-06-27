@@ -1,1 +1,1 @@
-export * from './isJsdom.js';
+export * from './is-jsdom.js';

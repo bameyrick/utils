@@ -5,6 +5,10 @@ export interface CapitaliseOptions {
 
 /**
  * Capitalises the characters of a provided string between the given start and end indexes
+ *
+ * @param value the string to capitalise
+ * @param options the options to use for capitalising the string
+ * @returns the capitalised string
  */
 export function capitalise(value: string, options?: Partial<CapitaliseOptions>): string {
   const { length } = value;

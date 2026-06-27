@@ -27,7 +27,6 @@ A collection of useful utility functions with associated TypeScript types.
       - [isObject](#isobject)
       - [isString](#isstring)
       - [isEqual](#isequal)
-        - [isEqual performance comparison](#isequal-performance-comparison)
         - [EqualityType](#equalitytype)
         - [IndividualEqualityType](#individualequalitytype)
       - [isRegExp](#isregexp)
@@ -35,26 +34,30 @@ A collection of useful utility functions with associated TypeScript types.
       - [isBuffer](#isbuffer)
       - [isError](#iserror)
       - [isGeneratorObject](#isgeneratorobject)
+      - [isArray](#isarray)
       - [isPlainObject](#isplainobject)
+      - [isMergeableObject](#ismergeableobject)
       - [isReactElement](#isreactelement)
       - [typeOf](#typeof)
     - [clone](#clone)
       - [instanceClone](#instanceclone)
-      - [clone performance comparison](#clone-performance-comparison)
     - [freeze](#freeze)
     - [merge](#merge)
       - [merge options](#merge-options)
         - [arrayMerge](#arraymerge)
-        - [isMergableObject](#ismergableobject)
+        - [isMergeableObject](#ismergeableobject-1)
         - [customMerge](#custommerge)
-      - [Merge performance comparison](#merge-performance-comparison)
     - [Strings](#strings)
       - [capitalise](#capitalise)
         - [CapitaliseOptions](#capitaliseoptions)
-    - [CapitaliseFirst](#capitalisefirst)
-      - [CapitaliseLast](#capitaliselast)
+      - [capitaliseFirst](#capitalisefirst)
+      - [capitaliseLast](#capitaliselast)
     - [kebabToPascal](#kebabtopascal)
+    - [pascalToKebab](#pascaltokebab)
     - [difference](#difference)
+    - [Sorting](#sorting)
+      - [sortBy](#sortby)
+        - [SortMappingFunction](#sortmappingfunction)
     - [formatTime](#formattime)
       - [FormatTimeOptions](#formattimeoptions)
     - [insertAtIndex](#insertatindex)
@@ -365,7 +368,7 @@ if (isString(value)) {
 
 Performs a deep comparison between two values to determine if they are equivalent.
 
-**Note:** This method supports comparing nulls, undefineds, booleans, numbers, strings, Dates, objects, Functions, Arrays, RegExs, Maps, Sets, Typed Arrays, and [Moments](https://momentjs.com).
+**Note:** This method supports comparing nulls, undefineds, booleans, numbers, bigints, symbols, strings, Dates, objects, Functions, Arrays, RegExps, Maps, Sets, and Typed Arrays.
 
 Object objects are compared by their own, not inherited, enumerable properties.
 
@@ -395,22 +398,6 @@ if (isEqual(a, b)) {
 }
 ```
 
-##### isEqual performance comparison
-
-The following benchmarks go through the [isEqual test suite](tests/isEqualTestDefinitions.spec.ts) and were run on a 2023 Macbook Pro with a M2 Pro chip and 32GB of RAM.
-
-| Package                  | Operations per second |
-| ------------------------ | --------------------- |
-| @qntm-code/utils.isEqual | 218781                |
-| fast-deep-equal          | 192329                |
-| underscore.isEqual       | 65518                 |
-| util.isDeepStrictEqual   | 39740                 |
-| lodash.isEqual           | 18842                 |
-| ramda.equals             | 10231                 |
-| assert.deepStrictEqual   | 215                   |
-
-To run the benchmarks yourself, clone the repo, install the dependencies and run `yarn benchmark`.
-
 ##### EqualityType
 
 An EqualityType can be an [IndividualEqualityType](#individualequalitytype) or an array of mixed [IndividualEqualityTypes](#individualequalitytype)
@@ -423,7 +410,9 @@ The equality types allowed are:
 - `undefined`
 - `boolean`
 - `number`
+- `bigint`
 - `string`
+- `symbol`
 - `Date`
 - `object`
 - `Function`
@@ -558,6 +547,32 @@ if (isGeneratorObject(value)) {
 
 ---
 
+#### isArray
+
+Checks if a value is an array.
+
+Method arguments:
+
+| Parameter | Type    | Optional | Description        |
+| --------- | ------- | -------- | ------------------ |
+| value     | unknown | false    | The value to check |
+
+Return type: `value is unknown[]`
+
+**Example:**
+
+```typescript
+import { isArray } from '@qntm-code/utils';
+
+const value = getTheValue();
+
+if (isArray(value)) {
+  // Do something
+}
+```
+
+---
+
 #### isPlainObject
 
 Determines whether a given value is a plain object
@@ -579,6 +594,30 @@ const value = getTheValue();
 
 if (isPlainObject(value)) {
   // Do something
+}
+```
+
+---
+
+#### isMergeableObject
+
+Determines whether a given value should be recursively iterated when merging. Returns `false` for arrays, Dates, RegExps, Maps, Sets, WeakMaps, WeakSets, ArrayBuffers, and typed arrays.
+
+Method arguments:
+
+| Parameter | Type    | Optional | Description        |
+| --------- | ------- | -------- | ------------------ |
+| value     | unknown | false    | The value to check |
+
+Return type: `boolean`
+
+**Example:**
+
+```typescript
+import { isMergeableObject } from '@qntm-code/utils';
+
+if (isMergeableObject(value)) {
+  // Recurse into properties
 }
 ```
 
@@ -612,13 +651,15 @@ if (isReactElement(value)) {
 
 #### typeOf
 
-Returns the type of a given value
+Returns the type of a given value. Returns a `ValueType` enum member for all known types, or a lower-cased intrinsic tag string for unknown types.
+
+The `ValueType` enum uses PascalCase members (e.g. `ValueType.String`, `ValueType.Array`, `ValueType.Map`).
 
 Method arguments:
 
-| Parameter | Type | Optional | Description        |
-| --------- | ---- | -------- | ------------------ |
-| value     | any  | false    | The value to check |
+| Parameter | Type    | Optional | Description        |
+| --------- | ------- | -------- | ------------------ |
+| value     | unknown | false    | The value to check |
 
 Return type: `ValueType` | `string`
 
@@ -629,7 +670,7 @@ import { typeOf, ValueType } from '@qntm-code/utils';
 
 const value = getTheValue();
 
-if (typeOf(value) === ValueType.string) {
+if (typeOf(value) === ValueType.String) {
   // Do something
 }
 ```
@@ -638,7 +679,7 @@ if (typeOf(value) === ValueType.string) {
 
 ### clone
 
-Recursively (deep) clones native types, like Object, Array, RegExp, Date, Map, Set, Symbol, Error, [moment](https://momentjs.com/) as well as primitives.
+Recursively (deep) clones native types, like Object, Array, RegExp, Date, Map, Set, Symbol, and Error as well as primitives.
 
 Method arguments:
 
@@ -663,16 +704,6 @@ import { clone } from '@qntm-code/utils';
 const value: number[] = [1, 2, 3];
 const clonedValues = clone(value);
 ```
-
-#### clone performance comparison
-
-The following benchmarks were run on a 2023 Macbook Pro with a M2 Pro chip and 32GB of RAM.
-
-| Package                | Operations per second |
-| ---------------------- | --------------------- |
-| @qntm-code/utils.clone | 127338                |
-| clone-deep             | 115475                |
-| lodash.cloneDeep       | 73027                 |
 
 ---
 
@@ -776,7 +807,7 @@ const combineMerge = (target, source, options) => {
 merge([{ a: true }], [{ b: true }, 'ah yup'], { arrayMerge: combineMerge }); // => [{ a: true, b: true }, 'ah yup']
 ```
 
-##### isMergableObject
+##### isMergeableObject
 
 By default, `merge` clones every property from almost every kind of object.
 
@@ -861,15 +892,6 @@ result.name; // => 'Alex and Tony'
 result.pets; // => ['Cat', 'Parrot', 'Dog']
 ```
 
-#### Merge performance comparison
-
-The following benchmarks go through the [merge test suite](tests/mergeTestDefinitions.spec.ts) and were run on a 2023 Macbook Pro with a M2 Pro chip and 32GB of RAM.
-
-| Package                | Operations per second |
-| ---------------------- | --------------------- |
-| @qntm-code/utils.merge | 28332                 |
-| deepmerge              | 23497                 |
-
 ---
 
 ### Strings
@@ -910,7 +932,7 @@ const capitalised = capitalise(value, { start: 0, end: 5 });
 
 ---
 
-### CapitaliseFirst
+#### capitaliseFirst
 
 Capitalises the first n characters of a string.
 
@@ -937,7 +959,7 @@ const capitalised = capitaliseFirst(value, 2);
 
 ---
 
-#### CapitaliseLast
+#### capitaliseLast
 
 Capitalises the last n characters of a string.
 
@@ -990,18 +1012,44 @@ const pascal = kebabToPascal(value);
 
 ---
 
-### difference
+### pascalToKebab
 
-Creates an array of array values not included in the other given array using isEqual for equality comparisons. The order and references of result values are determined by the first array.
+Converts a PascalCase string to kebab-case.
 
 Method arguments:
 
-| Parameter | Type       | Optional | Description                |
-| --------- | ---------- | -------- | -------------------------- |
-| array     | Array<any> | false    | The array to check         |
-| values    | Array<any> | false    | The array to check against |
+| Parameter | Type   | Optional | Description           |
+| --------- | ------ | -------- | --------------------- |
+| value     | string | false    | The string to convert |
 
-Return type: `Array<any>`
+Return type: `string`
+
+**Example:**
+
+```typescript
+import { pascalToKebab } from '@qntm-code/utils';
+
+const value = 'HelloWorld';
+
+const kebab = pascalToKebab(value);
+
+// kebab = 'hello-world'
+```
+
+---
+
+### difference
+
+Creates an array of values from `array` that are not included in `values`, using deep equality for comparisons. The order and references of result values are determined by the first array. If `values` is empty, a copy of `array` is returned.
+
+Method arguments:
+
+| Parameter | Type                 | Optional | Description           |
+| --------- | -------------------- | -------- | --------------------- |
+| array     | `readonly T[]`       | false    | The array to inspect  |
+| values    | `readonly unknown[]` | false    | The values to exclude |
+
+Return type: `T[]`
 
 **Example:**
 
@@ -1010,6 +1058,69 @@ import { difference } from '@qntm-code/utils';
 
 const diff = difference([1, 2], [2, 3]);
 // returns [1]
+
+const all = difference([1, 2], []);
+// returns [1, 2]  (copy of array — nothing excluded)
+```
+
+---
+
+### Sorting
+
+---
+
+#### sortBy
+
+Creates a comparator function for use with `Array.prototype.sort`.
+
+- A plain path (e.g. `'name'`) sorts ascending by that property.
+- Prefix with `'-'` (e.g. `'-age'`) to sort descending.
+- Suffix with `'^'` (e.g. `'name^'`) for case-insensitive sort.
+- The special path `'^'` sorts the items themselves.
+- Dot-notation is supported for nested paths (e.g. `'address.city'`).
+- Multiple properties are applied left-to-right as tie-breakers.
+- An optional [`SortMappingFunction`](#sortmappingfunction) transforms values before comparison.
+- `null`/`undefined`/empty values sort first in ascending order.
+
+Method arguments:
+
+| Parameter     | Type                                | Optional | Description                              |
+| ------------- | ----------------------------------- | -------- | ---------------------------------------- |
+| ...properties | `(string \| SortMappingFunction)[]` | true     | Property paths and/or a mapping function |
+
+Return type: `(a: T, b: T) => number`
+
+**Example:**
+
+```typescript
+import { sortBy } from '@qntm-code/utils';
+
+const people = [
+  { name: 'Charlie', age: 30 },
+  { name: 'alice', age: 25 },
+  { name: 'Bob', age: 25 },
+];
+
+// Sort by age ascending, then name case-insensitively
+people.sort(sortBy('age', 'name^'));
+// => [{ name: 'alice', age: 25 }, { name: 'Bob', age: 25 }, { name: 'Charlie', age: 30 }]
+
+// Sort descending
+people.sort(sortBy('-age'));
+
+// Sort an array of strings directly
+['Banana', 'apple', 'Cherry'].sort(sortBy());
+// => ['apple', 'Banana', 'Cherry']
+```
+
+---
+
+##### SortMappingFunction
+
+A function that transforms a property value before comparison.
+
+```typescript
+type SortMappingFunction = (key: string, value: unknown) => unknown;
 ```
 
 ---
@@ -1626,8 +1737,6 @@ const newDate = addToDate(date, 24, TimeUnit.Hours).getHours(); // 7
 #### subtractFromDate
 
 Returns a new date object with a given amount of a given [TimeUnit](#timeunit) subracted from it.
-
-This is exactly the same as moment#add, only instead of [addToDate](#addtodate), it subtracts time.
 
 | Parameter | Type                  | Description               |
 | --------- | --------------------- | ------------------------- |

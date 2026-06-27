@@ -1,1 +1,1 @@
-export * from './Dictionary.js';
+export * from './dictionary.js';
