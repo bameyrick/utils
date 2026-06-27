@@ -5,5 +5,11 @@
  * @returns The sum of the numbers in the array.
  */
 export function sum(values: number[]): number {
-  return values.reduce((acc, val) => acc + val, 0);
+  let total = 0;
+
+  for (let i = 0, length = values.length; i < length; i++) {
+    total += values[i];
+  }
+
+  return total;
 }

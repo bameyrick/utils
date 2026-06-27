@@ -135,8 +135,12 @@ function objectPath(object: Record<string, unknown>, pathParts: string[]): unkno
  */
 function cast(value: unknown): unknown {
   // If the value is a number as a string, cast back to an actual number to sort
-  if (typeof value === 'string' && !!value.trim().length && !isNaN(Number(value))) {
-    return Number(value);
+  if (typeof value === 'string' && !!value.trim().length) {
+    const n = Number(value);
+
+    if (!isNaN(n)) {
+      return n;
+    }
   }
 
   return value;

@@ -91,10 +91,18 @@ function defaultCloneUnlessOtherwiseSpecified<T>(value: T, options: MergeOptions
 }
 
 function defaultArrayMerge<X extends unknown[], Y extends unknown[]>(x: X, y: Y, options: MergeOptions): X & Y {
-  const merged = x.concat(y);
-  const cloned: unknown[] = merged.map(element => options.cloneUnlessOtherwiseSpecified(element, options));
+  const xLen = x.length;
+  const result = new Array(xLen + y.length) as unknown[];
 
-  return cloned as X & Y;
+  for (let i = 0; i < xLen; i++) {
+    result[i] = options.cloneUnlessOtherwiseSpecified(x[i], options);
+  }
+
+  for (let i = 0, length = y.length; i < length; i++) {
+    result[xLen + i] = options.cloneUnlessOtherwiseSpecified(y[i], options);
+  }
+
+  return result as X & Y;
 }
 
 function getMergeFunction(key: PropertyKey, options: MergeOptions): (x: unknown, y: unknown, options: MergeOptions) => unknown {
@@ -122,7 +130,25 @@ function getEnumerableOwnPropertySymbols(target: object): symbol[] {
 }
 
 function getKeys(target: object): (string | symbol)[] {
-  return [...Object.keys(target), ...getEnumerableOwnPropertySymbols(target)];
+  const stringKeys = Object.keys(target);
+  const symKeys = getEnumerableOwnPropertySymbols(target);
+
+  if (!symKeys.length) {
+    return stringKeys;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const result: (string | symbol)[] = new Array(stringKeys.length + symKeys.length);
+
+  for (let i = 0, length = stringKeys.length; i < length; i++) {
+    result[i] = stringKeys[i];
+  }
+
+  for (let i = 0, length = symKeys.length; i < length; i++) {
+    result[stringKeys.length + i] = symKeys[i];
+  }
+
+  return result;
 }
 
 function propertyIsOnObject(object: object, property: PropertyKey): boolean {

@@ -9,21 +9,20 @@ import { FormatTimeOptions, FormatTimeOptionsComplete } from './format-time-opti
  * @param options - The options to use for formatting the time
  * @returns The formatted time string
  */
-export function formatTime(time: number, options?: FormatTimeOptions): string {
-  const defaultOptions: FormatTimeOptionsComplete = {
-    forceAllUnits: false,
-    timeUnit: TimeUnit.Milliseconds,
-    secondsDecimalPlaces: 0,
-    hourSuffix: 'h',
-    minuteSuffix: 'm',
-    secondSuffix: 's',
-    padDecimals: false,
-  };
+const DEFAULT_FORMAT_OPTIONS: FormatTimeOptionsComplete = {
+  forceAllUnits: false,
+  timeUnit: TimeUnit.Milliseconds,
+  secondsDecimalPlaces: 0,
+  hourSuffix: 'h',
+  minuteSuffix: 'm',
+  secondSuffix: 's',
+  padDecimals: false,
+};
 
-  const { forceAllUnits, timeUnit, secondsDecimalPlaces, hourSuffix, minuteSuffix, secondSuffix, padDecimals } = {
-    ...defaultOptions,
-    ...options,
-  };
+export function formatTime(time: number, options?: FormatTimeOptions): string {
+  const { forceAllUnits, timeUnit, secondsDecimalPlaces, hourSuffix, minuteSuffix, secondSuffix, padDecimals } = options
+    ? { ...DEFAULT_FORMAT_OPTIONS, ...options }
+    : DEFAULT_FORMAT_OPTIONS;
 
   const timeMs = timeUnitToMilliseconds(time, timeUnit);
 

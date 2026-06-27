@@ -14,5 +14,5 @@ export function getComputedStyleAsNumber(element: HTMLElement, style: 'height' |
     throw new Error(`Element does not have a computed "${style}`);
   }
 
-  return parseFloat(getComputedStyle(element)[style].replace('px', ''));
+  return parseFloat(value);
 }

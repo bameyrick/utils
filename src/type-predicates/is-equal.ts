@@ -67,14 +67,8 @@ function _isEqual(a: any, b: any, visited: WeakMap<object, WeakSet<object>> | nu
         return false;
       }
 
-      for (const i of a.entries()) {
-        if (!b.has(i[0])) {
-          return false;
-        }
-      }
-
-      for (const i of a.entries()) {
-        if (!_isEqual(i[1], b.get(i[0]), visited)) {
+      for (const [key, val] of a) {
+        if (!b.has(key) || !_isEqual(val, b.get(key), visited)) {
           return false;
         }
       }

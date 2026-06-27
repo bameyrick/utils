@@ -284,12 +284,13 @@ function cloneError(value: Error): Error {
   return cloned;
 }
 
-function cloneSymbol(value: symbol): symbol {
-  for (const key of Object.getOwnPropertyNames(Symbol) as (keyof typeof Symbol)[]) {
-    if ((Symbol as unknown as Record<string, unknown>)[key] === value) {
-      return value;
-    }
-  }
+// Precomputed at module load — avoids scanning Object.getOwnPropertyNames(Symbol) on every clone.
+const WELL_KNOWN_SYMBOLS: ReadonlySet<symbol> = new Set(
+  Object.getOwnPropertyNames(Symbol)
+    .map(k => (Symbol as unknown as Record<string, unknown>)[k])
+    .filter((v): v is symbol => typeof v === 'symbol')
+);
 
-  return Symbol(value.description);
+function cloneSymbol(value: symbol): symbol {
+  return WELL_KNOWN_SYMBOLS.has(value) ? value : Symbol(value.description);
 }

@@ -44,7 +44,24 @@ export function isEmpty<T>(value: T | Empty | null | undefined): value is EmptyR
     }
     case 'object': {
       const obj = value as object;
-      return !Reflect.ownKeys(obj).some(k => Object.prototype.propertyIsEnumerable.call(obj, k));
+      // for..in gives own + inherited enumerable string keys; Object.prototype has none,
+      // so this is equivalent to checking own keys for plain objects — O(1) early exit.
+      for (const k in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, k)) {
+          return false;
+        }
+      }
+
+      // Also check enumerable own symbol keys (uncommon)
+      const syms = Object.getOwnPropertySymbols(obj);
+
+      for (let i = 0, length = syms.length; i < length; i++) {
+        if (Object.prototype.propertyIsEnumerable.call(obj, syms[i])) {
+          return false;
+        }
+      }
+
+      return true;
     }
     case 'string': {
       return !(value as string).trim();

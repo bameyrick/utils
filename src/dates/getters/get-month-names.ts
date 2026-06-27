@@ -1,3 +1,5 @@
+const formatterCache = new Map<string, Intl.DateTimeFormat>();
+
 /**
  * Gets the month names for the provided locale. Defaults to the runtime's default locale.
  *
@@ -12,7 +14,13 @@ export function getMonthNames(options: GetMonthNamesOptions = {}): string[] {
 
   const { locale = defaultLocale, format = 'long' } = options;
 
-  const formatter = new Intl.DateTimeFormat(locale, { month: format });
+  const cacheKey = `${locale}:${format}`;
+  let formatter = formatterCache.get(cacheKey);
+
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat(locale, { month: format });
+    formatterCache.set(cacheKey, formatter);
+  }
 
   return Array.from({ length: 12 }, (_, i) => formatter.format(new Date(1970, i, 1)));
 }
